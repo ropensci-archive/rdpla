@@ -1,6 +1,6 @@
 #' Search metadata from the Digital Public Library of America (DPLA).
 #'
-#' @import httr jsonlite stringr
+#' @import httr jsonlite
 #' @export
 #'
 #' @param queries A list of query terms paired with the fields you want to
@@ -42,7 +42,7 @@ dpla_by_fields <- function(queries = NULL, key=getOption("dplakey"), ...)
 {
   args <- list()
   for(i in seq_along(queries)){
-    assign(paste("sourceResource", str_split(queries[[i]], ",")[[1]][[2]], sep="."), str_split(queries[[i]], ",")[[1]][[1]])
+    assign(paste("sourceResource", strsplit(queries[[i]], ",")[[1]][[2]], sep="."), strsplit(queries[[i]], ",")[[1]][[1]])
     args[[list(grep("sourceResource", ls(), value=TRUE))[[1]][[i]]]] <- eval(parse(text=grep("sourceResource", ls(), value=TRUE)[[i]]))
   }
 

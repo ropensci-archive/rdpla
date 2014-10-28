@@ -1,6 +1,7 @@
 #' Search metadata from the Digital Public Library of America (DPLA).
 #'
-#' @import ggplot2 stringr plyr
+#' @import ggplot2
+#' @importFrom plyr ddply ldply summarise
 #' @importFrom reshape sort_df
 #' @importFrom lubridate ymd
 #' @export
@@ -24,7 +25,7 @@ dpla_plot <- function(input, plottype = "subjectsum")
   if(plottype == "subjectsum"){
     input$record <- 1:nrow(input)
     input_summary <- ddply(input, .(record), summarise,
-                           numsubjects = length(str_split(subject,";")[[1]]))
+                           numsubjects = length(strsplit(subject,";")[[1]]))
 
     ggplot(input_summary, aes(reorder(record, X=numsubjects), numsubjects)) +
       geom_bar(stat="identity", width=.5) +
@@ -37,11 +38,11 @@ dpla_plot <- function(input, plottype = "subjectsum")
 
   } else
     if(plottype=="subjectsbydate"){
-      subjectvec <- lapply(input$subject, function(x) data.frame(str_split(x,";")[[1]]))
+      subjectvec <- lapply(input$subject, function(x) data.frame(strsplit(x,";")[[1]]))
       names(subjectvec) <- input$date
       subjectvec_df <- ldply(subjectvec)
       names(subjectvec_df) <- c("date","subject")
-      rangetofirst <- function(x) if(length(str_split(x,"\\s+-\\s+|-")[[1]])>1){str_split(x,"\\s+-\\s+|-")[[1]][[1]]} else {x}
+      rangetofirst <- function(x) if(length(strsplit(x,"\\s+-\\s+|-")[[1]])>1){strsplit(x,"\\s+-\\s+|-")[[1]][[1]]} else {x}
       subjectvec_df$date <- sapply(subjectvec_df$date, rangetofirst, USE.NAMES=FALSE)
       subjectvec_df$date <- ymd(paste0(gsub("\\?", "", subjectvec_df$date), "-1-1"))
 

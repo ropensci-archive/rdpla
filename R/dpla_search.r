@@ -1,6 +1,7 @@
 #' Search metadata from the Digital Public Library of America (DPLA).
 #'
-#' @import httr jsonlite plyr
+#' @import httr jsonlite
+#' @importFrom plyr rbind.fill
 #' @export
 #'
 #' @param q Query terms.
@@ -156,7 +157,7 @@ getdata <- function(y, flds){
     data.frame(id, sourceResource_df, provider, score, url)
   } else
   {
-    names(y) <- str_replace_all(names(y), "sourceResource.", "")
+    names(y) <- gsub("sourceResource.", "", names(y))
     if(length(y)==1) {
       onetemp <- list(y[[1]])
       onename <- names(y)
