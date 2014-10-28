@@ -41,33 +41,33 @@
 #'
 #' @examples \donttest{
 #' # Basic search, "fruit" in any fields
-#' dpla_search(q="fruit")
+#' dpla_items(q="fruit")
 #'
 #' # Limit records returned
-#' dpla_search(q="fruit", limit=2)
+#' dpla_items(q="fruit", limit=2)
 #'
 #' # Some verbosity
-#' dpla_search(q="fruit", verbose=TRUE, limit=2)
+#' dpla_items(q="fruit", verbose=TRUE, limit=2)
 #'
 #' # Return certain fields
-#' dpla_search(q="fruit", verbose=TRUE, fields=c("id","publisher","format"))
-#' dpla_search(q="fruit", fields="subject")
+#' dpla_items(q="fruit", verbose=TRUE, fields=c("id","publisher","format"))
+#' dpla_items(q="fruit", fields="subject")
 #'
 #' # Max is 100 per call, but the function handles larger numbers by looping
-#' dpla_search(q="fruit", fields="id", limit=200)
-#' dpla_search(q="fruit", fields=c("id","provider"), limit=200)
-#' out <- dpla_search(q="science", fields=c("id","subject"), limit=400)
+#' dpla_items(q="fruit", fields="id", limit=200)
+#' dpla_items(q="fruit", fields=c("id","provider"), limit=200)
+#' out <- dpla_items(q="science", fields=c("id","subject"), limit=400)
 #' head(out$data)
 #'
 #' # Search by date
-#' out <- dpla_search(q="science", date.before=1900, limit=200)
+#' out <- dpla_items(q="science", date.before=1900, limit=200)
 #' head(out$data)
 #'
 #' # Spatial search
-#' dpla_search(q='Boston', fields='spatial')
+#' dpla_items(q='Boston', fields='spatial')
 #' }
 
-dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
+dpla_items <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
   sort_by=NULL, date.before=NULL, date.after=NULL, key=getOption("dplakey"), ...)
 {
   fields2 <- fields
