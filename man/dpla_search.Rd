@@ -34,7 +34,8 @@ and it will be read in on function execution.}
 \item{...}{Curl options passed on to \code{\link[httr]{GET}}}
 }
 \value{
-A data.frame of results.
+A list of length two: meta with the metadata for the call (found, offset [aka start],
+and limit [number results returned]), and the resulting data.frame of results.
 }
 \description{
 Search metadata from the Digital Public Library of America (DPLA).
@@ -42,19 +43,19 @@ Search metadata from the Digital Public Library of America (DPLA).
 \details{
 Options for the fields argument are:
 \itemize{
- \item sourceResource.title The title of the object
- \item sourceResource.decription The description of the object
- \item sourceResource.subject The subjects of the object
- \item sourceResource.creator The creator of the object
- \item sourceResource.type The type of the object
- \item sourceResource.publisher The publisher of the object
- \item sourceResource.format The format of the object
- \item sourceResource.rights The rights for the object
- \item sourceResource.contributor The contributor of the object
- \item sourceResource.spatial The spatial of the object
+ \item id The item id
+ \item title The title of the object
+ \item decription The description of the object
+ \item subject The subjects of the object
+ \item creator The creator of the object
+ \item type The type of the object
+ \item publisher The publisher of the object
+ \item format The format of the object
+ \item rights The rights for the object
+ \item contributor The contributor of the object
+ \item spatial The spatial of the object
  \item isPartOf The isPartOf thing, not sure what this is
  \item provider The provider of the object
- \item id The item id
 }
 }
 \examples{
@@ -62,22 +63,25 @@ Options for the fields argument are:
 # Basic search, "fruit" in any fields
 dpla_search(q="fruit")
 
+# Limit records returned
+dpla_search(q="fruit", limit=2)
+
 # Some verbosity
 dpla_search(q="fruit", verbose=TRUE, limit=2)
 
 # Return certain fields
-dpla_search(q="fruit", verbose=TRUE, fields=c("publisher","format"))
+dpla_search(q="fruit", verbose=TRUE, fields=c("id","publisher","format"))
 dpla_search(q="fruit", fields="subject")
 
 # Max is 100 per call, but the function handles larger numbers by looping
 dpla_search(q="fruit", fields="id", limit=200)
 dpla_search(q="fruit", fields=c("id","provider"), limit=200)
-dpla_search(q="fruit", fields=c("id","provider"), limit=200)
 out <- dpla_search(q="science", fields=c("id","subject"), limit=400)
-head(out)
+head(out$data)
 
 # Search by date
-dpla_search(q="science", date.before=1900, limit=200)
+out <- dpla_search(q="science", date.before=1900, limit=200)
+head(out$data)
 
 # Spatial search
 dpla_search(q='Boston', fields='spatial')

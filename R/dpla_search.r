@@ -22,41 +22,46 @@
 #'
 #' @details Options for the fields argument are:
 #' \itemize{
-#'  \item sourceResource.title The title of the object
-#'  \item sourceResource.decription The description of the object
-#'  \item sourceResource.subject The subjects of the object
-#'  \item sourceResource.creator The creator of the object
-#'  \item sourceResource.type The type of the object
-#'  \item sourceResource.publisher The publisher of the object
-#'  \item sourceResource.format The format of the object
-#'  \item sourceResource.rights The rights for the object
-#'  \item sourceResource.contributor The contributor of the object
-#'  \item sourceResource.spatial The spatial of the object
+#'  \item id The item id
+#'  \item title The title of the object
+#'  \item decription The description of the object
+#'  \item subject The subjects of the object
+#'  \item creator The creator of the object
+#'  \item type The type of the object
+#'  \item publisher The publisher of the object
+#'  \item format The format of the object
+#'  \item rights The rights for the object
+#'  \item contributor The contributor of the object
+#'  \item spatial The spatial of the object
 #'  \item isPartOf The isPartOf thing, not sure what this is
 #'  \item provider The provider of the object
-#'  \item id The item id
 #' }
-#' @return A data.frame of results.
+#' @return A list of length two: meta with the metadata for the call (found, offset [aka start],
+#' and limit [number results returned]), and the resulting data.frame of results.
+#'
 #' @examples \donttest{
 #' # Basic search, "fruit" in any fields
 #' dpla_search(q="fruit")
+#'
+#' # Limit records returned
+#' dpla_search(q="fruit", limit=2)
 #'
 #' # Some verbosity
 #' dpla_search(q="fruit", verbose=TRUE, limit=2)
 #'
 #' # Return certain fields
-#' dpla_search(q="fruit", verbose=TRUE, fields=c("publisher","format"))
+#' dpla_search(q="fruit", verbose=TRUE, fields=c("id","publisher","format"))
 #' dpla_search(q="fruit", fields="subject")
 #'
 #' # Max is 100 per call, but the function handles larger numbers by looping
 #' dpla_search(q="fruit", fields="id", limit=200)
 #' dpla_search(q="fruit", fields=c("id","provider"), limit=200)
-#' dpla_search(q="fruit", fields=c("id","provider"), limit=200)
 #' out <- dpla_search(q="science", fields=c("id","subject"), limit=400)
-#' head(out)
+#' head(out$data)
 #'
 #' # Search by date
-#' dpla_search(q="science", date.before=1900, limit=200)
+#' out <- dpla_search(q="science", date.before=1900, limit=200)
+#' head(out$data)
 #'
 #' # Spatial search
 #' dpla_search(q='Boston', fields='spatial')
@@ -81,7 +86,8 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
                          sourceResource.date.before=date.before,
                          sourceResource.date.after=date.after))
     temp <- dpla_GET(args, ...)
-    hi <- data.frame(temp[1:3])
+    hi <- data.frame(temp[c('count','limit')], stringsAsFactors = FALSE)
+    names(hi) <- c('found','returned')
     if(verbose)
       message(paste(hi$count, " objects found, started at ", hi$start, ", and returned ", hi$limit, sep=""))
     dat <- temp[[4]] # collect data
@@ -91,7 +97,8 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     page_vector <- seq(1,maxpage,1)
     argslist <- lapply(page_vector, function(x) dcomp(list(api_key=key, q=q, page_size=100, page=x, fields=fields, sourceResource.date.before=date.before, sourceResource.date.after=date.after)))
     out <- lapply(argslist, dpla_GET, ...)
-    hi <- data.frame(out[[1]][1:3], out[[length(out)]][1:3])
+    hi <- data.frame(found=out[[1]]$count, stringsAsFactors = FALSE)
+    hi$returned <- sum(sapply(out, function(x) length(x$docs)))
     if(verbose)
       message(paste(hi$count, " objects found, started at ", hi$start, ", and returned ", sum(hi[,c(5,6)]), sep=""))
     dat <- do.call(c, lapply(out, function(x) x[[4]])) # collect data
@@ -99,15 +106,15 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
 
   output <- do.call(rbind.fill, lapply(dat, getdata, flds=fields))
 
-  if(is.null(fields)){ output  } else
+  if(is.null(fields)){ list(meta=hi, data=output) } else
     {
       output2 <- output[,names(output) %in% fields2]
       # convert one column factor string to data.frame (happens when only one field is requested)
       if(class(output2) %in% "factor"){
         output3 <- data.frame(output2)
         names(output3) <- fields2
-        output3
-      } else { output2 }
+        list(meta=hi, data=output3)
+      } else { list(meta=hi, data=output2) }
     }
 }
 
@@ -143,7 +150,7 @@ getdata <- function(y, flds){
     sourceResource <- y$sourceResource
     sourceResource_df <- process_res(sourceResource)
     sourceResource_df <- sourceResource_df[,!names(sourceResource_df) %in% c("id","provider")]
-    data.frame(id, sourceResource_df, provider, score, url)
+    data.frame(id, sourceResource_df, provider, score, url, stringsAsFactors = FALSE)
   } else
   {
     names(y) <- gsub("sourceResource.", "", names(y))
