@@ -1,4 +1,4 @@
-#' Search metadata from the Digital Public Library of America (DPLA).
+#' Search items from the Digital Public Library of America (DPLA).
 #'
 #' @import httr jsonlite
 #' @importFrom plyr rbind.fill
@@ -85,7 +85,7 @@ dpla_items <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     args <- dcomp(list(api_key=key, q=q, page_size=limit, page=page, fields=fields,
                          sourceResource.date.before=date.before,
                          sourceResource.date.after=date.after))
-    temp <- dpla_GET(args, ...)
+    temp <- dpla_GET(paste0(dpbase(), "items"), args, ...)
     hi <- data.frame(temp[c('count','limit')], stringsAsFactors = FALSE)
     names(hi) <- c('found','returned')
     if(verbose)
@@ -96,7 +96,7 @@ dpla_items <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     maxpage <- ceiling(limit/100)
     page_vector <- seq(1,maxpage,1)
     argslist <- lapply(page_vector, function(x) dcomp(list(api_key=key, q=q, page_size=100, page=x, fields=fields, sourceResource.date.before=date.before, sourceResource.date.after=date.after)))
-    out <- lapply(argslist, dpla_GET, ...)
+    out <- lapply(argslist, function(x) dpla_GET(paste0(dpbase(), "items"), args = x, ...))
     hi <- data.frame(found=out[[1]]$count, stringsAsFactors = FALSE)
     hi$returned <- sum(sapply(out, function(x) length(x$docs)))
     if(verbose)

@@ -1,6 +1,5 @@
-#' Search metadata from the Digital Public Library of America (DPLA).
+#' Search specific fields in the items endpoint from the DPLA.
 #'
-#' @import httr jsonlite
 #' @export
 #'
 #' @param queries A list of query terms paired with the fields you want to

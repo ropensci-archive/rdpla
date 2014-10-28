@@ -1,7 +1,6 @@
 #' R Client for the Digital Public Library of America (DPLA).
 #'
 #' @name rdpla-package
-#' @aliases rdpla-package
 #' @aliases rdpla
 #' @description Interact with the Digital Public Library of America (DPLA) REST API from R,
 #' including search, etc, etc.
