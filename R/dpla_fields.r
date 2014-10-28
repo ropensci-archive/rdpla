@@ -33,7 +33,6 @@
 
 dpla_by_fields <- function(queries = NULL)
 {
-  url = "http://api.dp.la/v2/items"
   key <- getOption("dplakey")
 
   args <- list()
@@ -43,7 +42,7 @@ dpla_by_fields <- function(queries = NULL)
   }
 
   args <- dcomp(c(args, api_key=key))
-  tt <- GET(url, query = args)
+  tt <- GET(dpbase(), query = args)
   warn_for_status(tt)
   assert_that(tt$headers$`content-type` == "application/json; charset=utf-8")
   res <- content(tt, as = "text")

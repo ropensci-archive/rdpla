@@ -71,14 +71,13 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     fields <- paste(sapply(fields, fieldsfunc, USE.NAMES=FALSE), collapse=",")
   } else {NULL}
 
-  url <- "http://api.dp.la/v2/items"
   key <- getOption("dplakey")
 
   if(!limit > 100){
     args <- dcomp(list(api_key=key, q=q, page_size=limit, page=page, fields=fields,
                          sourceResource.date.before=date.before,
                          sourceResource.date.after=date.after))
-    tt <- GET(url, query = args, callopts)
+    tt <- GET(dpbase(), query = args, callopts)
     warn_for_status(tt)
     assert_that(tt$headers$`content-type` == "application/json; charset=utf-8")
     res <- content(tt, as = "text")
@@ -93,7 +92,7 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     page_vector <- seq(1,maxpage,1)
     argslist <- lapply(page_vector, function(x) dcomp(list(api_key=key, q=q, page_size=100, page=x, fields=fields, sourceResource.date.before=date.before, sourceResource.date.after=date.after)))
     out <- lapply(argslist, function(x){
-      tt <- GET(url, query = x)
+      tt <- GET(dpbase(), query = x)
       warn_for_status(tt)
       assert_that(tt$headers$`content-type` == "application/json; charset=utf-8")
       res <- content(tt, as = "text")
