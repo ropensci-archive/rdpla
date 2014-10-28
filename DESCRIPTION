@@ -1,4 +1,4 @@
-Package: dpla
+Package: rdpla
 Type: Package
 Title: R Client for the Digital Public Library of America (DPLA).
 Description: Interact with the Digital Public Library of America (DPLA) REST
