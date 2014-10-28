@@ -5,7 +5,7 @@
 \usage{
 dpla_search(q = NULL, verbose = FALSE, fields = NULL, limit = 10,
   page = NULL, sort_by = NULL, date.before = NULL, date.after = NULL,
-  callopts = list())
+  key = getOption("dplakey"), callopts = list())
 }
 \arguments{
 \item{q}{Query terms.}
@@ -27,6 +27,9 @@ the standard error structure with a HTTP 400 status code.}
 \item{date.before}{Date before}
 
 \item{date.after}{Date after}
+
+\item{key}{Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
+and it will be read in on function execution.}
 
 \item{callopts}{Curl options passed on to httr::GET}
 }

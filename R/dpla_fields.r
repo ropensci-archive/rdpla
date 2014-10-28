@@ -4,6 +4,8 @@
 #' @export
 #' @param queries A list of query terms paired with the fields you want to
 #'    search them in. You can search on specific fields, see details below.
+#' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
+#'    and it will be read in on function execution.
 #' @details You can search on a vector of the fields to return in the output.
 #'    The default is all fields. Options are:
 #'    \itemize{
@@ -31,10 +33,8 @@
 #' dpla_by_fields("Boston,spatial")
 #' }
 
-dpla_by_fields <- function(queries = NULL)
+dpla_by_fields <- function(queries = NULL, key=getOption("dplakey"))
 {
-  key <- getOption("dplakey")
-
   args <- list()
   for(i in seq_along(queries)){
     assign(paste("sourceResource", str_split(queries[[i]], ",")[[1]][[2]], sep="."), str_split(queries[[i]], ",")[[1]][[1]])

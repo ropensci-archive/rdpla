@@ -14,6 +14,8 @@
 #' @param date.after Date after
 #' @param verbose If TRUE, fun little messages print to console to inform you
 #'    of things.
+#' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
+#'    and it will be read in on function execution.
 #' @param callopts Curl options passed on to httr::GET
 #' @details Options for the fields argument are:
 #' \itemize{
@@ -58,7 +60,7 @@
 #' }
 
 dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
-  sort_by=NULL, date.before=NULL, date.after=NULL, callopts=list())
+  sort_by=NULL, date.before=NULL, date.after=NULL, key=getOption("dplakey"), callopts=list())
 {
   fields2 <- fields
 
@@ -70,8 +72,6 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     }
     fields <- paste(sapply(fields, fieldsfunc, USE.NAMES=FALSE), collapse=",")
   } else {NULL}
-
-  key <- getOption("dplakey")
 
   if(!limit > 100){
     args <- dcomp(list(api_key=key, q=q, page_size=limit, page=page, fields=fields,
