@@ -1,6 +1,6 @@
 #' Search metadata from the Digital Public Library of America (DPLA).
 #'
-#' @import httr jsonlite plyr
+#' @import httr jsonlite plyr assertthat
 #' @export
 #' @param q Query terms.
 #' @param limit Number of items to return, defaults to 10. Max of 100.
@@ -75,7 +75,7 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
   key <- getOption("dplakey")
 
   if(!limit > 100){
-    args <- rmet_compact(list(api_key=key, q=q, page_size=limit, page=page, fields=fields,
+    args <- dcomp(list(api_key=key, q=q, page_size=limit, page=page, fields=fields,
                          sourceResource.date.before=date.before,
                          sourceResource.date.after=date.after))
     tt <- GET(url, query = args, callopts)
@@ -91,7 +91,7 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
   {
     maxpage <- ceiling(limit/100)
     page_vector <- seq(1,maxpage,1)
-    argslist <- lapply(page_vector, function(x) rmet_compact(list(api_key=key, q=q, page_size=100, page=x, fields=fields, sourceResource.date.before=date.before, sourceResource.date.after=date.after)))
+    argslist <- lapply(page_vector, function(x) dcomp(list(api_key=key, q=q, page_size=100, page=x, fields=fields, sourceResource.date.before=date.before, sourceResource.date.after=date.after)))
     out <- lapply(argslist, function(x){
       tt <- GET(url, query = x)
       warn_for_status(tt)

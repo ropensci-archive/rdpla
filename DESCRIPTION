@@ -18,7 +18,10 @@ Imports:
     httr,
     jsonlite,
     stringr,
-    plyr
+    plyr,
+    lubridate,
+    reshape,
+    assertthat
 Suggests:
     roxygen2,
     knitr,

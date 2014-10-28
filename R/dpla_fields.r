@@ -42,7 +42,7 @@ dpla_by_fields <- function(queries = NULL)
     args[[list(grep("sourceResource", ls(), value=TRUE))[[1]][[i]]]] <- eval(parse(text=grep("sourceResource", ls(), value=TRUE)[[i]]))
   }
 
-  args <- rmet_compact(c(args, api_key=key))
+  args <- dcomp(c(args, api_key=key))
   tt <- GET(url, query = args)
   warn_for_status(tt)
   assert_that(tt$headers$`content-type` == "application/json; charset=utf-8")

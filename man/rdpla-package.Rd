@@ -24,8 +24,4 @@ print("foo")
 \author{
 Scott Chamberlain
 }
-\seealso{
-\code{\link[rmetadata]{rmetadata}} \code{\link[reuropeana]{reuropeana}}
-\code{\link[rhathi]{rhathi}}
-}
 
