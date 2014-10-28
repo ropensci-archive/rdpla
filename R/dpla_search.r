@@ -80,11 +80,7 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     args <- dcomp(list(api_key=key, q=q, page_size=limit, page=page, fields=fields,
                          sourceResource.date.before=date.before,
                          sourceResource.date.after=date.after))
-    tt <- GET(dpbase(), query = args, ...)
-    warn_for_status(tt)
-    stopifnot(tt$headers$`content-type` == "application/json; charset=utf-8")
-    res <- content(tt, as = "text")
-    temp <- jsonlite::fromJSON(res, FALSE)
+    temp <- dpla_GET(args, ...)
     hi <- data.frame(temp[1:3])
     if(verbose)
       message(paste(hi$count, " objects found, started at ", hi$start, ", and returned ", hi$limit, sep=""))
@@ -94,20 +90,13 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     maxpage <- ceiling(limit/100)
     page_vector <- seq(1,maxpage,1)
     argslist <- lapply(page_vector, function(x) dcomp(list(api_key=key, q=q, page_size=100, page=x, fields=fields, sourceResource.date.before=date.before, sourceResource.date.after=date.after)))
-    out <- lapply(argslist, function(x){
-      tt <- GET(dpbase(), query = x, ...)
-      warn_for_status(tt)
-      stopifnot(tt$headers$`content-type` == "application/json; charset=utf-8")
-      res <- content(tt, as = "text")
-      jsonlite::fromJSON(res, FALSE)
-    })
+    out <- lapply(argslist, dpla_GET, ...)
     hi <- data.frame(out[[1]][1:3], out[[length(out)]][1:3])
     if(verbose)
       message(paste(hi$count, " objects found, started at ", hi$start, ", and returned ", sum(hi[,c(5,6)]), sep=""))
     dat <- do.call(c, lapply(out, function(x) x[[4]])) # collect data
   }
 
-#   output <- ldply(dat, getdata)
   output <- do.call(rbind.fill, lapply(dat, getdata, flds=fields))
 
   if(is.null(fields)){ output  } else
