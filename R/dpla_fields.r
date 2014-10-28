@@ -49,7 +49,7 @@ dpla_by_fields <- function(queries = NULL, key=getOption("dplakey"), ...)
   args <- dcomp(c(args, api_key=key))
   tt <- GET(dpbase(), query = args, ...)
   warn_for_status(tt)
-  assert_that(tt$headers$`content-type` == "application/json; charset=utf-8")
+  stopifnot(tt$headers$`content-type` == "application/json; charset=utf-8")
   res <- content(tt, as = "text")
   jsonlite::fromJSON(res, FALSE)
 }

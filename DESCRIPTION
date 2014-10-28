@@ -20,8 +20,7 @@ Imports:
     stringr,
     plyr,
     lubridate,
-    reshape,
-    assertthat
+    reshape
 Suggests:
     roxygen2,
     knitr,

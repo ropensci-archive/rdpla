@@ -3,7 +3,6 @@
 export(dpla_by_fields)
 export(dpla_plot)
 export(dpla_search)
-import(assertthat)
 import(ggplot2)
 import(httr)
 import(jsonlite)

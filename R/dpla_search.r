@@ -1,6 +1,6 @@
 #' Search metadata from the Digital Public Library of America (DPLA).
 #'
-#' @import httr jsonlite plyr assertthat
+#' @import httr jsonlite plyr
 #' @export
 #'
 #' @param q Query terms.
@@ -81,7 +81,7 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
                          sourceResource.date.after=date.after))
     tt <- GET(dpbase(), query = args, ...)
     warn_for_status(tt)
-    assert_that(tt$headers$`content-type` == "application/json; charset=utf-8")
+    stopifnot(tt$headers$`content-type` == "application/json; charset=utf-8")
     res <- content(tt, as = "text")
     temp <- jsonlite::fromJSON(res, FALSE)
     hi <- data.frame(temp[1:3])
@@ -96,7 +96,7 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     out <- lapply(argslist, function(x){
       tt <- GET(dpbase(), query = x, ...)
       warn_for_status(tt)
-      assert_that(tt$headers$`content-type` == "application/json; charset=utf-8")
+      stopifnot(tt$headers$`content-type` == "application/json; charset=utf-8")
       res <- content(tt, as = "text")
       jsonlite::fromJSON(res, FALSE)
     })
