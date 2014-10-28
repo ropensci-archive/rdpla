@@ -2,6 +2,7 @@
 #'
 #' @import httr jsonlite plyr assertthat
 #' @export
+#'
 #' @param q Query terms.
 #' @param limit Number of items to return, defaults to 10. Max of 100.
 #' @param page Page number to return, defaults to NULL.
@@ -17,6 +18,7 @@
 #' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 #'    and it will be read in on function execution.
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
+#'
 #' @details Options for the fields argument are:
 #' \itemize{
 #'  \item sourceResource.title The title of the object

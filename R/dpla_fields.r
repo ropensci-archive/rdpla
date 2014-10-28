@@ -2,28 +2,32 @@
 #'
 #' @import httr jsonlite stringr
 #' @export
+#'
 #' @param queries A list of query terms paired with the fields you want to
 #'    search them in. You can search on specific fields, see details below.
 #' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 #'    and it will be read in on function execution.
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
+#'
 #' @details You can search on a vector of the fields to return in the output.
-#'    The default is all fields. Options are:
-#'    \itemize{
-#'      \item title - Object title
-#'      \item description - Description
-#'      \item subject - Subjects, semicolon separated
-#'      \item language - Language
-#'      \item format - Format, one of X, Y.
-#'      \item collection - Collection name
-#'      \item type - Type of object
-#'      \item publisher - Publisher name
-#'      \item creator - Creator
-#'      \item provider - Data provider
-#'      \item score - Matching score on your query
-#'      \item creator - Creator
-#'    }
+#' The default is all fields. Options are:
+#'
+#' \itemize{
+#'  \item title - Object title
+#'  \item description - Description
+#'  \item subject - Subjects, semicolon separated
+#'  \item language - Language
+#'  \item format - Format, one of X, Y.
+#'  \item collection - Collection name
+#'  \item type - Type of object
+#'  \item publisher - Publisher name
+#'  \item creator - Creator
+#'  \item provider - Data provider
+#'  \item score - Matching score on your query
+#'  \item creator - Creator
+#' }
 #' @return A list for now...
+#'
 #' @examples \dontrun{
 #' # Search by specific fields
 #' dpla_by_fields(queries=c("fruit,title","basket,description"))
