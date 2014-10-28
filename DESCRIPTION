@@ -22,5 +22,4 @@ Imports:
     reshape
 Suggests:
     roxygen2,
-    knitr,
-    testthat
+    knitr
