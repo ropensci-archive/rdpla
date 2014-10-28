@@ -11,7 +11,6 @@
 #'
 #' @details You can search on a vector of the fields to return in the output.
 #' The default is all fields. Options are:
-#'
 #' \itemize{
 #'  \item title - Object title
 #'  \item description - Description
@@ -42,14 +41,11 @@ dpla_by_fields <- function(queries = NULL, key=getOption("dplakey"), ...)
 {
   args <- list()
   for(i in seq_along(queries)){
-    assign(paste("sourceResource", strsplit(queries[[i]], ",")[[1]][[2]], sep="."), strsplit(queries[[i]], ",")[[1]][[1]])
-    args[[list(grep("sourceResource", ls(), value=TRUE))[[1]][[i]]]] <- eval(parse(text=grep("sourceResource", ls(), value=TRUE)[[i]]))
+    assign(paste("sourceResource",
+                 strsplit(queries[[i]], ",")[[1]][[2]], sep="."),
+           strsplit(queries[[i]], ",")[[1]][[1]])
+    args[[list(grep("sourceResource", ls(), value=TRUE))[[1]][[i]]]] <-
+      eval(parse(text=grep("sourceResource", ls(), value=TRUE)[[i]]))
   }
-
-  args <- dcomp(c(args, api_key=key))
-  tt <- GET(dpbase(), query = args, ...)
-  warn_for_status(tt)
-  stopifnot(tt$headers$`content-type` == "application/json; charset=utf-8")
-  res <- content(tt, as = "text")
-  jsonlite::fromJSON(res, FALSE)
+  dpla_GET(dcomp(c(args, api_key=key)), ...)
 }

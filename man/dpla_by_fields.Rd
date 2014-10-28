@@ -23,7 +23,6 @@ Search metadata from the Digital Public Library of America (DPLA).
 \details{
 You can search on a vector of the fields to return in the output.
 The default is all fields. Options are:
-
 \itemize{
  \item title - Object title
  \item description - Description
