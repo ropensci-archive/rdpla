@@ -9,7 +9,7 @@
 #' @param plottype One of a number of types. These are for convenience. You
 #'    can of course create your own plots with more flexibility.
 #' @return A ggplot2 object, a plot that is.
-#' @examples \dontrun{
+#' @examples \donttest{
 #' # Plot results, summarising subjects by number of subjects listed
 #' out <- dpla_basic(q="ecology", fields=c("publisher","subject"), limit=90)
 #' dpla_plot(input=out)

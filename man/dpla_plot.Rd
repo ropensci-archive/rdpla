@@ -18,7 +18,7 @@ A ggplot2 object, a plot that is.
 Search metadata from the Digital Public Library of America (DPLA).
 }
 \examples{
-\dontrun{
+\donttest{
 # Plot results, summarising subjects by number of subjects listed
 out <- dpla_basic(q="ecology", fields=c("publisher","subject"), limit=90)
 dpla_plot(input=out)

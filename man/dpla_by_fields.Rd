@@ -40,7 +40,7 @@ The default is all fields. Options are:
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Search by specific fields
 dpla_by_fields(queries=c("fruit,title","basket,description"))
 

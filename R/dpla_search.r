@@ -37,7 +37,7 @@
 #'  \item id The item id
 #' }
 #' @return A data.frame of results.
-#' @examples \dontrun{
+#' @examples \donttest{
 #' # Basic search, "fruit" in any fields
 #' dpla_search(q="fruit")
 #'

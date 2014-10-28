@@ -28,7 +28,7 @@
 #' }
 #' @return A list for now...
 #'
-#' @examples \dontrun{
+#' @examples \donttest{
 #' # Search by specific fields
 #' dpla_by_fields(queries=c("fruit,title","basket,description"))
 #'

@@ -58,7 +58,7 @@ Options for the fields argument are:
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Basic search, "fruit" in any fields
 dpla_search(q="fruit")
 
