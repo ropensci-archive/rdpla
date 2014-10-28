@@ -16,7 +16,7 @@
 #'    of things.
 #' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 #'    and it will be read in on function execution.
-#' @param callopts Curl options passed on to httr::GET
+#' @param ... Curl options passed on to \code{\link[httr]{GET}}
 #' @details Options for the fields argument are:
 #' \itemize{
 #'  \item sourceResource.title The title of the object
@@ -60,7 +60,7 @@
 #' }
 
 dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
-  sort_by=NULL, date.before=NULL, date.after=NULL, key=getOption("dplakey"), callopts=list())
+  sort_by=NULL, date.before=NULL, date.after=NULL, key=getOption("dplakey"), ...)
 {
   fields2 <- fields
 
@@ -77,7 +77,7 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     args <- dcomp(list(api_key=key, q=q, page_size=limit, page=page, fields=fields,
                          sourceResource.date.before=date.before,
                          sourceResource.date.after=date.after))
-    tt <- GET(dpbase(), query = args, callopts)
+    tt <- GET(dpbase(), query = args, ...)
     warn_for_status(tt)
     assert_that(tt$headers$`content-type` == "application/json; charset=utf-8")
     res <- content(tt, as = "text")
@@ -92,7 +92,7 @@ dpla_search <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     page_vector <- seq(1,maxpage,1)
     argslist <- lapply(page_vector, function(x) dcomp(list(api_key=key, q=q, page_size=100, page=x, fields=fields, sourceResource.date.before=date.before, sourceResource.date.after=date.after)))
     out <- lapply(argslist, function(x){
-      tt <- GET(dpbase(), query = x)
+      tt <- GET(dpbase(), query = x, ...)
       warn_for_status(tt)
       assert_that(tt$headers$`content-type` == "application/json; charset=utf-8")
       res <- content(tt, as = "text")

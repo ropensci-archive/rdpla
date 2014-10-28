@@ -3,7 +3,7 @@
 \alias{dpla_by_fields}
 \title{Search metadata from the Digital Public Library of America (DPLA).}
 \usage{
-dpla_by_fields(queries = NULL, key = getOption("dplakey"))
+dpla_by_fields(queries = NULL, key = getOption("dplakey"), ...)
 }
 \arguments{
 \item{queries}{A list of query terms paired with the fields you want to
@@ -11,6 +11,8 @@ search them in. You can search on specific fields, see details below.}
 
 \item{key}{Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 and it will be read in on function execution.}
+
+\item{...}{Curl options passed on to \code{\link[httr]{GET}}}
 }
 \value{
 A list for now...

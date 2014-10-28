@@ -6,6 +6,7 @@
 #'    search them in. You can search on specific fields, see details below.
 #' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 #'    and it will be read in on function execution.
+#' @param ... Curl options passed on to \code{\link[httr]{GET}}
 #' @details You can search on a vector of the fields to return in the output.
 #'    The default is all fields. Options are:
 #'    \itemize{
@@ -33,7 +34,7 @@
 #' dpla_by_fields("Boston,spatial")
 #' }
 
-dpla_by_fields <- function(queries = NULL, key=getOption("dplakey"))
+dpla_by_fields <- function(queries = NULL, key=getOption("dplakey"), ...)
 {
   args <- list()
   for(i in seq_along(queries)){
@@ -42,7 +43,7 @@ dpla_by_fields <- function(queries = NULL, key=getOption("dplakey"))
   }
 
   args <- dcomp(c(args, api_key=key))
-  tt <- GET(dpbase(), query = args)
+  tt <- GET(dpbase(), query = args, ...)
   warn_for_status(tt)
   assert_that(tt$headers$`content-type` == "application/json; charset=utf-8")
   res <- content(tt, as = "text")
