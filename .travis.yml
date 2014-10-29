@@ -8,7 +8,7 @@ before_install:
   - chmod 755 ./travis-tool.sh
 
 install:
-  - ./travis-tool.sh r_binary_install ggplot2
+  - ./travis-tool.sh install_github hadley/ggplot2
   - ./travis-tool.sh r_binary_install httr
   - ./travis-tool.sh r_binary_install jsonlite
   - ./travis-tool.sh r_binary_install plyr
