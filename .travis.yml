@@ -1,17 +1,30 @@
 language: c
-script: "./travis-tool.sh run_tests"
-after_failure:
-- "./travis-tool.sh dump_logs"
+
+script:
+  - ./travis-tool.sh run_tests
+
 before_install:
-- curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-- chmod 755 ./travis-tool.sh
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+
 install:
-- "./travis-tool.sh install_deps"
+  - ./travis-tool.sh r_binary_install ggplot2
+  - ./travis-tool.sh r_binary_install httr
+  - ./travis-tool.sh r_binary_install jsonlite
+  - ./travis-tool.sh r_binary_install plyr
+  - ./travis-tool.sh r_binary_install lubridate
+  - ./travis-tool.sh r_binary_install reshape
+  - ./travis-tool.sh install_deps
+
+after_failure:
+  - ./travis-tool.sh dump_logs
+
 env:
   global:
   - R_BUILD_ARGS=" "
   - R_CHECK_ARGS="--as-cran"
   - BOOTSTRAP_LATEX="1"
+
 notifications:
   email:
     on_success: change
