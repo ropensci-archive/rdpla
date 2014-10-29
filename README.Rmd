@@ -3,12 +3,14 @@ rdpla
 
 ```{r echo=FALSE}
 knitr::opts_chunk$set(
-  comment = "#>", 
+  comment = "#>",
   collapse = TRUE,
-  warning = FALSE, 
+  warning = FALSE,
   message = FALSE
 )
 ```
+
+[![Build Status](https://api.travis-ci.org/ropensci/rdpla.png)](https://travis-ci.org/ropensci/rdpla)
 
 `rdpla`: R client for Digital Public Library of America
 
