@@ -3,6 +3,7 @@
 export(dpla_by_fields)
 export(dpla_collections)
 export(dpla_items)
+export(dpla_key)
 export(dpla_plot)
 import(ggplot2)
 import(httr)
