@@ -1,6 +1,7 @@
 #' Search items from the Digital Public Library of America (DPLA).
 #'
-#' @import httr jsonlite
+#' @importFrom httr GET POST content warn_for_status stop_for_status
+#' @importFrom jsonlite fromJSON
 #' @importFrom plyr rbind.fill
 #' @export
 #'
