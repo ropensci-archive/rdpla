@@ -142,6 +142,13 @@ getdata <- function(y, flds){
     ents <- lapply(ents, replacenull)
     data.frame(ents, stringsAsFactors = FALSE)
   }
+  process_other <- function(x){
+    get <- c('@context','dataProvider','@type','object','ingestionSequence','ingestDate','_rev','aggregatedCHO','_id','ingestType','@id')
+    df <- data.frame(x[get], stringsAsFactors = FALSE)
+    names(df) <- get
+    df
+  }
+
   if(is.null(flds)){
     id <- y$id
     provider <- data.frame(t(y$provider), stringsAsFactors = FALSE)
@@ -151,7 +158,8 @@ getdata <- function(y, flds){
     sourceResource <- y$sourceResource
     sourceResource_df <- process_res(sourceResource)
     sourceResource_df <- sourceResource_df[,!names(sourceResource_df) %in% c("id","provider")]
-    data.frame(id, sourceResource_df, provider, score, url, stringsAsFactors = FALSE)
+    other <- process_other(y)
+    cbind(data.frame(id, sourceResource_df, provider, score, url, stringsAsFactors = FALSE), other)
   } else
   {
     names(y) <- gsub("sourceResource.", "", names(y))
