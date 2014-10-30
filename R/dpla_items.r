@@ -19,6 +19,7 @@
 #'    of things.
 #' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 #'    and it will be read in on function execution.
+#' @param what One of list or table (dat.frame). (Default: table)
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
 #'
 #' @details Options for the fields argument are:
@@ -66,10 +67,14 @@
 #'
 #' # Spatial search
 #' dpla_items(q='Boston', fields='spatial')
+#'
+#' # things
+#' dpla_items(q="*:*", limit=5, what="list")
 #' }
 
 dpla_items <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
-  sort_by=NULL, date.before=NULL, date.after=NULL, key=getOption("dplakey"), ...)
+  sort_by=NULL, date.before=NULL, date.after=NULL, key=getOption("dplakey"),
+  what="table", ...)
 {
   fields2 <- fields
 
@@ -105,9 +110,12 @@ dpla_items <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
     dat <- do.call(c, lapply(out, function(x) x[[4]])) # collect data
   }
 
-  output <- do.call(rbind.fill, lapply(dat, getdata, flds=fields))
+  if(what == "list"){
+    structure(list(meta=hi, data=dat))
+  } else {
+    output <- do.call(rbind.fill, lapply(dat, getdata, flds=fields))
 
-  if(is.null(fields)){ list(meta=hi, data=output) } else
+    if(is.null(fields)){ list(meta=hi, data=output) } else
     {
       output2 <- output[,names(output) %in% fields2]
       # convert one column factor string to data.frame (happens when only one field is requested)
@@ -117,13 +125,15 @@ dpla_items <- function(q=NULL, verbose=FALSE, fields=NULL, limit=10, page=NULL,
         list(meta=hi, data=output3)
       } else { list(meta=hi, data=output2) }
     }
+  }
 }
 
 # function to process data for each element
 getdata <- function(y, flds){
   process_res <- function(x){
+    reduce1 <- function(x) if(length(x) > 1) paste(as.character(x), collapse=";") else x
     id <- x$id
-    title <- x$title
+    title <- reduce1(x$title)
     description <- x$description
     subject <- if(length(x$subject)>1){paste(as.character(unlist(x$subject)), collapse=";")} else {x$subject[[1]][["name"]]}
     language <- x$language[[1]][["name"]]
@@ -133,19 +143,22 @@ getdata <- function(y, flds){
     date <- x$date[[1]]
     publisher <- x$publisher
     provider <- x$provider[["name"]]
-    creator <- if(length(x$creator)>1){paste(as.character(x$creator), collapse=";")} else {x$creator}
+    creator <- reduce1(x$creator)
     rights <- x$rights
 
-    replacenull <- function(y){ ifelse(is.null(y), "no content", y) }
+    replacenull <- function(y) if(is.null(y) || length(y) == 0) "no content" else y
     ents <- list(id,title,description,subject,language,format,collection,type,provider,publisher,creator,rights,date)
     names(ents) <- c("id","title","description","subject","language","format","collection","type","provider","publisher","creator","rights","date")
     ents <- lapply(ents, replacenull)
     data.frame(ents, stringsAsFactors = FALSE)
   }
   process_other <- function(x){
-    get <- c('@context','dataProvider','@type','object','ingestionSequence','ingestDate','_rev','aggregatedCHO','_id','ingestType','@id')
-    df <- data.frame(x[get], stringsAsFactors = FALSE)
-    names(df) <- get
+    # FIXME
+    ## Still need to give back fields: @context, originalRecord
+    get <- c('dataProvider','@type','object','ingestionSequence','ingestDate','_rev','aggregatedCHO','_id','ingestType','@id')
+    have <- x[ names(x) %in% get ]
+    df <- data.frame(have, stringsAsFactors = FALSE)
+    names(df) <- names(have)
     df
   }
 

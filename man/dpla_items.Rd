@@ -5,7 +5,7 @@
 \usage{
 dpla_items(q = NULL, verbose = FALSE, fields = NULL, limit = 10,
   page = NULL, sort_by = NULL, date.before = NULL, date.after = NULL,
-  key = getOption("dplakey"), ...)
+  key = getOption("dplakey"), what = "table", ...)
 }
 \arguments{
 \item{q}{Query terms.}
@@ -30,6 +30,8 @@ the standard error structure with a HTTP 400 status code.}
 
 \item{key}{Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 and it will be read in on function execution.}
+
+\item{what}{One of list or table (dat.frame). (Default: table)}
 
 \item{...}{Curl options passed on to \code{\link[httr]{GET}}}
 }
@@ -85,6 +87,9 @@ head(out$data)
 
 # Spatial search
 dpla_items(q='Boston', fields='spatial')
+
+# things
+dpla_items(q="*:*", limit=5, what="list")
 }
 }
 
