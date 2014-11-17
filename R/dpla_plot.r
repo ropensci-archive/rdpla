@@ -1,7 +1,7 @@
 #' Search metadata from the Digital Public Library of America (DPLA).
 #'
 #' @import ggplot2
-#' @importFrom plyr ddply ldply summarise
+#' @importFrom plyr ddply ldply summarise .
 #' @importFrom reshape sort_df
 #' @importFrom lubridate ymd
 #' @export
