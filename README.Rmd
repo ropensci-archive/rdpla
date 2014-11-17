@@ -36,7 +36,7 @@ library('rdpla')
 Search metadata from the Digital Public Library of America (DPLA).
 
 ```{r eval=FALSE}
-dpla_basic(q="fruit", verbose=TRUE, fields=c("publisher","format"))
+dpla_items(q="fruit", verbose=TRUE, fields=c("publisher","format"))
 ```
 
 ### Visualize
