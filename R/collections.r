@@ -13,20 +13,18 @@
 #' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 #'    and it will be read in on function execution.
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
-#'
-#' @return xxxx
-#'
+#' @return A list with a slot for metadata (meta) and data (data).
 #' @examples \donttest{
 #' collections(q="university")
-#' collections(q="university of texas", limit=2)
-#' collections(q="university of texas", fields='id', limit=2)
-#' collections(q="university of texas", sort_by='title', limit=5)
+#' collections(q="university of texas", page_size=2)
+#' collections(q="university of texas", fields='id', page_size=2)
+#' collections(q="university of texas", sort_by='title', page_size=5)
 #' }
 
-collections <- function(q=NULL, fields=NULL, sort_by=NULL, limit=10, page=NULL,
+collections <- function(q=NULL, fields=NULL, sort_by=NULL, page_size=10, page=NULL,
   key=getOption("dplakey"), ...)
 {
-  args <- dcomp(list(api_key=key, q=q, page_size=limit, page=page, fields=fields, sort_by=sort_by))
+  args <- dcomp(list(api_key=key, q=q, page_size=page_size, page=page, fields=fields, sort_by=sort_by))
   res <- dpla_GET(paste0(dpbase(), "collections"), args, ...)
   meta <- data.frame(found=res$count, returned=res$limit, stringsAsFactors = FALSE)
   dat <- do.call(rbind.fill, lapply(res$docs, parse_coll))

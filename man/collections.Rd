@@ -3,7 +3,7 @@
 \alias{collections}
 \title{Search collections from the Digital Public Library of America (DPLA).}
 \usage{
-collections(q = NULL, fields = NULL, sort_by = NULL, limit = 10,
+collections(q = NULL, fields = NULL, sort_by = NULL, page_size = 10,
   page = NULL, key = getOption("dplakey"), ...)
 }
 \arguments{
@@ -16,17 +16,17 @@ can be sorted on. Attempts to sort on an un-sortable field will return
 the standard error structure with a HTTP 400 status code.
 is all fields. See details for options.}
 
-\item{limit}{Number of items to return, defaults to 10. Max of 100.}
-
 \item{page}{Page number to return, defaults to NULL.}
 
 \item{key}{Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 and it will be read in on function execution.}
 
 \item{...}{Curl options passed on to \code{\link[httr]{GET}}}
+
+\item{limit}{Number of items to return, defaults to 10. Max of 100.}
 }
 \value{
-xxxx
+A list with a slot for metadata (meta) and data (data).
 }
 \description{
 Search collections from the Digital Public Library of America (DPLA).
@@ -34,9 +34,9 @@ Search collections from the Digital Public Library of America (DPLA).
 \examples{
 \donttest{
 collections(q="university")
-collections(q="university of texas", limit=2)
-collections(q="university of texas", fields='id', limit=2)
-collections(q="university of texas", sort_by='title', limit=5)
+collections(q="university of texas", page_size=2)
+collections(q="university of texas", fields='id', page_size=2)
+collections(q="university of texas", sort_by='title', page_size=5)
 }
 }
 
