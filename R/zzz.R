@@ -13,3 +13,5 @@ dpla_GET <- function(url, args, ...){
 ifn <- function(x) if(is.null(x)) NA else x
 
 pop <- function(x, y) x[ !names(x) %in% y ]
+
+coll <- function(x) if(is.null(x)) NULL else paste0(x, collapse = ",")

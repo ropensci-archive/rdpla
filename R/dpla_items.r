@@ -30,8 +30,6 @@
 #' @param language One of a name of a language, or an ISO-639 code. Codes are included in this
 #' package, see \code{language_codes}.  Find out more at
 #' \url{http://www-01.sil.org/iso639-3/default.asp}.
-#' @param page_size Number of items to return, defaults to 100. Max of 500.
-#' @param page Page number to return, defaults to NULL.
 #' @param sort_by The default sort order is ascending. Most, but not all fields
 #'    can be sorted on. Attempts to sort on an un-sortable field will return
 #'    the standard error structure with a HTTP 400 status code.
@@ -39,7 +37,10 @@
 #'    is all fields. See details for options.
 #' @param date_before Date before
 #' @param date_after Date after
+#' @param page_size Number of items to return, defaults to 100. Max of 500.
+#' @param page Page number to return, defaults to NULL.
 #' @param facets Fields to facet on.
+#' @param facet_size Default to 100, maximum 2000.
 #' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 #'    and it will be read in on function execution.
 #' @param what One of list or table (dat.frame). (Default: table)
@@ -72,7 +73,7 @@
 #' dpla_items(q="fruit", page_size=2)
 #'
 #' # Return certain fields
-#' dpla_items(q="fruit", verbose=TRUE, fields=c("id","publisher","format"))
+#' dpla_items(q="fruit", fields=c("id","publisher","format"))
 #' dpla_items(q="fruit", fields="subject")
 #'
 #' # Max is 500 per call, but you can use combo of page_size and page params
@@ -114,7 +115,15 @@
 #' dpla_items(language='English')$meta
 #'
 #' # Faceting
-#' dpla_items(facets="rights", page_size=5, what="list")
+#' dpla_items(facets="sourceResource.format", page_size=0)
+#' dpla_items(facets="sourceResource.format", page_size=0, facet_size=5)
+#' dpla_items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),page_size=0)
+#' dpla_items(facets="sourceResource.type", page_size=0)
+#' dpla_items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
+#' dpla_items(facets="sourceResource.temporal.begin", page_size=0)
+#' dpla_items(facets="provider.name", page_size=0)
+#' dpla_items(facets="isPartOf", page_size=0)
+#' dpla_items(facets="hasView", page_size=0)
 #' }
 
 dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creator=NULL,
@@ -122,22 +131,10 @@ dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creat
   sp_coordinates=NULL, sp_city=NULL, sp_county=NULL,
   sp_distance=NULL, sp_country=NULL, sp_code=NULL, sp_name=NULL, sp_region=NULL, sp_state=NULL,
   fields=NULL, sort_by=NULL, date=NULL, date_before=NULL, date_after=NULL, language=NULL,
-  facets=NULL, page_size=100, page=NULL, key=getOption("dplakey"), what="table", ...)
+  page_size=100, page=NULL, facets=NULL, facet_size=100, key=getOption("dplakey"), what="table", ...)
 {
   fields2 <- fields
-
-  if(!is.null(fields)){
-    fieldsfunc <- function(x){
-      if(x %in% c("title","description","subject","creator","type","publisher",
-                  "format","rights","contributor","date",
-                  "spatial","spatial.coordinates","spatial.city",
-                  "spatial.county","spatial.distance","spatial.country","spatial.iso3166-2",
-                  "spatial.name","spatial.region","spatial.state","language")) {
-        paste("sourceResource.", x, sep="") } else { x }
-    }
-    fields <- paste(sapply(fields, fieldsfunc, USE.NAMES=FALSE), collapse=",")
-  }
-
+  fields <- filter_fields(fields)
   args <- dcomp(list(api_key=key, q=q, page_size=page_size, page=page, fields=fields,
                      provider=provider,
                      sourceResource.description=description,
@@ -163,25 +160,39 @@ dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creat
                      sourceResource.date=date,
                      sourceResource.date.before=date_before,
                      sourceResource.date.after=date_after,
-                     facets=facets))
+                     facets=coll(facets), facet_size=facet_size))
   temp <- dpla_GET(url=paste0(dpbase(), "items"), args, ...)
   hi <- setNames(data.frame(temp[c('count','start','limit')], stringsAsFactors = FALSE), c('found','start','returned'))
   dat <- temp$docs
+  fac <- temp$facets
 
   if(what == "list"){
-    structure(list(meta=hi, data=dat))
+    structure(list(meta=hi, data=dat, facets=fac))
   } else {
+    facdat <- proc_fac(fac)
     output <- do.call(rbind.fill, lapply(dat, getdata, flds=fields))
-    if(is.null(fields)){ list(meta=hi, data=output) } else {
+    if(is.null(fields)){ list(meta=hi, data=output, facets=facdat) } else {
       output2 <- output[,names(output) %in% fields2]
       # convert one column factor string to data.frame (happens when only one field is requested)
       if(class(output2) %in% "factor"){
         output3 <- data.frame(output2)
         names(output3) <- fields2
-        list(meta=hi, data=output3)
-      } else { list(meta=hi, data=output2) }
+        list(meta=hi, data=output3, facets=facdat)
+      } else { list(meta=hi, data=output2, facets=facdat) }
     }
   }
+}
+
+proc_fac <- function(fac){
+  lapply(fac, function(x){
+    hitmp <- x[c('_type','total','missing','other')]
+    hitmp[sapply(hitmp, is.null)] <- NA
+    hitmp <- data.frame(hitmp, stringsAsFactors = FALSE)
+    fac_hi <- setNames(hitmp, c('type','total','missing','other'))
+    getterm <- names(x)[names(x) %in% c('terms','ranges','entries')]
+    dat <- do.call(rbind.fill, lapply(x[[getterm]], data.frame, stringsAsFactors = FALSE))
+    list(meta=fac_hi, data=dat)
+  })
 }
 
 # function to process data for each element
@@ -242,4 +253,18 @@ getdata <- function(y, flds){
     } else
     { process_res(y) }
   }
+}
+
+filter_fields <- function(fields){
+  if(!is.null(fields)){
+    fieldsfunc <- function(x){
+      if(x %in% c("title","description","subject","creator","type","publisher",
+                  "format","rights","contributor","date",
+                  "spatial","spatial.coordinates","spatial.city",
+                  "spatial.county","spatial.distance","spatial.country","spatial.iso3166-2",
+                  "spatial.name","spatial.region","spatial.state","language")) {
+        paste("sourceResource.", x, sep="") } else { x }
+    }
+    paste(sapply(fields, fieldsfunc, USE.NAMES=FALSE), collapse=",")
+  } else { NULL }
 }

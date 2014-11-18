@@ -9,9 +9,9 @@ dpla_items(q = NULL, description = NULL, title = NULL, subject = NULL,
   sp_coordinates = NULL, sp_city = NULL, sp_county = NULL,
   sp_distance = NULL, sp_country = NULL, sp_code = NULL, sp_name = NULL,
   sp_region = NULL, sp_state = NULL, fields = NULL, sort_by = NULL,
-  date_before = NULL, date_after = NULL, language = NULL, facets = NULL,
-  page_size = 100, page = NULL, key = getOption("dplakey"),
-  what = "table", ...)
+  date = NULL, date_before = NULL, date_after = NULL, language = NULL,
+  page_size = 100, page = NULL, facets = NULL, facet_size = 100,
+  key = getOption("dplakey"), what = "table", ...)
 }
 \arguments{
 \item{q}{Query terms.}
@@ -72,11 +72,13 @@ the standard error structure with a HTTP 400 status code.}
 package, see \code{language_codes}.  Find out more at
 \url{http://www-01.sil.org/iso639-3/default.asp}.}
 
-\item{facets}{Fields to facet on.}
-
 \item{page_size}{Number of items to return, defaults to 100. Max of 500.}
 
 \item{page}{Page number to return, defaults to NULL.}
+
+\item{facets}{Fields to facet on.}
+
+\item{facet_size}{Default to 100, maximum 2000.}
 
 \item{key}{Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 and it will be read in on function execution.}
@@ -119,7 +121,7 @@ dpla_items(q="fruit")
 dpla_items(q="fruit", page_size=2)
 
 # Return certain fields
-dpla_items(q="fruit", verbose=TRUE, fields=c("id","publisher","format"))
+dpla_items(q="fruit", fields=c("id","publisher","format"))
 dpla_items(q="fruit", fields="subject")
 
 # Max is 500 per call, but you can use combo of page_size and page params
@@ -143,8 +145,8 @@ dpla_items(rights="unrestricted", page_size=2, fields="rights")
 dpla_items(provider="HathiTrust", page_size=2, fields="provider")
 
 ## don't seem to work
-dpla_items(contributor="Smithsonian", page_size=2, fields="contributor")
-dpla_items(format="Electronic resource", page_size=2, fields="format")
+# dpla_items(contributor="Smithsonian", page_size=2, fields="contributor")
+# dpla_items(format="Electronic resource", page_size=2, fields="format")
 
 # Spatial search
 ## sp searches all spatial fields, or search on specific fields, see those params with sp_*
@@ -161,7 +163,15 @@ dpla_items(language='rus')$meta
 dpla_items(language='English')$meta
 
 # Faceting
-dpla_items(facets="rights", page_size=5, what="list")
+dpla_items(facets="sourceResource.format", page_size=0)
+dpla_items(facets="sourceResource.format", page_size=0, facet_size=5)
+dpla_items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),page_size=0)
+dpla_items(facets="sourceResource.type", page_size=0)
+dpla_items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
+dpla_items(facets="sourceResource.temporal.begin", page_size=0)
+dpla_items(facets="provider.name", page_size=0)
+dpla_items(facets="isPartOf", page_size=0)
+dpla_items(facets="hasView", page_size=0)
 }
 }
 
