@@ -24,3 +24,15 @@ NULL
 #' @docType data
 #' @keywords datasets
 NULL
+
+#' Language codes.
+#' @name language_codes
+#' @docType data
+#' @keywords datasets
+NULL
+
+#' Country codes
+#' @name country_codes
+#' @docType data
+#' @keywords datasets
+NULL
