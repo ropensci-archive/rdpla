@@ -202,53 +202,23 @@ proc_fac <- function(fac){
 
 # function to process data for each element
 getdata <- function(y, flds){
-  process_res <- function(x){
-    reduce1 <- function(x){
-      x <- unlist(x)
-      if(length(x) > 1) paste(as.character(x), collapse=";") else x
-    }
-    id <- reduce1(x$identifier)
-    title <- reduce1(x$title)
-    description <- reduce1(x$description)
-    subject <- if(length(x$subject)>1){paste(as.character(unlist(x$subject)), collapse=";")} else {x$subject[[1]][["name"]]}
-    language <- x$language[[1]][["name"]]
-    format <- reduce1(x$format)
-    collection <- if(any(names(x$collection) %in% "name")) {x$collection[["name"]]} else {"no collection name"}
-    type <- reduce1(x$type)
-    date <- x$date[[1]]
-    publisher <- reduce1(x$publisher)
-    provider <- x$provider[["name"]]
-    creator <- reduce1(x$creator)
-    rights <- reduce1(x$rights)
-
-    replacenull <- function(y) if(is.null(y) || length(y) == 0) "no content" else y
-    ents <- list(id,title,description,subject,language,format,collection,type,provider,publisher,creator,rights,date)
-    names(ents) <- c("id","title","description","subject","language","format","collection","type","provider","publisher","creator","rights","date")
-    ents <- lapply(ents, replacenull)
-    data.frame(ents, stringsAsFactors = FALSE)
-  }
-  process_other <- function(x){
-    # FIXME
-    ## Still need to give back fields: @context, originalRecord
-    get <- c('dataProvider','@type','object','ingestionSequence','ingestDate','_rev','aggregatedCHO','_id','ingestType','@id')
-    have <- x[ names(x) %in% get ]
-    df <- data.frame(have, stringsAsFactors = FALSE)
-    names(df) <- names(have)
-    df
-  }
-
-  if(is.null(flds)){
+   if(is.null(flds)){
     id <- y$id
     provider <- setNames(data.frame(t(y$provider), stringsAsFactors = FALSE), c("provider_url","provider_name"))
     score <- y$score
     url <- y$isShownAt
     sourceResource <- y$sourceResource
+#     if(length(pop(y, "id")) == 1){
+#       sourceResource_df <- data.frame(t(setNames(reduce1(pop(y, "id")), sub("sourceResource\\.", "", names(pop(y, "id"))))))
+#     } else {
+#       sourceResource_df <- process_res(sourceResource)
+#       sourceResource_df <- sourceResource_df[,!names(sourceResource_df) %in% c("id","provider")]
+#     }
     sourceResource_df <- process_res(sourceResource)
     sourceResource_df <- sourceResource_df[,!names(sourceResource_df) %in% c("id","provider")]
     other <- process_other(y)
     cbind(data.frame(id, sourceResource_df, provider, score, url, stringsAsFactors = FALSE), other)
-  } else
-  {
+  } else {
     names(y) <- gsub("sourceResource.", "", names(y))
     if(length(y)==1) {
       onetemp <- list(y[[1]])
@@ -258,6 +228,43 @@ getdata <- function(y, flds){
     } else
     { process_res(y) }
   }
+}
+
+process_res <- function(x){
+  id <- reduce1(x$identifier)
+  if(is.null(id)) id <- x$id
+  title <- reduce1(x$title)
+  description <- reduce1(x$description)
+  subject <- if(length(x$subject)>1){paste(as.character(unlist(x$subject)), collapse=";")} else {x$subject[[1]][["name"]]}
+  language <- x$language[[1]][["name"]]
+  format <- reduce1(x$format)
+  collection <- if(any(names(x$collection) %in% "name")) {x$collection[["name"]]} else {"no collection name"}
+  type <- reduce1(x$type)
+  date <- x$date[[1]]
+  publisher <- reduce1(x$publisher)
+  provider <- x$provider[["name"]]
+  creator <- reduce1(x$creator)
+  rights <- reduce1(x$rights)
+
+  replacenull <- function(y) if(is.null(y) || length(y) == 0) "no content" else y
+  ents <- list(id,title,description,subject,language,format,collection,type,provider,publisher,creator,rights,date)
+  names(ents) <- c("id","title","description","subject","language","format","collection","type","provider","publisher","creator","rights","date")
+  ents <- lapply(ents, replacenull)
+  data.frame(ents, stringsAsFactors = FALSE)
+}
+process_other <- function(x){
+  # FIXME
+  ## Still need to give back fields: @context, originalRecord
+  get <- c('dataProvider','@type','object','ingestionSequence','ingestDate','_rev','aggregatedCHO','_id','ingestType','@id')
+  have <- x[ names(x) %in% get ]
+  df <- data.frame(have, stringsAsFactors = FALSE)
+  names(df) <- names(have)
+  df
+}
+
+reduce1 <- function(x){
+  x <- unlist(x)
+  if(length(x) > 1) paste(as.character(x), collapse=";") else x
 }
 
 filter_fields <- function(fields){
