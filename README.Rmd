@@ -6,7 +6,10 @@ knitr::opts_chunk$set(
   comment = "#>",
   collapse = TRUE,
   warning = FALSE,
-  message = FALSE
+  message = FALSE,
+  fig.path = "inst/img/",
+  fig.width = 10,
+  fig.cap = ""
 )
 ```
 
@@ -112,25 +115,19 @@ collections(description="east")
 
 ### Visualize
 
-Visualize metadata from the DPLA - histogram of number of subjects per record
+Visualize metadata from the DPLA - histogram of number of records per state (includes __states__ outside the US)
 
-Get results from searching on the terme ecology
-
-```{r eval=FALSE}
-out <- items(q="ecology", fields=c("publisher","subject"), page_size=90)
-
+```{r tidy=FALSE}
+out <- items(facets="sourceResource.spatial.state", page_size=0, facet_size=25)
+library("ggplot2")
+library("scales")
+ggplot(out$facets$sourceResource.spatial.state$data, aes(reorder(term, count), count)) +
+  geom_bar(stat="identity") +
+  coord_flip() + 
+  theme_grey(base_size = 16) +
+  scale_y_continuous(labels = comma) + 
+  labs(x="State", y="Records")
 ```
-
-Visualize metadata from the DPLA - timeline plot of the top 10 encountered subjects
-
-Serching for the term science from before the year 1900
-
-```{r eval=FALSE}
-out <- dpla_basic(q="science", date.before=1900, page_size=200)
-
-```
-
-![](inst/img/dpla_subjects_through_time.png)
 
 ## Meta
 

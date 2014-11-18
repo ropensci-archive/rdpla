@@ -30,7 +30,7 @@ library('rdpla')
 
 You need an API key to use the DPLA API. Use `get_key()` to request a key, which will then be emailed to you. Pass in the key in the `key` parameter in functions in this package or you can store the key in your `.Rprofile` file under the name _dplakey_, which will then be read in automatically.
 
-### Search
+### Search - items
 
 > Note: limiting fields returned for readme brevity.
 
@@ -115,17 +115,17 @@ items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
 #> 1 29773     0       10
 #> 
 #> $data
-#>            id        date
-#> 1  no content       1880-
-#> 2  no content        1880
-#> 3  no content        1880
-#> 4  no content        1880
-#> 5  no content        1880
-#> 6  no content        1883
-#> 7  no content        1851
-#> 8  no content       1883-
-#> 9  no content [1894]-1902
-#> 10 no content [1894]-1902
+#>                                  id        date
+#> 1  2289f4cbee338d3ee22472084399d0c1       1880-
+#> 2  3bc189a6c3061bd9c2005e67150d4b5a        1880
+#> 3  855407956475c37b086fa7603aa29038        1880
+#> 4  afbea811bc274aac4a049828941c86e9        1880
+#> 5  e7c3b499f627d21910b4ebb4282f0bdc        1880
+#> 6  9f79e6f53dfd2f31a17d756a90f22e0b        1883
+#> 7  7a8afa97e5805d66ab044e6a71d70b5f        1851
+#> 8  8b2dba3d4947cc97de111425cd43d3e6       1883-
+#> 9  1ce2228055729fefa3a12a5a882f631c [1894]-1902
+#> 10 655a9657f0beb4d523e41edf9c935996 [1894]-1902
 #> 
 #> $facets
 #> list()
@@ -187,9 +187,9 @@ items(sp='Boston', page_size=2, fields=c("id","provider"))
 #> 1 26223     0        2
 #> 
 #> $data
-#>           id                provider
-#> 1 no content Smithsonian Institution
-#> 2 no content Smithsonian Institution
+#>                                 id                provider
+#> 1 c6791046ceb3a0425f78a083a5370a13 Smithsonian Institution
+#> 2 5fa648a09ec8310841de88afc739e20f Smithsonian Institution
 #> 
 #> $facets
 #> list()
@@ -205,37 +205,142 @@ items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provider")
 #> 1 76401     0        2
 #> 
 #> $data
-#>           id                                       provider
-#> 1 no content United States Government Printing Office (GPO)
-#> 2 no content                                     HathiTrust
+#>                                 id
+#> 1 3d3fba16636ab5211a10ff0b0bf44ae6
+#> 2 97feb7d7f98eb76c6713a6435ab9a0cd
+#>                                         provider
+#> 1 United States Government Printing Office (GPO)
+#> 2                                     HathiTrust
 #> 
 #> $facets
 #> list()
 ```
 
+Faceted search
+
+
+```r
+items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),
+      page_size=0, facet_size=5)
+#> $meta
+#>     found start returned
+#> 1 8007019     0        0
+#> 
+#> $data
+#> NULL
+#> 
+#> $facets
+#> $facets$sourceResource.spatial.state
+#> $facets$sourceResource.spatial.state$meta
+#>    type   total missing   other
+#> 1 terms 2243251 5965452 1026108
+#> 
+#> $facets$sourceResource.spatial.state$data
+#>             term  count
+#> 1          Texas 454858
+#> 2        Georgia 228847
+#> 3         Kansas 187644
+#> 4           Utah 180276
+#> 5 North Carolina 165518
+#> 
+#> 
+#> $facets$sourceResource.spatial.country
+#> $facets$sourceResource.spatial.country$meta
+#>    type   total missing  other
+#> 1 terms 2331589 5760256 344997
+#> 
+#> $facets$sourceResource.spatial.country$data
+#>                                                   term   count
+#> 1                                        United States 1770950
+#> 2 United Kingdom of Great Britain and Northern Ireland  105416
+#> 3                                   Republic of France   56512
+#> 4                          Federal Republic of Germany   30665
+#> 5                                  Repubblica Italiana   23049
+```
+
+### Search - collections
+
+Search for collections with the words _university of texas_
+
+
+```r
+collections(q="university of texas", page_size=2)
+#> $meta
+#>   found returned
+#> 1    15        2
+#> 
+#> $data
+#>                                 _rev                  ingestDate
+#> 1 1-b30e2458726b17265171946cae413252 2014-09-17T18:35:56.122352Z
+#> 2 1-85e81c05b7233e6d346e8f797d8aeb2f 2014-09-17T18:35:56.122352Z
+#>                                 id                             @context
+#> 1 63933324c0f7076604fef034362ce0cb http://dp.la/api/collections/context
+#> 2 d45deb62949c0b85354f5f4a31f268f1 http://dp.la/api/collections/context
+#>                            title                 _id description
+#> 1            University of Texas   texas--partner:UT            
+#> 2 University of Texas at El Paso texas--partner:UTEP            
+#>                 @type ingestType
+#> 1 dcmitype:Collection collection
+#> 2 dcmitype:Collection collection
+#>                                                             @id
+#> 1 http://dp.la/api/collections/63933324c0f7076604fef034362ce0cb
+#> 2 http://dp.la/api/collections/d45deb62949c0b85354f5f4a31f268f1
+#>   ingestionSequence     score validation_message valid_after_enrich
+#> 1                12 11.002326                 NA               TRUE
+#> 2                12  8.862748                 NA               TRUE
+```
+
+You can also search in the `title` and `description` fields
+
+
+```r
+collections(description="east")
+#> $meta
+#>   found returned
+#> 1     2       10
+#> 
+#> $data
+#>                                 _rev                  ingestDate
+#> 1 1-982711b6d454651dda6a11dd46081697 2014-09-23T01:49:50.345024Z
+#> 2 1-e4f629a86f1b267f0411d9dd4e295835 2014-09-04T00:57:02.902600Z
+#>                                 id                             @context
+#> 1 40e1a1b275d18f21489c311b502c9bcc http://dp.la/api/collections/context
+#> 2 6ac62738cc2c583eb5257b311a5ada80 http://dp.la/api/collections/context
+#>                                           title               _id
+#> 1 Israeli Palestinian Archaeology Working Group usc--p15799coll74
+#> 2               Mower County Historical Society    minnesota--mow
+#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   description
+#> 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ipawg, also, The West Bank and East Jerusalem Searchable Map
+#> 2 The Mower County Historical Society has been collecting photos, artifacts and information related to Mower County history since 1947. Our collection is housed in 21 buildings located at the east end of Mower County Fairgrounds in Austin, Minnesota. Our resources include an extensive research library, allowing researchers of local history and genealogy many sources of information. Our contribution to Minnesota Reflections includes the 1896 Standard Atlas of Mower County and the 1949 Aerial Views of the county showing geographic features, farming traits, churches, schools and transportation routes in Mower County.
+#>                 @type ingestType
+#> 1 dcmitype:Collection collection
+#> 2 dcmitype:Collection collection
+#>                                                             @id
+#> 1 http://dp.la/api/collections/40e1a1b275d18f21489c311b502c9bcc
+#> 2 http://dp.la/api/collections/6ac62738cc2c583eb5257b311a5ada80
+#>   ingestionSequence    score validation_message valid_after_enrich
+#> 1                13 4.560579                 NA               TRUE
+#> 2                13 1.596275                 NA               TRUE
+```
+
 ### Visualize
 
-Visualize metadata from the DPLA - histogram of number of subjects per record
+Visualize metadata from the DPLA - histogram of number of records per state (includes __states__ outside the US)
 
 
 ```r
-# Get results from searching on the terme ecology
-out <- dpla_basic(q="ecology", fields=c("publisher","subject"), limit=90)
-dpla_plot(input=out, plottype = "subjectsum")
+out <- items(facets="sourceResource.spatial.state", page_size=0, facet_size=25)
+library("ggplot2")
+library("scales")
+ggplot(out$facets$sourceResource.spatial.state$data, aes(reorder(term, count), count)) +
+  geom_bar(stat="identity") +
+  coord_flip() + 
+  theme_grey(base_size = 16) +
+  scale_y_continuous(labels = comma) + 
+  labs(x="State", y="Records")
 ```
 
-![](inst/img/dpla_subjects_barplot.png)
-
-Visualize metadata from the DPLA - timeline plot of the top 10 encountered subjects
-
-
-```r
-# Serching for the term science from before the year 1900
-out <- dpla_basic(q="science", date.before=1900, limit=200)
-dpla_plot(input=out, plottype="subjectsbydate")
-```
-
-![](inst/img/dpla_subjects_through_time.png)
+![](inst/img/unnamed-chunk-16-1.png) 
 
 ## Meta
 
