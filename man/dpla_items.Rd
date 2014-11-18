@@ -64,6 +64,8 @@ is all fields. See details for options.}
 can be sorted on. Attempts to sort on an un-sortable field will return
 the standard error structure with a HTTP 400 status code.}
 
+\item{date}{A date}
+
 \item{date_before}{Date before}
 
 \item{date_after}{Date after}

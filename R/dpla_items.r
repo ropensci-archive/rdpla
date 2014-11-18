@@ -35,6 +35,7 @@
 #'    the standard error structure with a HTTP 400 status code.
 #' @param fields A vector of the fields to return in the output. The default
 #'    is all fields. See details for options.
+#' @param date A date
 #' @param date_before Date before
 #' @param date_after Date after
 #' @param page_size Number of items to return, defaults to 100. Max of 500.
