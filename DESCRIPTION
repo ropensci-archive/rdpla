@@ -3,8 +3,8 @@ Type: Package
 Title: R Client for the Digital Public Library of America (DPLA).
 Description: Interact with the Digital Public Library of America (DPLA) REST
     API from R, including search, etc, etc.
-Version: 0.0.2.99
-Date: 2014-10-28
+Version: 0.0.3.99
+Date: 2014-11-17
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut", "cre"),
     email = "myrmecocystus@gmail.com"))
 License: MIT + file LICENSE
