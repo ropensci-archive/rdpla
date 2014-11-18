@@ -3,30 +3,80 @@
 \alias{dpla_items}
 \title{Search items from the Digital Public Library of America (DPLA).}
 \usage{
-dpla_items(q = NULL, verbose = FALSE, fields = NULL, limit = 10,
-  page = NULL, sort_by = NULL, date.before = NULL, date.after = NULL,
-  key = getOption("dplakey"), what = "table", ...)
+dpla_items(q = NULL, description = NULL, title = NULL, subject = NULL,
+  creator = NULL, type = NULL, publisher = NULL, format = NULL,
+  rights = NULL, contributor = NULL, provider = NULL, sp = NULL,
+  sp_coordinates = NULL, sp_city = NULL, sp_county = NULL,
+  sp_distance = NULL, sp_country = NULL, sp_code = NULL, sp_name = NULL,
+  sp_region = NULL, sp_state = NULL, fields = NULL, sort_by = NULL,
+  date_before = NULL, date_after = NULL, language = NULL, facets = NULL,
+  page_size = 100, page = NULL, key = getOption("dplakey"),
+  what = "table", ...)
 }
 \arguments{
 \item{q}{Query terms.}
 
-\item{verbose}{If TRUE, fun little messages print to console to inform you
-of things.}
+\item{description}{Object description.}
+
+\item{title}{Object title.}
+
+\item{subject}{Subject.}
+
+\item{creator}{Creator}
+
+\item{type}{Type of object}
+
+\item{publisher}{PUblisher}
+
+\item{format}{Format}
+
+\item{rights}{Rights}
+
+\item{contributor}{Contributor}
+
+\item{provider}{Provider}
+
+\item{sp}{Query all spatial fields.}
+
+\item{sp_coordinates}{Query only coordinates. Of the form <latitude,longitude>}
+
+\item{sp_city}{Query by city name.}
+
+\item{sp_county}{Query by county name.}
+
+\item{sp_distance}{Distance from point defined in the \code{sp_coordinates} field}
+
+\item{sp_country}{Query by location country}
+
+\item{sp_code}{Query by ISO 3166-2 country code. Codes are included in this package, see
+\code{country_codes}. Find out more at \url{https://www.iso.org/obp/ui/#search}.}
+
+\item{sp_name}{Location name.}
+
+\item{sp_region}{Name of a region, e.g., "Upstate New York" (literal)}
+
+\item{sp_state}{ISO 3166-2 code for a U.S. state or territory}
 
 \item{fields}{A vector of the fields to return in the output. The default
 is all fields. See details for options.}
-
-\item{limit}{Number of items to return, defaults to 10. Max of 100.}
-
-\item{page}{Page number to return, defaults to NULL.}
 
 \item{sort_by}{The default sort order is ascending. Most, but not all fields
 can be sorted on. Attempts to sort on an un-sortable field will return
 the standard error structure with a HTTP 400 status code.}
 
-\item{date.before}{Date before}
+\item{date_before}{Date before}
 
-\item{date.after}{Date after}
+\item{date_after}{Date after}
+
+\item{language}{One of a name of a language, or an ISO-639 code. Codes are included in this
+package, see \code{language_codes}.  Find out more at
+\url{http://www-01.sil.org/iso639-3/default.asp}.}
+
+\item{facets}{Fields to facet on.}
+
+\item{page_size}{Number of items to return, defaults to 100. Max of 500.}
+
+\item{page}{Page number to return, defaults to NULL.}
 
 \item{key}{Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
 and it will be read in on function execution.}
@@ -37,7 +87,7 @@ and it will be read in on function execution.}
 }
 \value{
 A list of length two: meta with the metadata for the call (found, offset [aka start],
-and limit [number results returned]), and the resulting data.frame of results.
+and page_size [number results returned]), and the resulting data.frame of results.
 }
 \description{
 Search items from the Digital Public Library of America (DPLA).
@@ -66,30 +116,52 @@ Options for the fields argument are:
 dpla_items(q="fruit")
 
 # Limit records returned
-dpla_items(q="fruit", limit=2)
-
-# Some verbosity
-dpla_items(q="fruit", verbose=TRUE, limit=2)
+dpla_items(q="fruit", page_size=2)
 
 # Return certain fields
 dpla_items(q="fruit", verbose=TRUE, fields=c("id","publisher","format"))
 dpla_items(q="fruit", fields="subject")
 
-# Max is 100 per call, but the function handles larger numbers by looping
-dpla_items(q="fruit", fields="id", limit=200)
-dpla_items(q="fruit", fields=c("id","provider"), limit=200)
-out <- dpla_items(q="science", fields=c("id","subject"), limit=400)
-head(out$data)
+# Max is 500 per call, but you can use combo of page_size and page params
+dpla_items(q="fruit", fields="id", page_size=500)$meta$returned
+lapply(1:2, function(x) dpla_items(q="fruit", fields="id", page_size=500, page=x)$meta$returned)
+out <- lapply(1:2, function(x) dpla_items(q="fruit", fields="id", page_size=500, page=x))
+lapply(out, function(y) head(y$data))
 
 # Search by date
-out <- dpla_items(q="science", date.before=1900, limit=200)
+out <- dpla_items(q="science", date_before=1900, page_size=200)
 head(out$data)
 
-# Spatial search
-dpla_items(q='Boston', fields='spatial')
+# Search by various fields
+dpla_items(description="obituaries", page_size=2, fields="description")
+dpla_items(title="obituaries", page_size=2, fields="title")
+dpla_items(subject="yodeling", page_size=2, fields="subject")
+dpla_items(creator="Holst-Van der Schalk", page_size=2, fields="creator")
+dpla_items(type="text", page_size=2, fields="type")
+dpla_items(publisher="Leningrad", page_size=2, fields="publisher")
+dpla_items(rights="unrestricted", page_size=2, fields="rights")
+dpla_items(provider="HathiTrust", page_size=2, fields="provider")
 
-# things
-dpla_items(q="*:*", limit=5, what="list")
+## don't seem to work
+dpla_items(contributor="Smithsonian", page_size=2, fields="contributor")
+dpla_items(format="Electronic resource", page_size=2, fields="format")
+
+# Spatial search
+## sp searches all spatial fields, or search on specific fields, see those params with sp_*
+dpla_items(sp='Boston', page_size=2)
+dpla_items(sp_state='Hawaii', page_size=2)
+dpla_items(sp_state='Massachusetts OR Hawaii', page_size=2)
+dpla_items(sp_coordinates='40,-100', page_size=2)
+dpla_items(sp_country='Canada', page_size=2)
+dpla_items(sp_county='Sacramento', page_size=2)
+
+# language search
+dpla_items(language='Russian')$meta
+dpla_items(language='rus')$meta
+dpla_items(language='English')$meta
+
+# Faceting
+dpla_items(facets="rights", page_size=5, what="list")
 }
 }
 
