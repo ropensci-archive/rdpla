@@ -26,6 +26,10 @@ devtools::install_github("ropensci/rdpla")
 library('rdpla')
 ```
 
+### Authentication
+
+You need an API key to use the DPLA API. Use `get_key()` to request a key, which will then be emailed to you. Pass in the key in the `key` parameter in functions in this package or you can store the key in your `.Rprofile` file under the name _dplakey_, which will then be read in automatically.
+
 ### Search
 
 > Note: limiting fields returned for readme brevity.
@@ -34,7 +38,7 @@ Basic search
 
 
 ```r
-dpla_items(q="fruit", page_size=5, fields=c("provider","creator"))
+items(q="fruit", page_size=5, fields=c("provider","creator"))
 #> $meta
 #>   found start returned
 #> 1 17954     0        5
@@ -52,13 +56,16 @@ dpla_items(q="fruit", page_size=5, fields=c("provider","creator"))
 #> 3                               Anderson, Alexander (1775-1870)
 #> 4                               Anderson, Alexander (1775-1870)
 #> 5                                                    no content
+#> 
+#> $facets
+#> list()
 ```
 
 Limit fields returned
 
 
 ```r
-dpla_items(q="fruit", page_size = 10, fields=c("publisher","format"))
+items(q="fruit", page_size = 10, fields=c("publisher","format"))
 #> $meta
 #>   found start returned
 #> 1 17954     0       10
@@ -75,13 +82,16 @@ dpla_items(q="fruit", page_size = 10, fields=c("publisher","format"))
 #> 8              no content no content
 #> 9              no content no content
 #> 10             no content no content
+#> 
+#> $facets
+#> list()
 ```
 
 Limit records returned
 
 
 ```r
-dpla_items(q="fruit", page_size=2, fields=c("provider","title"))
+items(q="fruit", page_size=2, fields=c("provider","title"))
 #> $meta
 #>   found start returned
 #> 1 17954     0        2
@@ -90,13 +100,16 @@ dpla_items(q="fruit", page_size=2, fields=c("provider","title"))
 #>      title                      provider
 #> 1  [Fruit] Mountain West Digital Library
 #> 2 [Fruit.]   The New York Public Library
+#> 
+#> $facets
+#> list()
 ```
 
 Search by date
 
 
 ```r
-dpla_items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
+items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
 #> $meta
 #>   found start returned
 #> 1 29773     0       10
@@ -113,13 +126,16 @@ dpla_items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
 #> 8  no content       1883-
 #> 9  no content [1894]-1902
 #> 10 no content [1894]-1902
+#> 
+#> $facets
+#> list()
 ```
 
 Search on specific fields
 
 
 ```r
-dpla_items(description="obituaries", page_size=2, fields="description")
+items(description="obituaries", page_size=2, fields="description")
 #> $meta
 #>   found start returned
 #> 1 50367     0        2
@@ -127,11 +143,14 @@ dpla_items(description="obituaries", page_size=2, fields="description")
 #> $data
 #> [1] "Obituaries of members"             
 #> [2] "Pages from the complied obituaries"
+#> 
+#> $facets
+#> list()
 ```
 
 
 ```r
-dpla_items(subject="yodeling", page_size=2, fields="subject")
+items(subject="yodeling", page_size=2, fields="subject")
 #> $meta
 #>   found start returned
 #> 1    23     0        2
@@ -139,24 +158,30 @@ dpla_items(subject="yodeling", page_size=2, fields="subject")
 #> $data
 #> [1] "Yodel & yodeling;Humorous songs;Musicals--Excerpts--Vocal scores with piano"    
 #> [2] "Portraits;Costumes and clothes;Yodeling;Holsinger Studio (Charlottesville, Va.)"
+#> 
+#> $facets
+#> list()
 ```
 
 
 ```r
-dpla_items(provider="HathiTrust", page_size=2, fields="provider")
+items(provider="HathiTrust", page_size=2, fields="provider")
 #> $meta
 #>     found start returned
 #> 1 1914614     0        2
 #> 
 #> $data
 #> [1] "HathiTrust" "HathiTrust"
+#> 
+#> $facets
+#> list()
 ```
 
 Spatial search, across all spatial fields 
 
 
 ```r
-dpla_items(sp='Boston', page_size=2, fields=c("id","provider"))
+items(sp='Boston', page_size=2, fields=c("id","provider"))
 #> $meta
 #>   found start returned
 #> 1 26223     0        2
@@ -165,13 +190,16 @@ dpla_items(sp='Boston', page_size=2, fields=c("id","provider"))
 #>           id                provider
 #> 1 no content Smithsonian Institution
 #> 2 no content Smithsonian Institution
+#> 
+#> $facets
+#> list()
 ```
 
 Spatial search, by states
 
 
 ```r
-dpla_items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provider"))
+items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provider"))
 #> $meta
 #>   found start returned
 #> 1 76401     0        2
@@ -180,6 +208,9 @@ dpla_items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provi
 #>           id                                       provider
 #> 1 no content United States Government Printing Office (GPO)
 #> 2 no content                                     HathiTrust
+#> 
+#> $facets
+#> list()
 ```
 
 ### Visualize

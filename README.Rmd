@@ -31,6 +31,10 @@ devtools::install_github("ropensci/rdpla")
 library('rdpla')
 ```
 
+### Authentication
+
+You need an API key to use the DPLA API. Use `get_key()` to request a key, which will then be emailed to you. Pass in the key in the `key` parameter in functions in this package or you can store the key in your `.Rprofile` file under the name _dplakey_, which will then be read in automatically.
+
 ### Search
 
 > Note: limiting fields returned for readme brevity.
@@ -38,51 +42,51 @@ library('rdpla')
 Basic search
 
 ```{r}
-dpla_items(q="fruit", page_size=5, fields=c("provider","creator"))
+items(q="fruit", page_size=5, fields=c("provider","creator"))
 ```
 
 Limit fields returned
 
 ```{r}
-dpla_items(q="fruit", page_size = 10, fields=c("publisher","format"))
+items(q="fruit", page_size = 10, fields=c("publisher","format"))
 ```
 
 Limit records returned
 
 ```{r}
-dpla_items(q="fruit", page_size=2, fields=c("provider","title"))
+items(q="fruit", page_size=2, fields=c("provider","title"))
 ```
 
 Search by date
 
 ```{r}
-dpla_items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
+items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
 ```
 
 Search on specific fields
 
 ```{r}
-dpla_items(description="obituaries", page_size=2, fields="description")
+items(description="obituaries", page_size=2, fields="description")
 ```
 
 ```{r}
-dpla_items(subject="yodeling", page_size=2, fields="subject")
+items(subject="yodeling", page_size=2, fields="subject")
 ```
 
 ```{r}
-dpla_items(provider="HathiTrust", page_size=2, fields="provider")
+items(provider="HathiTrust", page_size=2, fields="provider")
 ```
 
 Spatial search, across all spatial fields 
 
 ```{r}
-dpla_items(sp='Boston', page_size=2, fields=c("id","provider"))
+items(sp='Boston', page_size=2, fields=c("id","provider"))
 ```
 
 Spatial search, by states
 
 ```{r}
-dpla_items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provider"))
+items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provider"))
 ```
 
 ### Visualize
