@@ -21,6 +21,7 @@
 
 dpla_plot <- function(input, plottype = "subjectsum")
 {
+  input <- input$data
   # subject summary
   if(plottype == "subjectsum"){
     input$record <- 1:nrow(input)
@@ -38,10 +39,8 @@ dpla_plot <- function(input, plottype = "subjectsum")
 
   } else
     if(plottype=="subjectsbydate"){
-      subjectvec <- lapply(input$subject, function(x) data.frame(strsplit(x,";")[[1]]))
-      names(subjectvec) <- input$date
-      subjectvec_df <- ldply(subjectvec)
-      names(subjectvec_df) <- c("date","subject")
+      subjectvec <- setNames(lapply(input$subject, function(x) data.frame(strsplit(x,";")[[1]])), input$date)
+      subjectvec_df <- setNames(ldply(subjectvec), c("date","subject"))
       rangetofirst <- function(x) if(length(strsplit(x,"\\s+-\\s+|-")[[1]])>1){strsplit(x,"\\s+-\\s+|-")[[1]][[1]]} else {x}
       subjectvec_df$date <- sapply(subjectvec_df$date, rangetofirst, USE.NAMES=FALSE)
       subjectvec_df$date <- ymd(paste0(gsub("\\?", "", subjectvec_df$date), "-1-1"))

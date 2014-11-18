@@ -35,7 +35,7 @@ library('rdpla')
 
 You need an API key to use the DPLA API. Use `get_key()` to request a key, which will then be emailed to you. Pass in the key in the `key` parameter in functions in this package or you can store the key in your `.Rprofile` file under the name _dplakey_, which will then be read in automatically.
 
-### Search
+### Search - items
 
 > Note: limiting fields returned for readme brevity.
 
@@ -89,24 +89,45 @@ Spatial search, by states
 items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provider"))
 ```
 
+Faceted search
+
+```{r}
+items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),
+      page_size=0, facet_size=5)
+```
+
+### Search - collections
+
+Search for collections with the words _university of texas_
+
+```{r}
+collections(q="university of texas", page_size=2)
+```
+
+You can also search in the `title` and `description` fields
+
+```{r}
+collections(description="east")
+```
+
 ### Visualize
 
 Visualize metadata from the DPLA - histogram of number of subjects per record
 
-```{r eval=FALSE}
-# Get results from searching on the terme ecology
-out <- dpla_basic(q="ecology", fields=c("publisher","subject"), limit=90)
-dpla_plot(input=out, plottype = "subjectsum")
-```
+Get results from searching on the terme ecology
 
-![](inst/img/dpla_subjects_barplot.png)
+```{r eval=FALSE}
+out <- items(q="ecology", fields=c("publisher","subject"), page_size=90)
+
+```
 
 Visualize metadata from the DPLA - timeline plot of the top 10 encountered subjects
 
+Serching for the term science from before the year 1900
+
 ```{r eval=FALSE}
-# Serching for the term science from before the year 1900
-out <- dpla_basic(q="science", date.before=1900, limit=200)
-dpla_plot(input=out, plottype="subjectsbydate")
+out <- dpla_basic(q="science", date.before=1900, page_size=200)
+
 ```
 
 ![](inst/img/dpla_subjects_through_time.png)

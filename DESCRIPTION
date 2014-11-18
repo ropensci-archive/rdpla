@@ -14,12 +14,9 @@ LazyData: yes
 VignetteBuilder: knitr
 Roxygen: list(wrap = FALSE)
 Imports:
-    ggplot2,
     httr,
     jsonlite,
-    plyr,
-    lubridate,
-    reshape
+    plyr
 Suggests:
     roxygen2,
     knitr
