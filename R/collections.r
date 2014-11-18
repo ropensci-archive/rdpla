@@ -17,13 +17,13 @@
 #' @return xxxx
 #'
 #' @examples \donttest{
-#' dpla_collections(q="university")
-#' dpla_collections(q="university of texas", limit=2)
-#' dpla_collections(q="university of texas", fields='id', limit=2)
-#' dpla_collections(q="university of texas", sort_by='title', limit=5)
+#' collections(q="university")
+#' collections(q="university of texas", limit=2)
+#' collections(q="university of texas", fields='id', limit=2)
+#' collections(q="university of texas", sort_by='title', limit=5)
 #' }
 
-dpla_collections <- function(q=NULL, fields=NULL, sort_by=NULL, limit=10, page=NULL,
+collections <- function(q=NULL, fields=NULL, sort_by=NULL, limit=10, page=NULL,
   key=getOption("dplakey"), ...)
 {
   args <- dcomp(list(api_key=key, q=q, page_size=limit, page=page, fields=fields, sort_by=sort_by))
