@@ -110,10 +110,14 @@
 #' items(sp_country='Canada', page_size=2)
 #' items(sp_county='Sacramento', page_size=2)
 #'
-#' # language search
+#' # Language search
 #' items(language='Russian')$meta
 #' items(language='rus')$meta
 #' items(language='English')$meta
+#'
+#' # Sorting
+#' items(fields=c("id","title"), page_size=10)
+#' items(fields=c("id","title"), page_size=10, sort_by="sourceResource.title")
 #'
 #' # Faceting
 #' items(facets="sourceResource.format", page_size=0)
@@ -161,7 +165,7 @@ items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creator=NU
                      sourceResource.date=date,
                      sourceResource.date.before=date_before,
                      sourceResource.date.after=date_after,
-                     facets=coll(facets), facet_size=facet_size))
+                     facets=coll(facets), facet_size=facet_size, sort_by=sort_by))
   temp <- dpla_GET(url=paste0(dpbase(), "items"), args, ...)
   hi <- setNames(data.frame(temp[c('count','start','limit')], stringsAsFactors = FALSE), c('found','start','returned'))
   dat <- temp$docs

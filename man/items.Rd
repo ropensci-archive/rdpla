@@ -159,10 +159,14 @@ items(sp_coordinates='40,-100', page_size=2)
 items(sp_country='Canada', page_size=2)
 items(sp_county='Sacramento', page_size=2)
 
-# language search
+# Language search
 items(language='Russian')$meta
 items(language='rus')$meta
 items(language='English')$meta
+
+# Sorting
+items(fields=c("id","title"), page_size=10)
+items(fields=c("id","title"), page_size=10, sort_by="sourceResource.title")
 
 # Faceting
 items(facets="sourceResource.format", page_size=0)
