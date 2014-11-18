@@ -96,8 +96,8 @@
 #' dpla_items(provider="HathiTrust", page_size=2, fields="provider")
 #'
 #' ## don't seem to work
-#' dpla_items(contributor="Smithsonian", page_size=2, fields="contributor")
-#' dpla_items(format="Electronic resource", page_size=2, fields="format")
+#' # dpla_items(contributor="Smithsonian", page_size=2, fields="contributor")
+#' # dpla_items(format="Electronic resource", page_size=2, fields="format")
 #'
 #' # Spatial search
 #' ## sp searches all spatial fields, or search on specific fields, see those params with sp_*
@@ -121,7 +121,7 @@ dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creat
   type=NULL, publisher=NULL, format=NULL, rights=NULL, contributor=NULL, provider=NULL, sp=NULL,
   sp_coordinates=NULL, sp_city=NULL, sp_county=NULL,
   sp_distance=NULL, sp_country=NULL, sp_code=NULL, sp_name=NULL, sp_region=NULL, sp_state=NULL,
-  fields=NULL, sort_by=NULL, date_before=NULL, date_after=NULL, language=NULL,
+  fields=NULL, sort_by=NULL, date=NULL, date_before=NULL, date_after=NULL, language=NULL,
   facets=NULL, page_size=100, page=NULL, key=getOption("dplakey"), what="table", ...)
 {
   fields2 <- fields
@@ -129,7 +129,8 @@ dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creat
   if(!is.null(fields)){
     fieldsfunc <- function(x){
       if(x %in% c("title","description","subject","creator","type","publisher",
-                  "format","rights","contributor","spatial","spatial.coordinates","spatial.city",
+                  "format","rights","contributor","date",
+                  "spatial","spatial.coordinates","spatial.city",
                   "spatial.county","spatial.distance","spatial.country","spatial.iso3166-2",
                   "spatial.name","spatial.region","spatial.state","language")) {
         paste("sourceResource.", x, sep="") } else { x }
@@ -159,6 +160,7 @@ dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creat
                      sourceResource.spatial.region=sp_region,
                      sourceResource.spatial.state=sp_state,
                      sourceResource.language=language,
+                     sourceResource.date=date,
                      sourceResource.date.before=date_before,
                      sourceResource.date.after=date_after,
                      facets=facets))

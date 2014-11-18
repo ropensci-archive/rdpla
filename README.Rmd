@@ -31,12 +31,58 @@ devtools::install_github("ropensci/rdpla")
 library('rdpla')
 ```
 
-### Search metadata
+### Search
 
-Search metadata from the Digital Public Library of America (DPLA).
+> Note: limiting fields returned for readme brevity.
 
-```{r eval=FALSE}
-dpla_items(q="fruit", verbose=TRUE, fields=c("publisher","format"))
+Basic search
+
+```{r}
+dpla_items(q="fruit", page_size=5, fields=c("provider","creator"))
+```
+
+Limit fields returned
+
+```{r}
+dpla_items(q="fruit", page_size = 10, fields=c("publisher","format"))
+```
+
+Limit records returned
+
+```{r}
+dpla_items(q="fruit", page_size=2, fields=c("provider","title"))
+```
+
+Search by date
+
+```{r}
+dpla_items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
+```
+
+Search on specific fields
+
+```{r}
+dpla_items(description="obituaries", page_size=2, fields="description")
+```
+
+```{r}
+dpla_items(subject="yodeling", page_size=2, fields="subject")
+```
+
+```{r}
+dpla_items(provider="HathiTrust", page_size=2, fields="provider")
+```
+
+Spatial search, across all spatial fields 
+
+```{r}
+dpla_items(sp='Boston', page_size=2, fields=c("id","provider"))
+```
+
+Spatial search, by states
+
+```{r}
+dpla_items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provider"))
 ```
 
 ### Visualize
