@@ -41,21 +41,15 @@ Basic search
 items(q="fruit", page_size=5, fields=c("provider","creator"))
 #> $meta
 #>   found start returned
-#> 1 17954     0        5
+#> 1 18455     0        5
 #> 
 #> $data
-#>                        provider
-#> 1 Mountain West Digital Library
-#> 2   The New York Public Library
-#> 3   The New York Public Library
-#> 4   The New York Public Library
-#> 5       Smithsonian Institution
-#>                                                         creator
-#> 1 Huntington, Elfie, 1868-1949;Bagley, Joseph Daniel, 1874-1936
-#> 2                               Anderson, Alexander (1775-1870)
-#> 3                               Anderson, Alexander (1775-1870)
-#> 4                               Anderson, Alexander (1775-1870)
-#> 5                                                    no content
+#>                      provider                         creator
+#> 1 The New York Public Library Anderson, Alexander (1775-1870)
+#> 2 The New York Public Library Anderson, Alexander (1775-1870)
+#> 3 The New York Public Library Anderson, Alexander (1775-1870)
+#> 4 The New York Public Library Anderson, Alexander (1775-1870)
+#> 5 The New York Public Library Anderson, Alexander (1775-1870)
 #> 
 #> $facets
 #> list()
@@ -68,20 +62,20 @@ Limit fields returned
 items(q="fruit", page_size = 10, fields=c("publisher","format"))
 #> $meta
 #>   found start returned
-#> 1 17954     0       10
+#> 1 18455     0       10
 #> 
 #> $data
-#>                    format  publisher
-#> 1              no content no content
-#> 2              no content no content
-#> 3              no content no content
-#> 4              no content no content
-#> 5              no content no content
-#> 6  Block-printed on paper no content
-#> 7              no content no content
-#> 8              no content no content
-#> 9              no content no content
-#> 10             no content no content
+#>        format  publisher
+#> 1  no content no content
+#> 2  no content no content
+#> 3  no content no content
+#> 4  no content no content
+#> 5  no content no content
+#> 6  no content no content
+#> 7  no content no content
+#> 8  no content no content
+#> 9  no content no content
+#> 10 no content no content
 #> 
 #> $facets
 #> list()
@@ -94,12 +88,12 @@ Limit records returned
 items(q="fruit", page_size=2, fields=c("provider","title"))
 #> $meta
 #>   found start returned
-#> 1 17954     0        2
+#> 1 18455     0        2
 #> 
 #> $data
-#>      title                      provider
-#> 1  [Fruit] Mountain West Digital Library
-#> 2 [Fruit.]   The New York Public Library
+#>      title                    provider
+#> 1 [Fruit.] The New York Public Library
+#> 2 [Fruit.] The New York Public Library
 #> 
 #> $facets
 #> list()
@@ -112,13 +106,13 @@ Search by date
 items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
 #> $meta
 #>   found start returned
-#> 1 29773     0       10
+#> 1 33822     0       10
 #> 
 #> $data
 #>                                  id        date
 #> 1  2289f4cbee338d3ee22472084399d0c1       1880-
-#> 2  3bc189a6c3061bd9c2005e67150d4b5a        1880
-#> 3  855407956475c37b086fa7603aa29038        1880
+#> 2  855407956475c37b086fa7603aa29038        1880
+#> 3  3bc189a6c3061bd9c2005e67150d4b5a        1880
 #> 4  afbea811bc274aac4a049828941c86e9        1880
 #> 5  e7c3b499f627d21910b4ebb4282f0bdc        1880
 #> 6  9f79e6f53dfd2f31a17d756a90f22e0b        1883
@@ -138,7 +132,7 @@ Search on specific fields
 items(description="obituaries", page_size=2, fields="description")
 #> $meta
 #>   found start returned
-#> 1 50367     0        2
+#> 1 50370     0        2
 #> 
 #> $data
 #> [1] "Obituaries of members"             
@@ -168,7 +162,7 @@ items(subject="yodeling", page_size=2, fields="subject")
 items(provider="HathiTrust", page_size=2, fields="provider")
 #> $meta
 #>     found start returned
-#> 1 1914614     0        2
+#> 1 2256684     0        2
 #> 
 #> $data
 #> [1] "HathiTrust" "HathiTrust"
@@ -184,7 +178,7 @@ Spatial search, across all spatial fields
 items(sp='Boston', page_size=2, fields=c("id","provider"))
 #> $meta
 #>   found start returned
-#> 1 26223     0        2
+#> 1 26608     0        2
 #> 
 #> $data
 #>                                 id                provider
@@ -202,7 +196,7 @@ Spatial search, by states
 items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provider"))
 #> $meta
 #>   found start returned
-#> 1 76401     0        2
+#> 1 79453     0        2
 #> 
 #> $data
 #>                                 id
@@ -224,7 +218,7 @@ items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),
       page_size=0, facet_size=5)
 #> $meta
 #>     found start returned
-#> 1 8007019     0        0
+#> 1 8417029     0        0
 #> 
 #> $data
 #> NULL
@@ -233,29 +227,29 @@ items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),
 #> $facets$sourceResource.spatial.state
 #> $facets$sourceResource.spatial.state$meta
 #>    type   total missing   other
-#> 1 terms 2243251 5965452 1026108
+#> 1 terms 2389889 6258289 1116685
 #> 
 #> $facets$sourceResource.spatial.state$data
 #>             term  count
-#> 1          Texas 454858
-#> 2        Georgia 228847
-#> 3         Kansas 187644
-#> 4           Utah 180276
-#> 5 North Carolina 165518
+#> 1          Texas 499096
+#> 2        Georgia 239498
+#> 3         Kansas 186704
+#> 4           Utah 181721
+#> 5 North Carolina 166185
 #> 
 #> 
 #> $facets$sourceResource.spatial.country
 #> $facets$sourceResource.spatial.country$meta
 #>    type   total missing  other
-#> 1 terms 2331589 5760256 344997
+#> 1 terms 2780550 5784677 441464
 #> 
 #> $facets$sourceResource.spatial.country$data
 #>                                                   term   count
-#> 1                                        United States 1770950
-#> 2 United Kingdom of Great Britain and Northern Ireland  105416
-#> 3                                   Republic of France   56512
-#> 4                          Federal Republic of Germany   30665
-#> 5                                  Repubblica Italiana   23049
+#> 1                                        United States 2142853
+#> 2 United Kingdom of Great Britain and Northern Ireland   56070
+#> 3                                               Canada   53377
+#> 4                                               France   49358
+#> 5                                              Germany   37428
 ```
 
 ### Search - collections
@@ -271,11 +265,11 @@ collections(q="university of texas", page_size=2)
 #> 
 #> $data
 #>                                 _rev                  ingestDate
-#> 1 1-b30e2458726b17265171946cae413252 2014-09-17T18:35:56.122352Z
-#> 2 1-85e81c05b7233e6d346e8f797d8aeb2f 2014-09-17T18:35:56.122352Z
-#>                                 id                             @context
-#> 1 63933324c0f7076604fef034362ce0cb http://dp.la/api/collections/context
-#> 2 d45deb62949c0b85354f5f4a31f268f1 http://dp.la/api/collections/context
+#> 1 2-ca0eead44e55ad18101fad94dcb0da30 2014-11-19T17:07:49.035876Z
+#> 2 2-ac756aeee030c9dc0249b05a5b84944f 2014-11-19T17:07:47.603442Z
+#>                               @context                               id
+#> 1 http://dp.la/api/collections/context 63933324c0f7076604fef034362ce0cb
+#> 2 http://dp.la/api/collections/context d45deb62949c0b85354f5f4a31f268f1
 #>                            title                 _id description
 #> 1            University of Texas   texas--partner:UT            
 #> 2 University of Texas at El Paso texas--partner:UTEP            
@@ -286,8 +280,8 @@ collections(q="university of texas", page_size=2)
 #> 1 http://dp.la/api/collections/63933324c0f7076604fef034362ce0cb
 #> 2 http://dp.la/api/collections/d45deb62949c0b85354f5f4a31f268f1
 #>   ingestionSequence     score validation_message valid_after_enrich
-#> 1                12 11.002326                 NA               TRUE
-#> 2                12  8.862748                 NA               TRUE
+#> 1                13 11.074110                 NA               TRUE
+#> 2                13  8.931333                 NA               TRUE
 ```
 
 You can also search in the `title` and `description` fields
@@ -319,8 +313,8 @@ collections(description="east")
 #> 1 http://dp.la/api/collections/40e1a1b275d18f21489c311b502c9bcc
 #> 2 http://dp.la/api/collections/6ac62738cc2c583eb5257b311a5ada80
 #>   ingestionSequence    score validation_message valid_after_enrich
-#> 1                13 4.560579                 NA               TRUE
-#> 2                13 1.596275                 NA               TRUE
+#> 1                13 4.637537                 NA               TRUE
+#> 2                13 1.612271                 NA               TRUE
 ```
 
 ### Visualize
