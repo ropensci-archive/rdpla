@@ -176,7 +176,9 @@ items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creator=NU
   } else {
     facdat <- proc_fac(fac)
     output <- do.call(rbind.fill, lapply(dat, getdata, flds=fields))
-    if(is.null(fields)){ list(meta=hi, data=output, facets=facdat) } else {
+    if(is.null(fields)){
+      list(meta=hi, data=output, facets=facdat)
+    } else {
       output2 <- output[,names(output) %in% fields2]
       # convert one column factor string to data.frame (happens when only one field is requested)
       if(class(output2) %in% "factor"){
