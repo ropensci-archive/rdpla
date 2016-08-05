@@ -14,9 +14,10 @@ LazyData: yes
 VignetteBuilder: knitr
 Roxygen: list(wrap = FALSE)
 Imports:
-    httr,
-    jsonlite,
-    plyr
+    httr (>= 1.2.1),
+    jsonlite (>= 1.0),
+    plyr (>= 1.8.4)
 Suggests:
-    roxygen2,
+    roxygen2 (>= 5.0.1),
     knitr
+RoxygenNote: 5.0.1

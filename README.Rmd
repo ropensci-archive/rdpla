@@ -1,5 +1,5 @@
 rdpla
-=========
+=====
 
 ```{r echo=FALSE}
 knitr::opts_chunk$set(
@@ -19,9 +19,7 @@ knitr::opts_chunk$set(
 
 Metadata from the Digital Public Library of America ([DPLA](http://dp.la/)). They have [a great API](https://github.com/dpla/platform) with good documentation - a rare thing in this world. Further documentation on their API can be found on their [search fields](http://dp.la/info/developers/codex/responses/field-reference/) and [examples of queries](http://dp.la/info/developers/codex/requests/).  Metadata schema information [here](http://dp.la/info/wp-content/uploads/2013/04/DPLA-MAP-V3.1-2.pdf). 
 
-## Quick start
-
-### Installation
+## Installation
 
 Install `rdpla` from GitHub:
 
@@ -34,11 +32,11 @@ devtools::install_github("ropensci/rdpla")
 library('rdpla')
 ```
 
-### Authentication
+## Authentication
 
 You need an API key to use the DPLA API. Use `get_key()` to request a key, which will then be emailed to you. Pass in the key in the `key` parameter in functions in this package or you can store the key in your `.Rprofile` file under the name _dplakey_, which will then be read in automatically.
 
-### Search - items
+## Search - items
 
 > Note: limiting fields returned for readme brevity.
 
@@ -99,7 +97,7 @@ items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),
       page_size=0, facet_size=5)
 ```
 
-### Search - collections
+## Search - collections
 
 Search for collections with the words _university of texas_
 
@@ -113,7 +111,7 @@ You can also search in the `title` and `description` fields
 collections(description="east")
 ```
 
-### Visualize
+## Visualize
 
 Visualize metadata from the DPLA - histogram of number of records per state (includes __states__ outside the US)
 
@@ -134,5 +132,6 @@ ggplot(out$facets$sourceResource.spatial.state$data, aes(reorder(term, count), c
 * Please [report any issues or bugs](https://github.com/ropensci/rdpla/issues).
 * License: MIT
 * Get citation information for `rdpla` in R doing `citation(package = 'rdpla')`
+* Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 [![ropensci](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
