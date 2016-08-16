@@ -5,8 +5,7 @@
 \title{Search collections from the Digital Public Library of America (DPLA).}
 \usage{
 collections(q = NULL, title = NULL, description = NULL, fields = NULL,
-  sort_by = NULL, page_size = 10, page = NULL,
-  key = getOption("dplakey"), ...)
+  sort_by = NULL, page_size = 10, page = NULL, key = NULL, ...)
 }
 \arguments{
 \item{q}{Query terms.}
@@ -26,7 +25,8 @@ is all fields. See details for options.}
 
 \item{page}{Page number to return, defaults to NULL.}
 
-\item{key}{Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
+\item{key}{Your DPLA API key. Either pass in here, store as en env var in either
+\code{.Renviron}/\code{.bash_profile}/etc., or in your \code{.Rprofile} file
 and it will be read in on function execution.}
 
 \item{...}{Curl options passed on to \code{\link[httr]{GET}}}

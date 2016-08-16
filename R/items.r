@@ -1,8 +1,5 @@
 #' Search items from the Digital Public Library of America (DPLA).
 #'
-#' @importFrom httr GET POST content warn_for_status stop_for_status
-#' @importFrom jsonlite fromJSON
-#' @importFrom plyr rbind.fill
 #' @export
 #'
 #' @param q Query terms.
@@ -42,10 +39,11 @@
 #' @param page Page number to return, defaults to NULL.
 #' @param facets Fields to facet on.
 #' @param facet_size Default to 100, maximum 2000.
-#' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
-#'    and it will be read in on function execution.
-#' @param what One of list or table (dat.frame). (Default: table)
+#' @param key Your DPLA API key. Either pass in here, store as en env var in either
+#' \code{.Renviron}/\code{.bash_profile}/etc., or in your \code{.Rprofile} file
+#' and it will be read in on function execution.
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
+#' @param what One of list or table (dat.frame). (Default: table)
 #'
 #' @details Options for the fields argument are:
 #' \itemize{
@@ -63,6 +61,7 @@
 #'  \item isPartOf The isPartOf thing, not sure what this is
 #'  \item provider The provider of the object
 #' }
+#'
 #' @return A list of length two: meta with the metadata for the call (found, offset [aka start],
 #' and page_size [number results returned]), and the resulting data.frame of results.
 #'
@@ -136,11 +135,11 @@ items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creator=NU
   sp_coordinates=NULL, sp_city=NULL, sp_county=NULL,
   sp_distance=NULL, sp_country=NULL, sp_code=NULL, sp_name=NULL, sp_region=NULL, sp_state=NULL,
   fields=NULL, sort_by=NULL, date=NULL, date_before=NULL, date_after=NULL, language=NULL,
-  page_size=100, page=NULL, facets=NULL, facet_size=100, key=getOption("dplakey"), what="table", ...)
+  page_size=100, page=NULL, facets=NULL, facet_size=100, key=NULL, what="table", ...)
 {
   fields2 <- fields
   fields <- filter_fields(fields)
-  args <- dcomp(list(api_key=key, q=q, page_size=page_size, page=page, fields=fields,
+  args <- dcomp(list(api_key=key_check(key), q=q, page_size=page_size, page=page, fields=fields,
                      provider=provider,
                      sourceResource.description=description,
                      sourceResource.title=title,

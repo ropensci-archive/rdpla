@@ -12,7 +12,7 @@ items(q = NULL, description = NULL, title = NULL, subject = NULL,
   sp_region = NULL, sp_state = NULL, fields = NULL, sort_by = NULL,
   date = NULL, date_before = NULL, date_after = NULL, language = NULL,
   page_size = 100, page = NULL, facets = NULL, facet_size = 100,
-  key = getOption("dplakey"), what = "table", ...)
+  key = NULL, what = "table", ...)
 }
 \arguments{
 \item{q}{Query terms.}
@@ -83,7 +83,8 @@ package, see \code{language_codes}.  Find out more at
 
 \item{facet_size}{Default to 100, maximum 2000.}
 
-\item{key}{Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
+\item{key}{Your DPLA API key. Either pass in here, store as en env var in either
+\code{.Renviron}/\code{.bash_profile}/etc., or in your \code{.Rprofile} file
 and it will be read in on function execution.}
 
 \item{what}{One of list or table (dat.frame). (Default: table)}

@@ -12,8 +12,9 @@
 #'    is all fields. See details for options.
 #' @param page_size Number of items to return, defaults to 10. Max of 500.
 #' @param page Page number to return, defaults to NULL.
-#' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
-#'    and it will be read in on function execution.
+#' @param key Your DPLA API key. Either pass in here, store as en env var in either
+#' \code{.Renviron}/\code{.bash_profile}/etc., or in your \code{.Rprofile} file
+#' and it will be read in on function execution.
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
 #' @return A list with a slot for metadata (meta) and data (data).
 #' @examples \donttest{
@@ -26,9 +27,9 @@
 #' }
 
 collections <- function(q=NULL, title=NULL, description=NULL, fields=NULL, sort_by=NULL,
-  page_size=10, page=NULL, key=getOption("dplakey"), ...)
+  page_size=10, page=NULL, key=NULL, ...)
 {
-  args <- dcomp(list(api_key=key, q=q, title=title, description=description, page_size=page_size, page=page, fields=fields, sort_by=sort_by))
+  args <- dcomp(list(api_key=key_check(key), q=q, title=title, description=description, page_size=page_size, page=page, fields=fields, sort_by=sort_by))
   res <- dpla_GET(paste0(dpbase(), "collections"), args, ...)
   meta <- data.frame(found=res$count, returned=res$limit, stringsAsFactors = FALSE)
   dat <- do.call(rbind.fill, lapply(res$docs, parse_coll))
