@@ -166,7 +166,7 @@ items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creator=NU
                      sourceResource.date.after=date_after,
                      facets=coll(facets), facet_size=facet_size, sort_by=sort_by))
   temp <- dpla_GET(url=paste0(dpbase(), "items"), args, ...)
-  hi <- setNames(data.frame(temp[c('count','start','limit')], stringsAsFactors = FALSE), c('found','start','returned'))
+  hi <- stats::setNames(data.frame(temp[c('count','start','limit')], stringsAsFactors = FALSE), c('found','start','returned'))
   dat <- temp$docs
   fac <- temp$facets
 
@@ -194,7 +194,7 @@ proc_fac <- function(fac){
     hitmp <- x[c('_type','total','missing','other')]
     hitmp[sapply(hitmp, is.null)] <- NA
     hitmp <- data.frame(hitmp, stringsAsFactors = FALSE)
-    fac_hi <- setNames(hitmp, c('type','total','missing','other'))
+    fac_hi <- stats::setNames(hitmp, c('type','total','missing','other'))
     getterm <- names(x)[names(x) %in% c('terms','ranges','entries')]
     dat <- do.call(rbind.fill, lapply(x[[getterm]], data.frame, stringsAsFactors = FALSE))
     list(meta=fac_hi, data=dat)
@@ -205,12 +205,12 @@ proc_fac <- function(fac){
 getdata <- function(y, flds){
    if(is.null(flds)){
     id <- y$id
-    provider <- setNames(data.frame(t(y$provider), stringsAsFactors = FALSE), c("provider_url","provider_name"))
+    provider <- stats::setNames(data.frame(t(y$provider), stringsAsFactors = FALSE), c("provider_url","provider_name"))
     score <- y$score
     url <- y$isShownAt
     sourceResource <- y$sourceResource
 #     if(length(pop(y, "id")) == 1){
-#       sourceResource_df <- data.frame(t(setNames(reduce1(pop(y, "id")), sub("sourceResource\\.", "", names(pop(y, "id"))))))
+#       sourceResource_df <- data.frame(t(stats::setNames(reduce1(pop(y, "id")), sub("sourceResource\\.", "", names(pop(y, "id"))))))
 #     } else {
 #       sourceResource_df <- process_res(sourceResource)
 #       sourceResource_df <- sourceResource_df[,!names(sourceResource_df) %in% c("id","provider")]

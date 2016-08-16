@@ -18,5 +18,7 @@ Imports:
 Suggests:
     roxygen2 (>= 5.0.1),
     knitr,
-    rmarkdown
+    rmarkdown,
+    ggplot2,
+    scales
 RoxygenNote: 5.0.1
