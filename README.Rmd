@@ -19,6 +19,15 @@ knitr::opts_chunk$set(
 
 Metadata from the Digital Public Library of America ([DPLA](http://dp.la/)). They have [a great API](https://github.com/dpla/platform) with good documentation - a rare thing in this world. Further documentation on their API can be found on their [search fields](http://dp.la/info/developers/codex/responses/field-reference/) and [examples of queries](http://dp.la/info/developers/codex/requests/).  Metadata schema information [here](http://dp.la/info/wp-content/uploads/2013/04/DPLA-MAP-V3.1-2.pdf).
 
+DPLA data data can be used for a variety of use cases in various academic and 
+non-academic fields. Here are some examples (vignettes to come soon showing examples): 
+
+* Search for all photos of churches and make vizualization of 
+their metadata through time
+* Visualize data from individual collections - a maintainer of a collection
+could gain insight from via DPLA data
+* Search for all works within a spatial area, map results
+
 ## Installation
 
 Install `rdpla` from GitHub:
