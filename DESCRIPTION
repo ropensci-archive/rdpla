@@ -1,10 +1,9 @@
 Package: rdpla
 Type: Package
-Title: Client for the Digital Public Library of America (DPLA)
-Description: Interact with the Digital Public Library of America (DPLA) REST
-    'API' from R, including search and more.
-Version: 0.0.4.9000
-Date: 2016-08-04
+Title: Client for the Digital Public Library of America ('DPLA')
+Description: Interact with the Digital Public Library of America
+    ('DPLA') 'REST' 'API' from R, including search and more.
+Version: 0.0.5.9000
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut", "cre"),
     email = "myrmecocystus@gmail.com"))
 License: MIT + file LICENSE
@@ -12,12 +11,12 @@ URL: https://github.com/ropensci/rdpla
 BugReports: https://github.com/ropensci/rdpla/issues
 LazyData: yes
 VignetteBuilder: knitr
-Roxygen: list(wrap = FALSE)
 Imports:
-    httr (>= 1.2.1),
+    httr (>= 1.2.0),
     jsonlite (>= 1.0),
     plyr (>= 1.8.4)
 Suggests:
     roxygen2 (>= 5.0.1),
-    knitr
+    knitr,
+    rmarkdown
 RoxygenNote: 5.0.1
