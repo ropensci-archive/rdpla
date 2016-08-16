@@ -14,18 +14,21 @@
 #' @param contributor Contributor
 #' @param provider Provider
 #' @param sp Query all spatial fields.
-#' @param sp_coordinates Query only coordinates. Of the form <latitude,longitude>
+#' @param sp_coordinates Query only coordinates. Of the form
+#' <latitude,longitude>
 #' @param sp_city Query by city name.
 #' @param sp_county Query by county name.
-#' @param sp_distance Distance from point defined in the \code{sp_coordinates} field
+#' @param sp_distance Distance from point defined in the \code{sp_coordinates}
+#' field
 #' @param sp_country Query by location country
-#' @param sp_code Query by ISO 3166-2 country code. Codes are included in this package, see
-#' \code{country_codes}. Find out more at \url{https://www.iso.org/obp/ui/#search}.
+#' @param sp_code Query by ISO 3166-2 country code. Codes are included in
+#' this package, see \code{country_codes}. Find out more at
+#' \url{https://www.iso.org/obp/ui/#search}.
 #' @param sp_name Location name.
 #' @param sp_region Name of a region, e.g., "Upstate New York" (literal)
 #' @param sp_state ISO 3166-2 code for a U.S. state or territory
-#' @param language One of a name of a language, or an ISO-639 code. Codes are included in this
-#' package, see \code{language_codes}.  Find out more at
+#' @param language One of a name of a language, or an ISO-639 code. Codes are
+#' included in this package, see \code{language_codes}.  Find out more at
 #' \url{http://www-01.sil.org/iso639-3/default.asp}.
 #' @param sort_by The default sort order is ascending. Most, but not all fields
 #'    can be sorted on. Attempts to sort on an un-sortable field will return
@@ -39,9 +42,9 @@
 #' @param page Page number to return, defaults to NULL.
 #' @param facets Fields to facet on.
 #' @param facet_size Default to 100, maximum 2000.
-#' @param key Your DPLA API key. Either pass in here, store as en env var in either
-#' \code{.Renviron}/\code{.bash_profile}/etc., or in your \code{.Rprofile} file
-#' and it will be read in on function execution.
+#' @param key Your DPLA API key. Either pass in here, store as en env var
+#' in either \code{.Renviron}/\code{.bash_profile}/etc., or in your
+#' \code{.Rprofile} file and it will be read in on function execution.
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
 #' @param what One of list or table (dat.frame). (Default: table)
 #'
@@ -62,8 +65,9 @@
 #'  \item provider The provider of the object
 #' }
 #'
-#' @return A list of length two: meta with the metadata for the call (found, offset [aka start],
-#' and page_size [number results returned]), and the resulting tibble (data.frame) of results
+#' @return A list of length two: meta with the metadata for the call (found,
+#' offset [aka start], and page_size [number results returned]), and the
+#' resulting tibble (data.frame) of results
 #'
 #' @examples \donttest{
 #' # Basic search, "fruit" in any fields
@@ -78,8 +82,11 @@
 #'
 #' # Max is 500 per call, but you can use combo of page_size and page params
 #' items(q="fruit", fields="id", page_size=500)$meta$returned
-#' lapply(1:2, function(x) items(q="fruit", fields="id", page_size=500, page=x)$meta$returned)
-#' out <- lapply(1:2, function(x) items(q="fruit", fields="id", page_size=500, page=x))
+#' lapply(1:2, function(x) {
+#'    items(q="fruit", fields="id", page_size=500, page=x)$meta$returned
+#' })
+#' out <- lapply(1:2, function(x) items(q="fruit", fields="id",
+#'    page_size=500, page=x))
 #' lapply(out, function(y) head(y$data))
 #'
 #' # Search by date
@@ -101,7 +108,8 @@
 #' # items(format="Electronic resource", page_size=2, fields="format")
 #'
 #' # Spatial search
-#' ## sp searches all spatial fields, or search on specific fields, see those params with sp_*
+#' ## sp searches all spatial fields, or search on specific fields, see those
+#' ## params with sp_*
 #' items(sp='Boston', page_size=2)
 #' items(sp_state='Hawaii', page_size=2)
 #' items(sp_state='Massachusetts OR Hawaii', page_size=2)
@@ -121,7 +129,8 @@
 #' # Faceting
 #' items(facets="sourceResource.format", page_size=0)
 #' items(facets="sourceResource.format", page_size=0, facet_size=5)
-#' items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),page_size=0)
+#' ids <- c("sourceResource.spatial.state","sourceResource.spatial.country")
+#' items(facets=ids, page_size=0)
 #' items(facets="sourceResource.type", page_size=0)
 #' #items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
 #' #items(facets="sourceResource.temporal.begin", page_size=0)
@@ -130,16 +139,19 @@
 #' items(facets="hasView", page_size=0)
 #' }
 
-items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creator=NULL,
-  type=NULL, publisher=NULL, format=NULL, rights=NULL, contributor=NULL, provider=NULL, sp=NULL,
-  sp_coordinates=NULL, sp_city=NULL, sp_county=NULL,
-  sp_distance=NULL, sp_country=NULL, sp_code=NULL, sp_name=NULL, sp_region=NULL, sp_state=NULL,
-  fields=NULL, sort_by=NULL, date=NULL, date_before=NULL, date_after=NULL, language=NULL,
-  page_size=100, page=NULL, facets=NULL, facet_size=100, key=NULL, what="table", ...)
-{
+items <- function(q=NULL, description=NULL, title=NULL, subject=NULL,
+  creator=NULL, type=NULL, publisher=NULL, format=NULL, rights=NULL,
+  contributor=NULL, provider=NULL, sp=NULL, sp_coordinates=NULL, sp_city=NULL,
+  sp_county=NULL, sp_distance=NULL, sp_country=NULL, sp_code=NULL,
+  sp_name=NULL, sp_region=NULL, sp_state=NULL, fields=NULL, sort_by=NULL,
+  date=NULL, date_before=NULL, date_after=NULL, language=NULL,
+  page_size=100, page=NULL, facets=NULL, facet_size=100, key=NULL,
+  what="table", ...) {
+
   fields2 <- fields
   fields <- filter_fields(fields)
-  args <- dcomp(list(api_key=key_check(key), q=q, page_size=page_size, page=page, fields=fields,
+  args <- dcomp(list(api_key=key_check(key), q=q, page_size=page_size,
+                     page=page, fields=fields,
                      provider=provider,
                      sourceResource.description=description,
                      sourceResource.title=title,
@@ -164,7 +176,8 @@ items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creator=NU
                      sourceResource.date=date,
                      sourceResource.date.before=date_before,
                      sourceResource.date.after=date_after,
-                     facets=coll(facets), facet_size=facet_size, sort_by=sort_by))
+                     facets=coll(facets), facet_size=facet_size,
+                     sort_by=sort_by))
   temp <- dpla_GET(url=paste0(dpbase(), "items"), args, ...)
   hi <- stats::setNames(
     as_data_frame(temp[c('count','start','limit')]),
@@ -207,7 +220,8 @@ proc_fac <- function(fac){
     hitmp <- as_data_frame(hitmp)
     fac_hi <- stats::setNames(hitmp, c('type','total','missing','other'))
     getterm <- names(x)[names(x) %in% c('terms','ranges','entries')]
-    dat <- as_data_frame(rbindlist(x[[getterm]], use.names = TRUE, fill = TRUE))
+    dat <- as_data_frame(rbindlist(x[[getterm]],
+                                   use.names = TRUE, fill = TRUE))
     list(meta = fac_hi, data = dat)
   })
 }
@@ -221,16 +235,15 @@ getdata <- function(y, flds){
     score <- y$score
     url <- y$isShownAt
     sourceResource <- y$sourceResource
-#     if(length(pop(y, "id")) == 1){
-#       sourceResource_df <- data.frame(t(stats::setNames(reduce1(pop(y, "id")), sub("sourceResource\\.", "", names(pop(y, "id"))))))
-#     } else {
-#       sourceResource_df <- process_res(sourceResource)
-#       sourceResource_df <- sourceResource_df[,!names(sourceResource_df) %in% c("id","provider")]
-#     }
     sourceResource_df <- process_res(sourceResource)
-    sourceResource_df <- sourceResource_df[,!names(sourceResource_df) %in% c("id","provider")]
+    sourceResource_df <-
+      sourceResource_df[,!names(sourceResource_df) %in% c("id","provider")]
     other <- process_other(y)
-    as_data_frame(cbind(data.frame(id, sourceResource_df, provider, score, url, stringsAsFactors = FALSE), other))
+    as_data_frame(
+      cbind(
+        data.frame(id, sourceResource_df, provider, score, url,
+                   stringsAsFactors = FALSE),
+        other))
   } else {
     names(y) <- gsub("sourceResource.", "", names(y))
     if (length(y) == 1) {
@@ -249,10 +262,18 @@ process_res <- function(x){
   if (is.null(id)) id <- x$id
   title <- reduce1(x$title)
   description <- reduce1(x$description)
-  subject <- if (length(x$subject)>1){paste(as.character(unlist(x$subject)), collapse = ";")} else {x$subject[[1]][["name"]]}
+  subject <- if (length(x$subject) > 1) {
+    paste(as.character(unlist(x$subject)), collapse = ";")
+  } else {
+    x$subject[[1]][["name"]]
+  }
   language <- x$language[[1]][["name"]]
   format <- reduce1(x$format)
-  collection <- if (any(names(x$collection) %in% "name")) {x$collection[["name"]]} else {"no collection name"}
+  collection <- if (any(names(x$collection) %in% "name")) {
+    x$collection[["name"]]
+  } else {
+    "no collection name"
+  }
   type <- reduce1(x$type)
   date <- x$date[[1]]
   publisher <- reduce1(x$publisher)
@@ -260,9 +281,13 @@ process_res <- function(x){
   creator <- reduce1(x$creator)
   rights <- reduce1(x$rights)
 
-  replacenull <- function(y) if (is.null(y) || length(y) == 0) "no content" else y
-  ents <- list(id,title,description,subject,language,format,collection,type,provider,publisher,creator,rights,date)
-  names(ents) <- c("id","title","description","subject","language","format","collection","type","provider","publisher","creator","rights","date")
+  replacenull <-
+    function(y) if (is.null(y) || length(y) == 0) "no content" else y
+  ents <- list(id,title,description,subject,language,format,
+               collection,type,provider,publisher,creator,rights,date)
+  names(ents) <- c("id","title","description","subject","language","format",
+                   "collection","type","provider","publisher","creator",
+                   "rights","date")
   ents <- lapply(ents, replacenull)
   as_data_frame(ents)
 }
@@ -270,7 +295,8 @@ process_res <- function(x){
 process_other <- function(x){
   # FIXME
   ## Still need to give back fields: @context, originalRecord
-  get <- c('dataProvider','@type','object','ingestionSequence','ingestDate','_rev','aggregatedCHO','_id','ingestType','@id')
+  get <- c('dataProvider','@type','object','ingestionSequence',
+           'ingestDate','_rev', 'aggregatedCHO','_id','ingestType','@id')
   have <- x[ names(x) %in% get ]
   df <- as_data_frame(have)
   names(df) <- names(have)
@@ -285,11 +311,13 @@ reduce1 <- function(x){
 filter_fields <- function(fields){
   if (!is.null(fields)) {
     fieldsfunc <- function(x) {
-      if (x %in% c("title","description","subject","creator","type","publisher",
-                  "format","rights","contributor","date",
+      if (x %in% c("title","description","subject","creator","type",
+                   "publisher", "format","rights","contributor","date",
                   "spatial","spatial.coordinates","spatial.city",
-                  "spatial.county","spatial.distance","spatial.country","spatial.iso3166-2",
-                  "spatial.name","spatial.region","spatial.state","language")) {
+                  "spatial.county","spatial.distance","spatial.country",
+                  "spatial.iso3166-2",
+                  "spatial.name","spatial.region",
+                  "spatial.state","language")) {
         paste("sourceResource.", x, sep = "")
       } else {
         x

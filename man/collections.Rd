@@ -25,9 +25,9 @@ is all fields. See details for options.}
 
 \item{page}{Page number to return, defaults to NULL.}
 
-\item{key}{Your DPLA API key. Either pass in here, store as en env var in either
-\code{.Renviron}/\code{.bash_profile}/etc., or in your \code{.Rprofile} file
-and it will be read in on function execution.}
+\item{key}{Your DPLA API key. Either pass in here, store as en env var
+in either \code{.Renviron}/\code{.bash_profile}/etc., or in your
+\code{.Rprofile} file and it will be read in on function execution.}
 
 \item{...}{Curl options passed on to \code{\link[httr]{GET}}}
 }

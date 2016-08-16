@@ -39,18 +39,21 @@ items(q = NULL, description = NULL, title = NULL, subject = NULL,
 
 \item{sp}{Query all spatial fields.}
 
-\item{sp_coordinates}{Query only coordinates. Of the form <latitude,longitude>}
+\item{sp_coordinates}{Query only coordinates. Of the form
+<latitude,longitude>}
 
 \item{sp_city}{Query by city name.}
 
 \item{sp_county}{Query by county name.}
 
-\item{sp_distance}{Distance from point defined in the \code{sp_coordinates} field}
+\item{sp_distance}{Distance from point defined in the \code{sp_coordinates}
+field}
 
 \item{sp_country}{Query by location country}
 
-\item{sp_code}{Query by ISO 3166-2 country code. Codes are included in this package, see
-\code{country_codes}. Find out more at \url{https://www.iso.org/obp/ui/#search}.}
+\item{sp_code}{Query by ISO 3166-2 country code. Codes are included in
+this package, see \code{country_codes}. Find out more at
+\url{https://www.iso.org/obp/ui/#search}.}
 
 \item{sp_name}{Location name.}
 
@@ -71,8 +74,8 @@ the standard error structure with a HTTP 400 status code.}
 
 \item{date_after}{Date after}
 
-\item{language}{One of a name of a language, or an ISO-639 code. Codes are included in this
-package, see \code{language_codes}.  Find out more at
+\item{language}{One of a name of a language, or an ISO-639 code. Codes are
+included in this package, see \code{language_codes}.  Find out more at
 \url{http://www-01.sil.org/iso639-3/default.asp}.}
 
 \item{page_size}{Number of items to return, defaults to 100. Max of 500.}
@@ -83,17 +86,18 @@ package, see \code{language_codes}.  Find out more at
 
 \item{facet_size}{Default to 100, maximum 2000.}
 
-\item{key}{Your DPLA API key. Either pass in here, store as en env var in either
-\code{.Renviron}/\code{.bash_profile}/etc., or in your \code{.Rprofile} file
-and it will be read in on function execution.}
+\item{key}{Your DPLA API key. Either pass in here, store as en env var
+in either \code{.Renviron}/\code{.bash_profile}/etc., or in your
+\code{.Rprofile} file and it will be read in on function execution.}
 
 \item{what}{One of list or table (dat.frame). (Default: table)}
 
 \item{...}{Curl options passed on to \code{\link[httr]{GET}}}
 }
 \value{
-A list of length two: meta with the metadata for the call (found, offset [aka start],
-and page_size [number results returned]), and the resulting tibble (data.frame) of results
+A list of length two: meta with the metadata for the call (found,
+offset [aka start], and page_size [number results returned]), and the
+resulting tibble (data.frame) of results
 }
 \description{
 Search items from the Digital Public Library of America (DPLA).
@@ -130,8 +134,11 @@ items(q="fruit", fields="subject")
 
 # Max is 500 per call, but you can use combo of page_size and page params
 items(q="fruit", fields="id", page_size=500)$meta$returned
-lapply(1:2, function(x) items(q="fruit", fields="id", page_size=500, page=x)$meta$returned)
-out <- lapply(1:2, function(x) items(q="fruit", fields="id", page_size=500, page=x))
+lapply(1:2, function(x) {
+   items(q="fruit", fields="id", page_size=500, page=x)$meta$returned
+})
+out <- lapply(1:2, function(x) items(q="fruit", fields="id",
+   page_size=500, page=x))
 lapply(out, function(y) head(y$data))
 
 # Search by date
@@ -153,7 +160,8 @@ items(provider="HathiTrust", page_size=2, fields="provider")
 # items(format="Electronic resource", page_size=2, fields="format")
 
 # Spatial search
-## sp searches all spatial fields, or search on specific fields, see those params with sp_*
+## sp searches all spatial fields, or search on specific fields, see those
+## params with sp_*
 items(sp='Boston', page_size=2)
 items(sp_state='Hawaii', page_size=2)
 items(sp_state='Massachusetts OR Hawaii', page_size=2)
@@ -173,7 +181,8 @@ items(fields=c("id","title"), page_size=10, sort_by="sourceResource.title")
 # Faceting
 items(facets="sourceResource.format", page_size=0)
 items(facets="sourceResource.format", page_size=0, facet_size=5)
-items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),page_size=0)
+ids <- c("sourceResource.spatial.state","sourceResource.spatial.country")
+items(facets=ids, page_size=0)
 items(facets="sourceResource.type", page_size=0)
 #items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
 #items(facets="sourceResource.temporal.begin", page_size=0)
