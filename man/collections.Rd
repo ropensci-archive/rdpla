@@ -32,7 +32,7 @@ and it will be read in on function execution.}
 \item{...}{Curl options passed on to \code{\link[httr]{GET}}}
 }
 \value{
-A list with a slot for metadata (meta) and data (data).
+A list with a slot for metadata (meta) and data (a tibble/data.frame).
 }
 \description{
 Search collections from the Digital Public Library of America (DPLA).

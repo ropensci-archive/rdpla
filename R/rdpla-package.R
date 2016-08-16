@@ -1,23 +1,17 @@
 #' R Client for the Digital Public Library of America (DPLA).
 #'
+#' @description Interact with the Digital Public Library of America (DPLA)
+#' REST API from R, including search.
 #' @name rdpla-package
 #' @aliases rdpla
-#' @description Interact with the Digital Public Library of America (DPLA) REST API from R,
-#' including search, etc, etc.
 #' @docType package
-#' @details
-#' \tabular{ll}{
-#'  Package: \tab rdpla\cr
-#'  Type: \tab Package\cr
-#'  Version: \tab 0.0.1.99\cr
-#'  Date: \tab 2014-10-28\cr
-#'  License: \tab MIT\cr
-#' }
 #' @author Scott Chamberlain
 #' @importFrom httr GET POST content warn_for_status stop_for_status
 #' @importFrom jsonlite fromJSON
-#' @importFrom plyr rbind.fill
-#' @examples \donttest{
+#' @importFrom data.table rbindlist
+#' @importFrom tibble as_data_frame data_frame
+#'
+#' @examples \dontrun{
 #' print("foo")
 #' }
 NULL

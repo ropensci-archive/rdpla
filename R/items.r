@@ -63,7 +63,7 @@
 #' }
 #'
 #' @return A list of length two: meta with the metadata for the call (found, offset [aka start],
-#' and page_size [number results returned]), and the resulting data.frame of results.
+#' and page_size [number results returned]), and the resulting tibble (data.frame) of results
 #'
 #' @examples \donttest{
 #' # Basic search, "fruit" in any fields
@@ -84,7 +84,7 @@
 #'
 #' # Search by date
 #' out <- items(q="science", date_before=1900, page_size=200)
-#' head(out$data)
+#' out$data
 #'
 #' # Search by various fields
 #' items(description="obituaries", page_size=2, fields="description")
@@ -123,8 +123,8 @@
 #' items(facets="sourceResource.format", page_size=0, facet_size=5)
 #' items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),page_size=0)
 #' items(facets="sourceResource.type", page_size=0)
-#' items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
-#' items(facets="sourceResource.temporal.begin", page_size=0)
+#' #items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
+#' #items(facets="sourceResource.temporal.begin", page_size=0)
 #' items(facets="provider.name", page_size=0)
 #' items(facets="isPartOf", page_size=0)
 #' items(facets="hasView", page_size=0)
@@ -166,25 +166,36 @@ items <- function(q=NULL, description=NULL, title=NULL, subject=NULL, creator=NU
                      sourceResource.date.after=date_after,
                      facets=coll(facets), facet_size=facet_size, sort_by=sort_by))
   temp <- dpla_GET(url=paste0(dpbase(), "items"), args, ...)
-  hi <- stats::setNames(data.frame(temp[c('count','start','limit')], stringsAsFactors = FALSE), c('found','start','returned'))
+  hi <- stats::setNames(
+    as_data_frame(temp[c('count','start','limit')]),
+    c('found','start','returned')
+  )
   dat <- temp$docs
   fac <- temp$facets
 
-  if(what == "list"){
-    structure(list(meta=hi, data=dat, facets=fac))
+  if (what == "list") {
+    structure(list(meta = hi, data = dat, facets = fac))
   } else {
     facdat <- proc_fac(fac)
-    output <- do.call(rbind.fill, lapply(dat, getdata, flds=fields))
-    if(is.null(fields)){
-      list(meta=hi, data=output, facets=facdat)
+    output <- as_data_frame(
+      rbindlist(
+        lapply(dat, getdata, flds = fields),
+        use.names = TRUE, fill = TRUE
+      )
+    )
+    if (is.null(fields)) {
+      list(meta = hi, data = output, facets = facdat)
     } else {
       output2 <- output[,names(output) %in% fields2]
-      # convert one column factor string to data.frame (happens when only one field is requested)
-      if(class(output2) %in% "factor"){
+      # convert one column factor string to data.frame
+      # (happens when only one field is requested)
+      if (class(output2) %in% "factor") {
         output3 <- data.frame(output2)
         names(output3) <- fields2
-        list(meta=hi, data=output3, facets=facdat)
-      } else { list(meta=hi, data=output2, facets=facdat) }
+        list(meta = hi, data = output3, facets = facdat)
+      } else {
+        list(meta = hi, data = output2, facets = facdat)
+      }
     }
   }
 }
@@ -193,19 +204,20 @@ proc_fac <- function(fac){
   lapply(fac, function(x){
     hitmp <- x[c('_type','total','missing','other')]
     hitmp[sapply(hitmp, is.null)] <- NA
-    hitmp <- data.frame(hitmp, stringsAsFactors = FALSE)
+    hitmp <- as_data_frame(hitmp)
     fac_hi <- stats::setNames(hitmp, c('type','total','missing','other'))
     getterm <- names(x)[names(x) %in% c('terms','ranges','entries')]
-    dat <- do.call(rbind.fill, lapply(x[[getterm]], data.frame, stringsAsFactors = FALSE))
-    list(meta=fac_hi, data=dat)
+    dat <- as_data_frame(rbindlist(x[[getterm]], use.names = TRUE, fill = TRUE))
+    list(meta = fac_hi, data = dat)
   })
 }
 
 # function to process data for each element
 getdata <- function(y, flds){
-   if(is.null(flds)){
+   if (is.null(flds)) {
     id <- y$id
-    provider <- stats::setNames(data.frame(t(y$provider), stringsAsFactors = FALSE), c("provider_url","provider_name"))
+    provider <- stats::setNames(as_data_frame(y$provider),
+                                c("provider_url","provider_name"))
     score <- y$score
     url <- y$isShownAt
     sourceResource <- y$sourceResource
@@ -218,28 +230,29 @@ getdata <- function(y, flds){
     sourceResource_df <- process_res(sourceResource)
     sourceResource_df <- sourceResource_df[,!names(sourceResource_df) %in% c("id","provider")]
     other <- process_other(y)
-    cbind(data.frame(id, sourceResource_df, provider, score, url, stringsAsFactors = FALSE), other)
+    as_data_frame(cbind(data.frame(id, sourceResource_df, provider, score, url, stringsAsFactors = FALSE), other))
   } else {
     names(y) <- gsub("sourceResource.", "", names(y))
-    if(length(y)==1) {
+    if (length(y) == 1) {
       onetemp <- list(y[[1]])
       onename <- names(y)
       names(onetemp) <- eval(onename)
       process_res(onetemp)
-    } else
-    { process_res(y) }
+    } else {
+      process_res(y)
+    }
   }
 }
 
 process_res <- function(x){
   id <- reduce1(x$identifier)
-  if(is.null(id)) id <- x$id
+  if (is.null(id)) id <- x$id
   title <- reduce1(x$title)
   description <- reduce1(x$description)
-  subject <- if(length(x$subject)>1){paste(as.character(unlist(x$subject)), collapse=";")} else {x$subject[[1]][["name"]]}
+  subject <- if (length(x$subject)>1){paste(as.character(unlist(x$subject)), collapse = ";")} else {x$subject[[1]][["name"]]}
   language <- x$language[[1]][["name"]]
   format <- reduce1(x$format)
-  collection <- if(any(names(x$collection) %in% "name")) {x$collection[["name"]]} else {"no collection name"}
+  collection <- if (any(names(x$collection) %in% "name")) {x$collection[["name"]]} else {"no collection name"}
   type <- reduce1(x$type)
   date <- x$date[[1]]
   publisher <- reduce1(x$publisher)
@@ -247,37 +260,43 @@ process_res <- function(x){
   creator <- reduce1(x$creator)
   rights <- reduce1(x$rights)
 
-  replacenull <- function(y) if(is.null(y) || length(y) == 0) "no content" else y
+  replacenull <- function(y) if (is.null(y) || length(y) == 0) "no content" else y
   ents <- list(id,title,description,subject,language,format,collection,type,provider,publisher,creator,rights,date)
   names(ents) <- c("id","title","description","subject","language","format","collection","type","provider","publisher","creator","rights","date")
   ents <- lapply(ents, replacenull)
-  data.frame(ents, stringsAsFactors = FALSE)
+  as_data_frame(ents)
 }
+
 process_other <- function(x){
   # FIXME
   ## Still need to give back fields: @context, originalRecord
   get <- c('dataProvider','@type','object','ingestionSequence','ingestDate','_rev','aggregatedCHO','_id','ingestType','@id')
   have <- x[ names(x) %in% get ]
-  df <- data.frame(have, stringsAsFactors = FALSE)
+  df <- as_data_frame(have)
   names(df) <- names(have)
   df
 }
 
 reduce1 <- function(x){
   x <- unlist(x)
-  if(length(x) > 1) paste(as.character(x), collapse=";") else x
+  if (length(x) > 1) paste(as.character(x), collapse = ";") else x
 }
 
 filter_fields <- function(fields){
-  if(!is.null(fields)){
-    fieldsfunc <- function(x){
-      if(x %in% c("title","description","subject","creator","type","publisher",
+  if (!is.null(fields)) {
+    fieldsfunc <- function(x) {
+      if (x %in% c("title","description","subject","creator","type","publisher",
                   "format","rights","contributor","date",
                   "spatial","spatial.coordinates","spatial.city",
                   "spatial.county","spatial.distance","spatial.country","spatial.iso3166-2",
                   "spatial.name","spatial.region","spatial.state","language")) {
-        paste("sourceResource.", x, sep="") } else { x }
+        paste("sourceResource.", x, sep = "")
+      } else {
+        x
+      }
     }
-    paste(sapply(fields, fieldsfunc, USE.NAMES=FALSE), collapse=",")
-  } else { NULL }
+    paste(sapply(fields, fieldsfunc, USE.NAMES = FALSE), collapse = ",")
+  } else {
+    NULL
+  }
 }

@@ -16,7 +16,7 @@
 #' \code{.Renviron}/\code{.bash_profile}/etc., or in your \code{.Rprofile} file
 #' and it will be read in on function execution.
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
-#' @return A list with a slot for metadata (meta) and data (data).
+#' @return A list with a slot for metadata (meta) and data (a tibble/data.frame).
 #' @examples \donttest{
 #' collections(q="university")
 #' collections(q="university of texas", page_size=2)
@@ -31,15 +31,17 @@ collections <- function(q=NULL, title=NULL, description=NULL, fields=NULL, sort_
 {
   args <- dcomp(list(api_key=key_check(key), q=q, title=title, description=description, page_size=page_size, page=page, fields=fields, sort_by=sort_by))
   res <- dpla_GET(paste0(dpbase(), "collections"), args, ...)
-  meta <- data.frame(found=res$count, returned=res$limit, stringsAsFactors = FALSE)
-  dat <- do.call(rbind.fill, lapply(res$docs, parse_coll))
-  list(meta=meta, data=dat)
+  meta <- data_frame(found = res$count, returned = res$limit)
+  dat <- as_data_frame(
+    rbindlist(lapply(res$docs, parse_coll), use.names = TRUE, fill = TRUE)
+  )
+  list(meta = meta, data = dat)
 }
 
 parse_coll <- function(x){
   admin <- sapply(x$admin, ifn)
   x <- pop(x, "admin")
-  df <- data.frame(lapply(x, ifn), stringsAsFactors = FALSE)
+  df <- as_data_frame(lapply(x, ifn))
   names(df) <- as.character(names(x))
   cbind(df, t(admin))
 }

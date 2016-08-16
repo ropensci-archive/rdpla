@@ -14,7 +14,8 @@ VignetteBuilder: knitr
 Imports:
     httr (>= 1.2.0),
     jsonlite (>= 1.0),
-    plyr (>= 1.8.4)
+    tibble,
+    data.table
 Suggests:
     roxygen2 (>= 5.0.1),
     knitr,

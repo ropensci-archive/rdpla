@@ -6,20 +6,11 @@
 \alias{rdpla-package}
 \title{R Client for the Digital Public Library of America (DPLA).}
 \description{
-Interact with the Digital Public Library of America (DPLA) REST API from R,
-including search, etc, etc.
-}
-\details{
-\tabular{ll}{
- Package: \tab rdpla\cr
- Type: \tab Package\cr
- Version: \tab 0.0.1.99\cr
- Date: \tab 2014-10-28\cr
- License: \tab MIT\cr
-}
+Interact with the Digital Public Library of America (DPLA)
+REST API from R, including search.
 }
 \examples{
-\donttest{
+\dontrun{
 print("foo")
 }
 }

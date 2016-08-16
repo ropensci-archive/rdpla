@@ -93,7 +93,7 @@ and it will be read in on function execution.}
 }
 \value{
 A list of length two: meta with the metadata for the call (found, offset [aka start],
-and page_size [number results returned]), and the resulting data.frame of results.
+and page_size [number results returned]), and the resulting tibble (data.frame) of results
 }
 \description{
 Search items from the Digital Public Library of America (DPLA).
@@ -136,7 +136,7 @@ lapply(out, function(y) head(y$data))
 
 # Search by date
 out <- items(q="science", date_before=1900, page_size=200)
-head(out$data)
+out$data
 
 # Search by various fields
 items(description="obituaries", page_size=2, fields="description")
@@ -175,8 +175,8 @@ items(facets="sourceResource.format", page_size=0)
 items(facets="sourceResource.format", page_size=0, facet_size=5)
 items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),page_size=0)
 items(facets="sourceResource.type", page_size=0)
-items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
-items(facets="sourceResource.temporal.begin", page_size=0)
+#items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
+#items(facets="sourceResource.temporal.begin", page_size=0)
 items(facets="provider.name", page_size=0)
 items(facets="isPartOf", page_size=0)
 items(facets="hasView", page_size=0)
