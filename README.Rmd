@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 `rdpla`: R client for Digital Public Library of America
 
-Metadata from the Digital Public Library of America ([DPLA](http://dp.la/)). They have [a great API](https://github.com/dpla/platform) with good documentation - a rare thing in this world. Further documentation on their API can be found on their [search fields](http://dp.la/info/developers/codex/responses/field-reference/) and [examples of queries](http://dp.la/info/developers/codex/requests/).  Metadata schema information [here](http://dp.la/info/wp-content/uploads/2013/04/DPLA-MAP-V3.1-2.pdf). 
+Metadata from the Digital Public Library of America ([DPLA](http://dp.la/)). They have [a great API](https://github.com/dpla/platform) with good documentation - a rare thing in this world. Further documentation on their API can be found on their [search fields](http://dp.la/info/developers/codex/responses/field-reference/) and [examples of queries](http://dp.la/info/developers/codex/requests/).  Metadata schema information [here](http://dp.la/info/wp-content/uploads/2013/04/DPLA-MAP-V3.1-2.pdf).
 
 ## Installation
 
@@ -43,57 +43,57 @@ You need an API key to use the DPLA API. Use `get_key()` to request a key, which
 Basic search
 
 ```{r}
-items(q="fruit", page_size=5, fields=c("provider","creator"))
+dpla_items(q="fruit", page_size=5, fields=c("provider","creator"))
 ```
 
 Limit fields returned
 
 ```{r}
-items(q="fruit", page_size = 10, fields=c("publisher","format"))
+dpla_items(q="fruit", page_size = 10, fields=c("publisher","format"))
 ```
 
 Limit records returned
 
 ```{r}
-items(q="fruit", page_size=2, fields=c("provider","title"))
+dpla_items(q="fruit", page_size=2, fields=c("provider","title"))
 ```
 
 Search by date
 
 ```{r}
-items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
+dpla_items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
 ```
 
 Search on specific fields
 
 ```{r}
-items(description="obituaries", page_size=2, fields="description")
+dpla_items(description="obituaries", page_size=2, fields="description")
 ```
 
 ```{r}
-items(subject="yodeling", page_size=2, fields="subject")
+dpla_items(subject="yodeling", page_size=2, fields="subject")
 ```
 
 ```{r}
-items(provider="HathiTrust", page_size=2, fields="provider")
+dpla_items(provider="HathiTrust", page_size=2, fields="provider")
 ```
 
-Spatial search, across all spatial fields 
+Spatial search, across all spatial fields
 
 ```{r}
-items(sp='Boston', page_size=2, fields=c("id","provider"))
+dpla_items(sp='Boston', page_size=2, fields=c("id","provider"))
 ```
 
 Spatial search, by states
 
 ```{r}
-items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provider"))
+dpla_items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provider"))
 ```
 
 Faceted search
 
 ```{r}
-items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),
+dpla_items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),
       page_size=0, facet_size=5)
 ```
 
@@ -102,13 +102,13 @@ items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),
 Search for collections with the words _university of texas_
 
 ```{r}
-collections(q="university of texas", page_size=2)
+dpla_collections(q="university of texas", page_size=2)
 ```
 
 You can also search in the `title` and `description` fields
 
 ```{r}
-collections(description="east")
+dpla_collections(description="east")
 ```
 
 ## Visualize
@@ -116,14 +116,14 @@ collections(description="east")
 Visualize metadata from the DPLA - histogram of number of records per state (includes __states__ outside the US)
 
 ```{r tidy=FALSE}
-out <- items(facets="sourceResource.spatial.state", page_size=0, facet_size=25)
+out <- dpla_items(facets="sourceResource.spatial.state", page_size=0, facet_size=25)
 library("ggplot2")
 library("scales")
 ggplot(out$facets$sourceResource.spatial.state$data, aes(reorder(term, count), count)) +
   geom_bar(stat="identity") +
-  coord_flip() + 
+  coord_flip() +
   theme_grey(base_size = 16) +
-  scale_y_continuous(labels = comma) + 
+  scale_y_continuous(labels = comma) +
   labs(x="State", y="Records")
 ```
 

@@ -50,96 +50,96 @@
 #'
 #' @details Options for the fields argument are:
 #' \itemize{
-#'  \item id The item id
-#'  \item title The title of the object
-#'  \item decription The description of the object
-#'  \item subject The subjects of the object
-#'  \item creator The creator of the object
-#'  \item type The type of the object
-#'  \item publisher The publisher of the object
-#'  \item format The format of the object
-#'  \item rights The rights for the object
-#'  \item contributor The contributor of the object
-#'  \item spatial The spatial of the object
-#'  \item isPartOf The isPartOf thing, not sure what this is
-#'  \item provider The provider of the object
+#'  \item \code{id} The item id
+#'  \item \code{title} The title of the object
+#'  \item \code{decription} The description of the object
+#'  \item \code{subject} The subjects of the object
+#'  \item \code{creator} The creator of the object
+#'  \item \code{type} The type of the object
+#'  \item \code{publisher} The publisher of the object
+#'  \item \code{format} The format of the object
+#'  \item \code{rights} The rights for the object
+#'  \item \code{contributor} The contributor of the object
+#'  \item \code{spatial} The spatial of the object
+#'  \item \code{isPartOf} The isPartOf thing, not sure what this is
+#'  \item \code{provider} The provider of the object
 #' }
 #'
 #' @return A list of length two: meta with the metadata for the call (found,
 #' offset [aka start], and page_size [number results returned]), and the
 #' resulting tibble (data.frame) of results
 #'
-#' @examples \donttest{
+#' @examples \dontrun{
 #' # Basic search, "fruit" in any fields
-#' items(q="fruit")
+#' dpla_items(q="fruit")
 #'
 #' # Limit records returned
-#' items(q="fruit", page_size=2)
+#' dpla_items(q="fruit", page_size=2)
 #'
 #' # Return certain fields
-#' items(q="fruit", fields=c("id","publisher","format"))
-#' items(q="fruit", fields="subject")
+#' dpla_items(q="fruit", fields=c("id","publisher","format"))
+#' dpla_items(q="fruit", fields="subject")
 #'
 #' # Max is 500 per call, but you can use combo of page_size and page params
-#' items(q="fruit", fields="id", page_size=500)$meta$returned
+#' dpla_items(q="fruit", fields="id", page_size=500)$meta$returned
 #' lapply(1:2, function(x) {
-#'    items(q="fruit", fields="id", page_size=500, page=x)$meta$returned
+#'    dpla_items(q="fruit", fields="id", page_size=500, page=x)$meta$returned
 #' })
-#' out <- lapply(1:2, function(x) items(q="fruit", fields="id",
+#' out <- lapply(1:2, function(x) dpla_items(q="fruit", fields="id",
 #'    page_size=500, page=x))
 #' lapply(out, function(y) head(y$data))
 #'
 #' # Search by date
-#' out <- items(q="science", date_before=1900, page_size=200)
+#' out <- dpla_items(q="science", date_before=1900, page_size=200)
 #' out$data
 #'
 #' # Search by various fields
-#' items(description="obituaries", page_size=2, fields="description")
-#' items(title="obituaries", page_size=2, fields="title")
-#' items(subject="yodeling", page_size=2, fields="subject")
-#' items(creator="Holst-Van der Schalk", page_size=2, fields="creator")
-#' items(type="text", page_size=2, fields="type")
-#' items(publisher="Leningrad", page_size=2, fields="publisher")
-#' items(rights="unrestricted", page_size=2, fields="rights")
-#' items(provider="HathiTrust", page_size=2, fields="provider")
+#' dpla_items(description="obituaries", page_size=2, fields="description")
+#' dpla_items(title="obituaries", page_size=2, fields="title")
+#' dpla_items(subject="yodeling", page_size=2, fields="subject")
+#' dpla_items(creator="Holst-Van der Schalk", page_size=2, fields="creator")
+#' dpla_items(type="text", page_size=2, fields="type")
+#' dpla_items(publisher="Leningrad", page_size=2, fields="publisher")
+#' dpla_items(rights="unrestricted", page_size=2, fields="rights")
+#' dpla_items(provider="HathiTrust", page_size=2, fields="provider")
 #'
 #' ## don't seem to work
-#' # items(contributor="Smithsonian", page_size=2, fields="contributor")
-#' # items(format="Electronic resource", page_size=2, fields="format")
+#' # dpla_items(contributor="Smithsonian", page_size=2, fields="contributor")
+#' # dpla_items(format="Electronic resource", page_size=2, fields="format")
 #'
 #' # Spatial search
 #' ## sp searches all spatial fields, or search on specific fields, see those
 #' ## params with sp_*
-#' items(sp='Boston', page_size=2)
-#' items(sp_state='Hawaii', page_size=2)
-#' items(sp_state='Massachusetts OR Hawaii', page_size=2)
-#' items(sp_coordinates='40,-100', page_size=2)
-#' items(sp_country='Canada', page_size=2)
-#' items(sp_county='Sacramento', page_size=2)
+#' dpla_items(sp='Boston', page_size=2)
+#' dpla_items(sp_state='Hawaii', page_size=2)
+#' dpla_items(sp_state='Massachusetts OR Hawaii', page_size=2)
+#' dpla_items(sp_coordinates='40,-100', page_size=2)
+#' dpla_items(sp_country='Canada', page_size=2)
+#' dpla_items(sp_county='Sacramento', page_size=2)
 #'
 #' # Language search
-#' items(language='Russian')$meta
-#' items(language='rus')$meta
-#' items(language='English')$meta
+#' dpla_items(language='Russian')$meta
+#' dpla_items(language='rus')$meta
+#' dpla_items(language='English')$meta
 #'
 #' # Sorting
-#' items(fields=c("id","title"), page_size=10)
-#' items(fields=c("id","title"), page_size=10, sort_by="sourceResource.title")
+#' dpla_items(fields=c("id","title"), page_size=10)
+#' dpla_items(fields=c("id","title"), page_size=10, sort_by="sourceResource.title")
 #'
 #' # Faceting
-#' items(facets="sourceResource.format", page_size=0)
-#' items(facets="sourceResource.format", page_size=0, facet_size=5)
+#' dpla_items(facets="sourceResource.format", page_size=0)
+#' dpla_items(facets="sourceResource.format", page_size=0, facet_size=5)
 #' ids <- c("sourceResource.spatial.state","sourceResource.spatial.country")
-#' items(facets=ids, page_size=0)
-#' items(facets="sourceResource.type", page_size=0)
-#' #items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
-#' #items(facets="sourceResource.temporal.begin", page_size=0)
-#' items(facets="provider.name", page_size=0)
-#' items(facets="isPartOf", page_size=0)
-#' items(facets="hasView", page_size=0)
+#' dpla_items(facets=ids, page_size=0)
+#' dpla_items(facets="sourceResource.type", page_size=0)
+#' #dpla_items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
+#' #dpla_items(facets="sourceResource.temporal.begin", page_size=0)
+#' dpla_items(facets="provider.name", page_size=0)
+#' dpla_items(facets="isPartOf", page_size=0)
+#' dpla_items(facets="hasView", page_size=0)
 #' }
 
-items <- function(q=NULL, description=NULL, title=NULL, subject=NULL,
+dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL,
   creator=NULL, type=NULL, publisher=NULL, format=NULL, rights=NULL,
   contributor=NULL, provider=NULL, sp=NULL, sp_coordinates=NULL, sp_city=NULL,
   sp_county=NULL, sp_distance=NULL, sp_country=NULL, sp_code=NULL,
@@ -148,6 +148,7 @@ items <- function(q=NULL, description=NULL, title=NULL, subject=NULL,
   page_size=100, page=NULL, facets=NULL, facet_size=100, key=NULL,
   what="table", ...) {
 
+  if (!what %in% c('table', 'list')) stop("what must be one of 'table' or 'list'", call. = FALSE)
   fields2 <- fields
   fields <- filter_fields(fields)
   args <- dcomp(list(api_key=key_check(key), q=q, page_size=page_size,
@@ -178,7 +179,7 @@ items <- function(q=NULL, description=NULL, title=NULL, subject=NULL,
                      sourceResource.date.after=date_after,
                      facets=coll(facets), facet_size=facet_size,
                      sort_by=sort_by))
-  temp <- dpla_GET(url=paste0(dpbase(), "items"), args, ...)
+  temp <- dpla_GET(url = paste0(dpbase(), "items"), args, ...)
   hi <- stats::setNames(
     as_data_frame(temp[c('count','start','limit')]),
     c('found','start','returned')
@@ -239,11 +240,10 @@ getdata <- function(y, flds){
     sourceResource_df <-
       sourceResource_df[,!names(sourceResource_df) %in% c("id","provider")]
     other <- process_other(y)
-    as_data_frame(
-      cbind(
-        data.frame(id, sourceResource_df, provider, score, url,
-                   stringsAsFactors = FALSE),
-        other))
+    df <- data.frame(id, sourceResource_df, provider, url,
+               stringsAsFactors = FALSE)
+    if (!is.null(score)) df$score <- score
+    as_data_frame(cbind(df, other))
   } else {
     names(y) <- gsub("sourceResource.", "", names(y))
     if (length(y) == 1) {

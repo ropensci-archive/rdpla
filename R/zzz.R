@@ -4,11 +4,16 @@ dpbase <- function() "http://api.dp.la/v2/"
 
 dpla_GET <- function(url, args, ...){
   tt <- GET(url, query = args, ...)
-  warn_for_status(tt)
-  stopifnot(tt$headers$`content-type` == "application/json; charset=utf-8")
-  res <- content(tt, as = "text", encoding = "UTF-8")
-  jsonlite::fromJSON(res, simplifyVector = TRUE, simplifyDataFrame = FALSE,
-                     simplifyMatrix = FALSE)
+  err_catch(tt)
+}
+
+`%||%` <- function(x, y) {
+  if (is.null(x) || nchar(x) == 0) {
+    y
+  }
+  else {
+    x
+  }
 }
 
 ifn <- function(x) if (is.null(x)) NA else x
@@ -23,5 +28,28 @@ key_check <- function(x) {
     getOption("dpla_api_key", stop("need an API key for DPLA", call. = FALSE))
   } else {
     tmp
+  }
+}
+
+err_catch <- function(x) {
+  if (!inherits(x, "response")) stop("object not of class 'response'", call. = FALSE)
+  if (x$status_code > 201) {
+    xx <- content(x, as = "text", encoding = "UTF-8")
+    res <- tryCatch(jsonlite::fromJSON(xx), error = function(e) e)
+    if (inherits(res, "error")) {
+      stop(xx, call. = FALSE)
+    } else {
+      stop(res$message, call. = FALSE)
+    }
+  } else {
+    stopifnot(x$headers$`content-type` == "application/json; charset=utf-8")
+    txt <- content(x, as = "text", encoding = "UTF-8")
+    res <- tryCatch(jsonlite::fromJSON(txt), error = function(e) e)
+    if (inherits(res, "error")) {
+      stop(txt, call. = FALSE)
+    } else {
+      jsonlite::fromJSON(txt, simplifyVector = TRUE, simplifyDataFrame = FALSE,
+                         simplifyMatrix = FALSE)
+    }
   }
 }

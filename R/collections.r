@@ -16,22 +16,24 @@
 #' in either \code{.Renviron}/\code{.bash_profile}/etc., or in your
 #' \code{.Rprofile} file and it will be read in on function execution.
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
+#'
 #' @return A list with a slot for metadata (meta) and data (a tibble/data.frame).
-#' @examples \donttest{
-#' collections(q="university")
-#' collections(q="university of texas", page_size=2)
-#' collections(q="university of texas", fields='id', page_size=2)
-#' collections(q="university of texas", sort_by='title', page_size=5)
-#' collections(title="paso")
-#' collections(description="east")
+#'
+#' @examples \dontrun{
+#' dpla_collections(q="university", config=verbose())
+#' dpla_collections(q="university of texas", page_size=2)
+#' dpla_collections(q="university of texas", fields='id', page_size=2)
+#' dpla_collections(q="university of texas", sort_by='title', page_size=5)
+#' dpla_collections(title="paso")
+#' dpla_collections(description="east")
 #' }
 
-collections <- function(q=NULL, title=NULL, description=NULL, fields=NULL,
+dpla_collections <- function(q=NULL, title=NULL, description=NULL, fields=NULL,
   sort_by=NULL, page_size=10, page=NULL, key=NULL, ...) {
 
   args <- dcomp(list(api_key=key_check(key), q=q, title=title,
                      description=description, page_size=page_size,
-                     page=page, fields=fields, sort_by=sort_by))
+                     page=page, fields = paste0(fields, collapse = ",") %||% NULL, sort_by=sort_by))
   res <- dpla_GET(paste0(dpbase(), "collections"), args, ...)
   meta <- data_frame(found = res$count, returned = res$limit)
   dat <- as_data_frame(
