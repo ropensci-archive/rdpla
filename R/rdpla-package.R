@@ -14,6 +14,9 @@
 #'  License: \tab MIT\cr
 #' }
 #' @author Scott Chamberlain
+#' @importFrom httr GET POST content warn_for_status stop_for_status
+#' @importFrom jsonlite fromJSON
+#' @importFrom plyr rbind.fill
 #' @examples \donttest{
 #' print("foo")
 #' }
