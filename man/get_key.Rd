@@ -9,13 +9,21 @@ get_key(email, ...)
 \arguments{
 \item{email}{(character) An email address.}
 
-\item{...}{Curl options passed on to \code{\link[httr]{POST}}, eg., \code{\link[httr]{verbose}}}
+\item{...}{Curl options passed on to \code{\link[httr]{POST}}, eg.,
+\code{\link[httr]{verbose}}}
 }
 \value{
-On success, a message that your API key will be emailed to you.
+On success, a message that your API key will be emailed
+to you.
 }
 \description{
 Request an API key from the Digital Public Library of America (DPLA).
+}
+\details{
+After getting your key, pass in the key in the `key` parameter
+in functions in this package OR you can store the key in your
+`.Renviron` as `DPLA_API_KEY` or in your `.Rprofile` file under
+the name `dpla_api_key`
 }
 \examples{
 \donttest{

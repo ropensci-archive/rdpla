@@ -10,10 +10,6 @@
 #' @importFrom jsonlite fromJSON
 #' @importFrom data.table rbindlist
 #' @importFrom tibble as_data_frame data_frame
-#'
-#' @examples \dontrun{
-#' print("foo")
-#' }
 NULL
 
 #' Metadata providers data.frame.

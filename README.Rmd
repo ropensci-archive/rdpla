@@ -43,7 +43,7 @@ library('rdpla')
 
 ## Authentication
 
-You need an API key to use the DPLA API. Use `get_key()` to request a key, which will then be emailed to you. Pass in the key in the `key` parameter in functions in this package or you can store the key in your `.Rprofile` file under the name `DPLA_API_KEY`, which will then be read in automatically.
+You need an API key to use the DPLA API. Use `get_key()` to request a key, which will then be emailed to you. Pass in the key in the `key` parameter in functions in this package or you can store the key in your `.Renviron` as `DPLA_API_KEY` or in your `.Rprofile` file under the name `dpla_api_key`.
 
 ## Search - items
 

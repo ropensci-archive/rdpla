@@ -9,11 +9,6 @@
 Interact with the Digital Public Library of America (DPLA)
 REST API from R, including search.
 }
-\examples{
-\dontrun{
-print("foo")
-}
-}
 \author{
 Scott Chamberlain
 }
