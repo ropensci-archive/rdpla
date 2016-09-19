@@ -203,7 +203,7 @@ dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL,
       output2 <- output[,names(output) %in% fields2]
       # convert one column factor string to data.frame
       # (happens when only one field is requested)
-      if (class(output2) %in% "factor") {
+      if ("factor" %in% class(output2)) {
         output3 <- data.frame(output2)
         names(output3) <- fields2
         list(meta = hi, data = output3, facets = facdat)
