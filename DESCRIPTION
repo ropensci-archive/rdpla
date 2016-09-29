@@ -3,7 +3,7 @@ Type: Package
 Title: Client for the Digital Public Library of America ('DPLA')
 Description: Interact with the Digital Public Library of America
     ('DPLA') 'REST' 'API' from R, including search and more.
-Version: 0.0.7.9500
+Version: 0.0.9.9000
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut", "cre"),
     email = "myrmecocystus@gmail.com"))
 License: MIT + file LICENSE
@@ -22,6 +22,7 @@ Suggests:
     rmarkdown,
     testthat,
     ggplot2,
+    lubridate,
     scales,
     covr
 RoxygenNote: 5.0.1
