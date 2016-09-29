@@ -63,9 +63,15 @@
 #'  \item \code{provider} The provider of the object
 #' }
 #'
-#' @return A list of length two: meta with the metadata for the call (found,
-#' offset [aka start], and page_size [number results returned]), and the
-#' resulting tibble (data.frame) of results
+#' @return A list of length three:
+#' \itemize{
+#'  \item meta - with the metadata for the call (found, offset [aka start],
+#'  and page_size [number results returned])
+#'  \item data - tibble (data.frame) of results
+#'  \item facets - list of same length as number of facets requested,
+#'  each with a list of length two with a meta tibble/data.frame, and
+#'  a data tibble/data.frame
+#' }
 #'
 #' @examples \dontrun{
 #' # Basic search, "fruit" in any fields

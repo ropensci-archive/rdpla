@@ -93,9 +93,15 @@ included in this package, see \code{language_codes}.  Find out more at
 \item{...}{Curl options passed on to \code{\link[httr]{GET}}}
 }
 \value{
-A list of length two: meta with the metadata for the call (found,
-offset [aka start], and page_size [number results returned]), and the
-resulting tibble (data.frame) of results
+A list of length three:
+\itemize{
+ \item meta - with the metadata for the call (found, offset [aka start],
+ and page_size [number results returned])
+ \item data - tibble (data.frame) of results
+ \item facets - list of same length as number of facets requested,
+ each with a list of length two with a meta tibble/data.frame, and
+ a data tibble/data.frame
+}
 }
 \description{
 Search items from the Digital Public Library of America (DPLA).
