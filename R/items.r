@@ -42,9 +42,7 @@
 #' @param page Page number to return, defaults to NULL.
 #' @param facets Fields to facet on.
 #' @param facet_size Default to 100, maximum 2000.
-#' @param key Your DPLA API key. Either pass in here, store as en env var
-#' in either \code{.Renviron}/\code{.bash_profile}/etc., or in your
-#' \code{.Rprofile} file and it will be read in on function execution.
+#' @param key (character) Your DPLA API key. See \code{\link{dpla_get_key}}
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
 #' @param what One of list or table (dat.frame). (Default: table)
 #'
@@ -181,7 +179,7 @@ dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL,
                      sort_by=sort_by))
   temp <- dpla_GET(url = paste0(dpbase(), "items"), args, ...)
   hi <- stats::setNames(
-    as_data_frame(temp[c('count','start','limit')]),
+    tibble::as_data_frame(temp[c('count','start','limit')]),
     c('found','start','returned')
   )
   dat <- temp$docs
@@ -191,8 +189,8 @@ dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL,
     structure(list(meta = hi, data = dat, facets = fac))
   } else {
     facdat <- proc_fac(fac)
-    output <- as_data_frame(
-      rbindlist(
+    output <- tibble::as_data_frame(
+      data.table::rbindlist(
         lapply(dat, getdata, flds = fields),
         use.names = TRUE, fill = TRUE
       )
@@ -218,10 +216,10 @@ proc_fac <- function(fac){
   lapply(fac, function(x){
     hitmp <- x[c('_type','total','missing','other')]
     hitmp[sapply(hitmp, is.null)] <- NA
-    hitmp <- as_data_frame(hitmp)
+    hitmp <- tibble::as_data_frame(hitmp)
     fac_hi <- stats::setNames(hitmp, c('type','total','missing','other'))
     getterm <- names(x)[names(x) %in% c('terms','ranges','entries')]
-    dat <- as_data_frame(rbindlist(x[[getterm]],
+    dat <- tibble::as_data_frame(data.table::rbindlist(x[[getterm]],
                                    use.names = TRUE, fill = TRUE))
     list(meta = fac_hi, data = dat)
   })
@@ -231,7 +229,7 @@ proc_fac <- function(fac){
 getdata <- function(y, flds){
    if (is.null(flds)) {
     id <- y$id
-    provider <- stats::setNames(as_data_frame(y$provider),
+    provider <- stats::setNames(tibble::as_data_frame(y$provider),
                                 c("provider_url","provider_name"))
     score <- y$score
     url <- y$isShownAt
@@ -243,7 +241,7 @@ getdata <- function(y, flds){
     df <- data.frame(id, sourceResource_df, provider, url,
                stringsAsFactors = FALSE)
     if (!is.null(score)) df$score <- score
-    as_data_frame(cbind(df, other))
+    tibble::as_data_frame(cbind(df, other))
   } else {
     names(y) <- gsub("sourceResource.", "", names(y))
     if (length(y) == 1) {
@@ -289,7 +287,7 @@ process_res <- function(x){
                    "collection","type","provider","publisher","creator",
                    "rights","date")
   ents <- lapply(ents, replacenull)
-  as_data_frame(ents)
+  tibble::as_data_frame(ents)
 }
 
 process_other <- function(x){
@@ -298,7 +296,7 @@ process_other <- function(x){
   get <- c('dataProvider','@type','object','ingestionSequence',
            'ingestDate','_rev', 'aggregatedCHO','_id','ingestType','@id')
   have <- x[ names(x) %in% get ]
-  df <- as_data_frame(have)
+  df <- tibble::as_data_frame(have)
   names(df) <- names(have)
   df
 }

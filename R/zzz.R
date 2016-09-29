@@ -3,7 +3,7 @@ dcomp <- function(x) Filter(Negate(is.null), x)
 dpbase <- function() "http://api.dp.la/v2/"
 
 dpla_GET <- function(url, args, ...){
-  tt <- GET(url, query = args, ...)
+  tt <- httr::GET(url, query = args, ...)
   err_catch(tt)
 }
 
@@ -34,7 +34,7 @@ key_check <- function(x) {
 err_catch <- function(x) {
   if (!inherits(x, "response")) stop("object not of class 'response'", call. = FALSE)
   if (x$status_code > 201) {
-    xx <- content(x, as = "text", encoding = "UTF-8")
+    xx <- contt(x)
     res <- tryCatch(jsonlite::fromJSON(xx), error = function(e) e)
     if (inherits(res, "error")) {
       stop(xx, call. = FALSE)
@@ -43,7 +43,7 @@ err_catch <- function(x) {
     }
   } else {
     stopifnot(x$headers$`content-type` == "application/json; charset=utf-8")
-    txt <- content(x, as = "text", encoding = "UTF-8")
+    txt <- contt(x)
     res <- tryCatch(jsonlite::fromJSON(txt), error = function(e) e)
     if (inherits(res, "error")) {
       stop(txt, call. = FALSE)
@@ -52,4 +52,8 @@ err_catch <- function(x) {
                          simplifyMatrix = FALSE)
     }
   }
+}
+
+contt <- function(x) {
+  httr::content(x, as = "text", encoding = "UTF-8")
 }

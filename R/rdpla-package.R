@@ -2,14 +2,14 @@
 #'
 #' @description Interact with the Digital Public Library of America (DPLA)
 #' REST API from R, including search.
+#'
+#' @section Authentication:
+#' See \code{\link{dpla_get_key}} for authentication help.
+#'
 #' @name rdpla-package
 #' @aliases rdpla
 #' @docType package
 #' @author Scott Chamberlain
-#' @importFrom httr GET POST content warn_for_status stop_for_status
-#' @importFrom jsonlite fromJSON
-#' @importFrom data.table rbindlist
-#' @importFrom tibble as_data_frame data_frame
 NULL
 
 #' Metadata providers data.frame.

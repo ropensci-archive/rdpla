@@ -8,17 +8,23 @@
 #' @return On success, a message that your API key will be emailed
 #' to you.
 #'
-#' @details After getting your key, pass in the key in the `key` parameter
-#' in functions in this package OR you can store the key in your
-#' `.Renviron` as `DPLA_API_KEY` or in your `.Rprofile` file under
-#' the name `dpla_api_key`
+#' @details You are required to have an API key to use \pkg{rdpla}. To get one,
+#' use \code{dpla_get_key} for getting a key programatically.
+#' After getting the key, you can pass the key as a parameter to \pkg{rdpla}
+#' functions, but we recommend storing the key on your machine, since not
+#' exposing your key in your files that may end up on the web is good
+#' practice. Store your key either as an environment variable in your
+#' \code{.Renviron} file or similar like \code{DPLA_API_KEY=<yourkey>},
+#' or as an R option in your \code{.Rprofile} file like
+#' \code{options(dpla_api_key = "<yourkey>")}. Either will be read in
+#' when you call \pkg{rdpla} functions. Make sure to restart your R session
+#' after storing your key as either env var or R option.
 #'
-#' @examples \donttest{
-#' get_key(email="stuff@@thing.com")
-#' get_key(email="scott.chamberlain@@berkeley.edu")
+#' @examples \dontrun{
+#' # dpla_get_key(email="stuff@@thing.com")
 #' }
-
-get_key <- function(email, ...) {
-  res <- POST(paste0('http://api.dp.la/v2/api_key/', email), ...)
-  message(content(res)$message)
+dpla_get_key <- function(email, ...) {
+  res <- httr::POST(paste0('http://api.dp.la/v2/api_key/', email), ...)
+  httr::stop_for_status(res)
+  message(contt(res)$message)
 }

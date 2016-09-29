@@ -9,43 +9,50 @@ dpla_collections(q = NULL, title = NULL, description = NULL,
   key = NULL, ...)
 }
 \arguments{
-\item{q}{Query terms.}
+\item{q}{(character) Query terms.}
 
-\item{title}{Query in the title field}
+\item{title}{(character) Query in the title field}
 
-\item{description}{Query in the description field}
+\item{description}{(character) Query in the description field}
 
-\item{fields}{A vector of the fields to return in the output. The default}
+\item{fields}{(character) A vector of the fields to return in the output.
+The default is all fields. See \code{\link{dpla_fields}} for options.}
 
-\item{sort_by}{The default sort order is ascending. Most, but not all fields
-can be sorted on. Attempts to sort on an un-sortable field will return
-the standard error structure with a HTTP 400 status code.
-is all fields. See details for options.}
+\item{sort_by}{(character) The default sort order is ascending. Most, but
+not all fields can be sorted on. Attempts to sort on an un-sortable field
+will return the standard error structure with a HTTP 400 status code.}
 
-\item{page_size}{Number of items to return, defaults to 10. Max of 500.}
+\item{page_size}{(integer) Number of items to return. Default: 10. Max: 500.}
 
-\item{page}{Page number to return, defaults to NULL.}
+\item{page}{(integer) Page number to return. Default: \code{NULL} (which
+means this parameter is not passed to DPLA, so they default to \strong{1})}
 
-\item{key}{Your DPLA API key. Either pass in here, store as en env var
-in either \code{.Renviron}/\code{.bash_profile}/etc., or in your
-\code{.Rprofile} file and it will be read in on function execution.}
+\item{key}{(character) Your DPLA API key. See \code{\link{dpla_get_key}}}
 
 \item{...}{Curl options passed on to \code{\link[httr]{GET}}}
 }
 \value{
-A list with a slot for metadata (meta) and data (a tibble/data.frame).
+A list with two slots:
+\itemize{
+ \item meta - a tibble/data.frame of metadata for the response
+ \item data - a tibble/data.frame of the data; empty data.frame
+ if no data matches your request
+}
 }
 \description{
 Search collections from the Digital Public Library of America (DPLA).
 }
 \examples{
 \dontrun{
-dpla_collections(q="university", config=verbose())
 dpla_collections(q="university of texas", page_size=2)
 dpla_collections(q="university of texas", fields='id', page_size=2)
 dpla_collections(q="university of texas", sort_by='title', page_size=5)
 dpla_collections(title="paso")
 dpla_collections(description="east")
+
+# use curl options
+library("httr")
+dpla_collections(q="university", config = httr::verbose())
 }
 }
 

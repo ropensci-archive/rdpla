@@ -9,6 +9,10 @@
 Interact with the Digital Public Library of America (DPLA)
 REST API from R, including search.
 }
+\section{Authentication}{
+
+See \code{\link{dpla_get_key}} for authentication help.
+}
 \author{
 Scott Chamberlain
 }

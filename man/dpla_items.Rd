@@ -86,9 +86,7 @@ included in this package, see \code{language_codes}.  Find out more at
 
 \item{facet_size}{Default to 100, maximum 2000.}
 
-\item{key}{Your DPLA API key. Either pass in here, store as en env var
-in either \code{.Renviron}/\code{.bash_profile}/etc., or in your
-\code{.Rprofile} file and it will be read in on function execution.}
+\item{key}{(character) Your DPLA API key. See \code{\link{dpla_get_key}}}
 
 \item{what}{One of list or table (dat.frame). (Default: table)}
 
