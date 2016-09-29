@@ -24,6 +24,9 @@ knitr::opts_chunk$set(
 
 Metadata from the Digital Public Library of America ([DPLA](http://dp.la/)). They have [a great API](https://github.com/dpla/platform) with good documentation - a rare thing in this world. Further documentation on their API can be found on their [search fields](http://dp.la/info/developers/codex/responses/field-reference/) and [examples of queries](http://dp.la/info/developers/codex/requests/).  Metadata schema information [here](http://dp.la/info/wp-content/uploads/2013/04/DPLA-MAP-V3.1-2.pdf).
 
+Note that you can only run examples/vignette/tests if you have an API key. See below for an example of how
+to get an API key.
+
 ## Installation
 
 Install from CRAN
@@ -45,6 +48,18 @@ Load `rdpla`
 
 ```{r}
 library("rdpla")
+```
+
+## API key
+
+If you already have a DPLA API key, make sure it's in your `.Renviron` or `.Rprofile` file. 
+
+If you don't have a DPLA API key, use the `dpla_get_key()` function to get a key. 
+You only need a valid email address to get a key, for example:
+
+```{r eval=FALSE}
+dpla_get_key(email = "foo@bar.com")
+#> API key created and sent via email. Be sure to check your Spam folder, too.
 ```
 
 ## Search - items

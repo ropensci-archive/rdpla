@@ -26,5 +26,5 @@
 dpla_get_key <- function(email, ...) {
   res <- httr::POST(paste0('http://api.dp.la/v2/api_key/', email), ...)
   httr::stop_for_status(res)
-  message(contt(res)$message)
+  message(jsonlite::fromJSON(contt(res))$message)
 }
