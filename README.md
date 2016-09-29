@@ -3,7 +3,9 @@ rdpla
 
 
 
-[![Build Status](https://api.travis-ci.org/ropensci/rdpla.png)](https://travis-ci.org/ropensci/rdpla)
+[![Build Status](https://travis-ci.org/ropensci/rdpla.svg?branch=master)](https://travis-ci.org/ropensci/rdpla)
+[![codecov](https://codecov.io/gh/ropensci/rdpla/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/rdpla)
+
 
 `rdpla`: R client for Digital Public Library of America
 
@@ -50,17 +52,18 @@ dpla_items(q="fruit", page_size=5, fields=c("provider","creator"))
 #> # A tibble: 1 × 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 27015     0        5
+#> 1 27162     0        5
 #> 
 #> $data
 #> # A tibble: 5 × 2
-#>                        provider                         creator
-#>                           <chr>                           <chr>
-#> 1 Mountain West Digital Library                      no content
-#> 2 Mountain West Digital Library                      no content
-#> 3 Mountain West Digital Library                      no content
-#> 4   The New York Public Library Anderson, Alexander (1775-1870)
-#> 5   The New York Public Library Anderson, Alexander (1775-1870)
+#>                        provider
+#>                           <chr>
+#> 1 Mountain West Digital Library
+#> 2 Mountain West Digital Library
+#> 3 Mountain West Digital Library
+#> 4 Mountain West Digital Library
+#> 5   The New York Public Library
+#> # ... with 1 more variables: creator <chr>
 #> 
 #> $facets
 #> list()
@@ -75,22 +78,22 @@ dpla_items(q="fruit", page_size = 10, fields=c("publisher","format"))
 #> # A tibble: 1 × 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 27015     0       10
+#> 1 27162     0       10
 #> 
 #> $data
 #> # A tibble: 10 × 2
-#>        format  publisher
-#>         <chr>      <chr>
-#> 1  no content no content
-#> 2  no content no content
-#> 3  no content no content
-#> 4  no content no content
-#> 5  no content no content
-#> 6  no content no content
-#> 7  no content no content
-#> 8  no content no content
-#> 9  no content no content
-#> 10 no content no content
+#>                     format  publisher
+#>                      <chr>      <chr>
+#> 1               no content no content
+#> 2               no content no content
+#> 3               no content no content
+#> 4               no content no content
+#> 5               no content no content
+#> 6               no content no content
+#> 7               no content no content
+#> 8  Chromogenic color print no content
+#> 9               no content no content
+#> 10              no content no content
 #> 
 #> $facets
 #> list()
@@ -105,7 +108,7 @@ dpla_items(q="fruit", page_size=2, fields=c("provider","title"))
 #> # A tibble: 1 × 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 27015     0        2
+#> 1 27162     0        2
 #> 
 #> $data
 #> # A tibble: 2 × 2
@@ -127,7 +130,7 @@ dpla_items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
 #> # A tibble: 1 × 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 50830     0       10
+#> 1 50843     0       10
 #> 
 #> $data
 #> # A tibble: 10 × 2
@@ -219,7 +222,7 @@ dpla_items(sp='Boston', page_size=2, fields=c("id","provider"))
 #> # A tibble: 1 × 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 75966     0        2
+#> 1 75970     0        2
 #> 
 #> $data
 #> # A tibble: 2 × 2
@@ -265,7 +268,7 @@ dpla_items(facets=c("sourceResource.spatial.state","sourceResource.spatial.count
 #> # A tibble: 1 × 3
 #>      found start returned
 #>      <int> <int>    <int>
-#> 1 13997962     0        0
+#> 1 14037948     0        0
 #> 
 #> $data
 #> # A tibble: 0 × 0
@@ -276,7 +279,7 @@ dpla_items(facets=c("sourceResource.spatial.state","sourceResource.spatial.count
 #> # A tibble: 1 × 4
 #>    type   total  missing   other
 #>   <chr>   <int>    <int>   <int>
-#> 1 terms 4014977 10438104 2211661
+#> 1 terms 4014977 10478090 2211661
 #> 
 #> $facets$sourceResource.spatial.state$data
 #> # A tibble: 5 × 2
@@ -294,7 +297,7 @@ dpla_items(facets=c("sourceResource.spatial.state","sourceResource.spatial.count
 #> # A tibble: 1 × 4
 #>    type   total missing  other
 #>   <chr>   <int>   <int>  <int>
-#> 1 terms 4609034 9633049 793115
+#> 1 terms 4609034 9673035 793115
 #> 
 #> $facets$sourceResource.spatial.country$data
 #> # A tibble: 5 × 2
