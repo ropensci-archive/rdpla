@@ -22,5 +22,6 @@ Suggests:
     rmarkdown,
     testthat,
     ggplot2,
-    scales
+    scales,
+    covr
 RoxygenNote: 5.0.1
