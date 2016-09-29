@@ -30,6 +30,9 @@ their metadata through time
 could gain insight from via DPLA data
 * Search for all works within a spatial area, map results
 
+Note that you can only run examples/vignette/tests if you have an API key. See 
+`?dpla_get_key` to get an API key.
+
 ## Installation
 
 Install `rdpla` from GitHub:
