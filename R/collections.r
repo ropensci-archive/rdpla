@@ -38,18 +38,25 @@
 dpla_collections <- function(q=NULL, title=NULL, description=NULL, fields=NULL,
   sort_by=NULL, page_size=10, page=NULL, key=NULL, ...) {
 
+  res <- dpla_collections_(q, title, description, fields, sort_by,
+                           page_size, page, key, ...)
+  meta <- tibble::data_frame(found = res$count, returned = res$limit)
+  dat <- tibble::as_data_frame(
+    data.table::rbindlist(lapply(res$docs, parse_coll), use.names = TRUE, fill = TRUE)
+  )
+  list(meta = meta, data = dat)
+}
+
+dpla_collections_ <- function(q=NULL, title=NULL, description=NULL, fields=NULL,
+  sort_by=NULL, page_size=10, page=NULL, key=NULL, ...) {
+
   args <- dcomp(list(
     api_key = key_check(key), q = q, title = title,
     description = description, page_size = page_size,
     page = page, fields = paste0(fields, collapse = ",") %||% NULL,
     sort_by = sort_by
   ))
-  res <- dpla_GET(paste0(dpbase(), "collections"), args, ...)
-  meta <- tibble::data_frame(found = res$count, returned = res$limit)
-  dat <- tibble::as_data_frame(
-    data.table::rbindlist(lapply(res$docs, parse_coll), use.names = TRUE, fill = TRUE)
-  )
-  list(meta = meta, data = dat)
+  dpla_GET(paste0(dpbase(), "collections"), args, ...)
 }
 
 parse_coll <- function(x){

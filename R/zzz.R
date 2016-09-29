@@ -1,5 +1,14 @@
 dcomp <- function(x) Filter(Negate(is.null), x)
 
+pluck <- function(x, name, type) {
+  if (missing(type)) {
+    lapply(x, "[[", name)
+  }
+  else {
+    vapply(x, "[[", name, FUN.VALUE = type)
+  }
+}
+
 dpbase <- function() "http://api.dp.la/v2/"
 
 dpla_GET <- function(url, args, ...){

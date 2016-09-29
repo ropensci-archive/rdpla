@@ -152,44 +152,22 @@ dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL,
   page_size=100, page=NULL, facets=NULL, facet_size=100, key=NULL,
   what="table", ...) {
 
-  if (!what %in% c('table', 'list')) stop("what must be one of 'table' or 'list'", call. = FALSE)
+  if (!what %in% c('table', 'list')) {
+    stop("what must be one of 'table' or 'list'", call. = FALSE)
+  }
   fields2 <- fields
-  fields <- filter_fields(fields)
-  args <- dcomp(list(api_key=key_check(key), q=q, page_size=page_size,
-                     page=page, fields=fields,
-                     provider=provider,
-                     sourceResource.description=description,
-                     sourceResource.title=title,
-                     sourceResource.subject=subject,
-                     sourceResource.creator=creator,
-                     sourceResource.type=type,
-                     sourceResource.publisher=publisher,
-                     sourceResource.format=format,
-                     sourceResource.rights=rights,
-                     sourceResource.contributor=contributor,
-                     sourceResource.spatial=sp,
-                     sourceResource.spatial.coordinates=sp_coordinates,
-                     sourceResource.spatial.city=sp_city,
-                     sourceResource.spatial.county=sp_county,
-                     sourceResource.spatial.distance=sp_distance,
-                     sourceResource.spatial.country=sp_country,
-                     `sourceResource.spatial.iso3166-2`=sp_code,
-                     sourceResource.spatial.name=sp_name,
-                     sourceResource.spatial.region=sp_region,
-                     sourceResource.spatial.state=sp_state,
-                     sourceResource.language=language,
-                     sourceResource.date=date,
-                     sourceResource.date.before=date_before,
-                     sourceResource.date.after=date_after,
-                     facets=coll(facets), facet_size=facet_size,
-                     sort_by=sort_by))
-  temp <- dpla_GET(url = paste0(dpbase(), "items"), args, ...)
+  tmp <- dpla_items_(
+    key, q, page_size, page, fields, provider, description, title, subject,
+    creator, type, publisher, format, rights, contributor, sp, sp_coordinates,
+    sp_city, sp_county, sp_distance, sp_country, sp_code, sp_name,
+    sp_region, sp_state, language, date, date_before, date_after, facets,
+    facet_size, sort_by, ...)
   hi <- stats::setNames(
-    tibble::as_data_frame(temp[c('count','start','limit')]),
+    tibble::as_data_frame(tmp[c('count','start','limit')]),
     c('found','start','returned')
   )
-  dat <- temp$docs
-  fac <- temp$facets
+  dat <- tmp$docs
+  fac <- tmp$facets
 
   if (what == "list") {
     structure(list(meta = hi, data = dat, facets = fac))
@@ -208,7 +186,7 @@ dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL,
       # convert one column factor string to data.frame
       # (happens when only one field is requested)
       if ("factor" %in% class(output2)) {
-        output3 <- data.frame(output2)
+        output3 <- tibble::as_data_frame(output2)
         names(output3) <- fields2
         list(meta = hi, data = output3, facets = facdat)
       } else {
@@ -216,6 +194,48 @@ dpla_items <- function(q=NULL, description=NULL, title=NULL, subject=NULL,
       }
     }
   }
+}
+
+dpla_items_ <- function(key=NULL, q=NULL, page_size=100, page=NULL,
+  fields=NULL, provider=NULL, description=NULL, title=NULL, subject=NULL,
+  creator=NULL, type=NULL, publisher=NULL, format=NULL, rights=NULL,
+  contributor=NULL, sp=NULL, sp_coordinates=NULL, sp_city=NULL, sp_county=NULL,
+  sp_distance=NULL, sp_country=NULL, sp_code=NULL, sp_name=NULL, sp_region=NULL,
+  sp_state=NULL, language=NULL, date=NULL, date_before=NULL, date_after=NULL,
+  facets=NULL, facet_size=100, sort_by=NULL, ...) {
+
+  fields <- filter_fields(fields)
+  args <- dcomp(list(
+    api_key = key_check(key), q = q, page_size = page_size,
+    page = page, fields = fields,
+    provider = provider,
+    sourceResource.description = description,
+    sourceResource.title = title,
+    sourceResource.subject = subject,
+    sourceResource.creator = creator,
+    sourceResource.type = type,
+    sourceResource.publisher = publisher,
+    sourceResource.format = format,
+    sourceResource.rights = rights,
+    sourceResource.contributor = contributor,
+    sourceResource.spatial = sp,
+    sourceResource.spatial.coordinates = sp_coordinates,
+    sourceResource.spatial.city = sp_city,
+    sourceResource.spatial.county = sp_county,
+    sourceResource.spatial.distance = sp_distance,
+    sourceResource.spatial.country = sp_country,
+    `sourceResource.spatial.iso3166-2` = sp_code,
+    sourceResource.spatial.name = sp_name,
+    sourceResource.spatial.region = sp_region,
+    sourceResource.spatial.state = sp_state,
+    sourceResource.language = language,
+    sourceResource.date = date,
+    sourceResource.date.before = date_before,
+    sourceResource.date.after = date_after,
+    facets = coll(facets), facet_size = facet_size,
+    sort_by = sort_by
+  ))
+  dpla_GET(url = paste0(dpbase(), "items"), args, ...)
 }
 
 proc_fac <- function(fac){
