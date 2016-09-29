@@ -3,6 +3,9 @@
 #' @description Interact with the Digital Public Library of America (DPLA)
 #' REST API from R, including search.
 #'
+#' For an introduction to \pkg{rdpla}, see the vignette
+#' \strong{Introduction to rdpla}
+#'
 #' @section Authentication:
 #' See \code{\link{dpla_get_key}} for authentication help.
 #'

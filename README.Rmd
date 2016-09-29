@@ -19,7 +19,15 @@ knitr::opts_chunk$set(
 
 `rdpla`: R client for Digital Public Library of America
 
-Metadata from the Digital Public Library of America ([DPLA](http://dp.la/)). They have [a great API](https://github.com/dpla/platform) with good documentation - a rare thing in this world. Further documentation on their API can be found on their [search fields](http://dp.la/info/developers/codex/responses/field-reference/) and [examples of queries](http://dp.la/info/developers/codex/requests/).  Metadata schema information [here](http://dp.la/info/wp-content/uploads/2013/04/DPLA-MAP-V3.1-2.pdf).
+[Digital Public Library of America][dpla] brings together metadata from libraries, archives,
+and museums in the US, and makes it freely available via their web portal as well as 
+an API. DPLA's portal and API don't provide the items themselves from contributing 
+institutions, but they provide links to make it easy to find things. The kinds of 
+things DPLA holds metadata for include images of works held in museums, photographs
+from various photographic collections, texts, sounds, and moving images. 
+
+DPLA has [a great API](https://github.com/dpla/platform) with good documentation - 
+a rare thing in this world. Further documentation on their API can be found on their [search fields](https://dp.la/info/developers/codex/responses/field-reference/) and [examples of queries](https://dp.la/info/developers/codex/requests/).  Metadata schema information [here](https://dp.la/info/wp-content/uploads/2013/04/DPLA-MAP-V3.1-2.pdf).
 
 DPLA data data can be used for a variety of use cases in various academic and 
 non-academic fields. Here are some examples (vignettes to come soon showing examples): 
@@ -29,6 +37,15 @@ their metadata through time
 * Visualize data from individual collections - a maintainer of a collection
 could gain insight from via DPLA data
 * Search for all works within a spatial area, map results
+
+DPLA API has two main services (quoting from [their API docs](https://dp.la/info/developers/codex/requests/)):
+
+* items: A reference to the digital representation of a single piece of content indexed by 
+the DPLA. The piece of content can be, for example, a book, a photograph, a video, etc. The 
+content is digitized from its original, physical source and uploaded to an online repository. 
+* collections: A collection is a little more abstract than an item. Where an item is a 
+reference to the digital representation of a physical object, a collection is a 
+representation of the grouping of a set of items.
 
 Note that you can only run examples/vignette/tests if you have an API key. See 
 `?dpla_get_key` to get an API key.
@@ -149,3 +166,6 @@ ggplot(out$facets$sourceResource.spatial.state$data, aes(reorder(term, count), c
 * Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 [![ropensci](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
+
+[dpla]: https://dp.la
+
