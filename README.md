@@ -40,9 +40,24 @@ representation of the grouping of a set of items.
 Note that you can only run examples/vignette/tests if you have an API key. See 
 `?dpla_get_key` to get an API key.
 
+## Tutorials
+
+There are two vignettes. After installation check them out. If installing from 
+GitHub, do `devtools::install_github("ropensci/rdpla", build_vignettes = TRUE)`
+
+* Introduction to rdpla
+* rdpla use case: vizualize churches across DPLA holdings
+
 ## Installation
 
-Install `rdpla` from GitHub:
+Stable version from CRAN
+
+
+```r
+install.packages("rdpla")
+```
+
+Dev version from GitHub:
 
 
 ```r
@@ -395,7 +410,7 @@ ggplot(out$facets$sourceResource.spatial.state$data, aes(reorder(term, count), c
   labs(x="State", y="Records")
 ```
 
-![](inst/img/unnamed-chunk-16-1.png)
+![](inst/img/unnamed-chunk-17-1.png)
 
 ## Meta
 

@@ -50,6 +50,14 @@ representation of the grouping of a set of items.
 Note that you can only run examples/vignette/tests if you have an API key. See 
 `?dpla_get_key` to get an API key.
 
+## Tutorials
+
+There are two vignettes. After installation check them out. If installing from 
+GitHub, do `devtools::install_github("ropensci/rdpla", build_vignettes = TRUE)`
+
+* Introduction to rdpla
+* rdpla use case: vizualize churches across DPLA holdings
+
 ## Installation
 
 Stable version from CRAN
