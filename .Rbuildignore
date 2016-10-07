@@ -3,3 +3,4 @@
 README.Rmd
 ^.*\.yml
 ^CONDUCT\.md$
+^cran-comments\.md$
