@@ -2,76 +2,70 @@
 #'
 #' @export
 #'
-#' @param q Query terms.
-#' @param description Object description.
-#' @param title Object title.
-#' @param subject Subject.
-#' @param creator Creator
-#' @param type Type of object
-#' @param publisher PUblisher
-#' @param format Format
-#' @param rights Rights
-#' @param contributor Contributor
-#' @param provider Provider
-#' @param sp Query all spatial fields.
-#' @param sp_coordinates Query only coordinates. Of the form
+#' @param q (character) Query terms.
+#' @param description (character) Object description.
+#' @param title (character) Object title.
+#' @param subject (character) Subject area
+#' @param creator (character) Creator name
+#' @param type (character) Type of object
+#' @param publisher (character) Publisher
+#' @param format (character) Format
+#' @param rights (character) Rights
+#' @param contributor (character) Contributor
+#' @param provider (character) Provider
+#' @param sp (character) Query all spatial fields.
+#' @param sp_coordinates (character) Query only coordinates. Of the form
 #' <latitude,longitude>
-#' @param sp_city Query by city name.
-#' @param sp_county Query by county name.
-#' @param sp_distance Distance from point defined in the \code{sp_coordinates}
-#' field
-#' @param sp_country Query by location country
-#' @param sp_code Query by ISO 3166-2 country code. Codes are included in
-#' this package, see \code{country_codes}. Find out more at
+#' @param sp_city (character) Query by city name.
+#' @param sp_county (character) Query by county name.
+#' @param sp_distance (character) Distance from point defined in the
+#' \code{sp_coordinates} field
+#' @param sp_country (character) Query by location country
+#' @param sp_code (character) Query by ISO 3166-2 country code. Codes are
+#' included in this package, see \code{\link{country_codes}}. Find out more at
 #' \url{https://www.iso.org/obp/ui/#search}.
-#' @param sp_name Location name.
-#' @param sp_region Name of a region, e.g., "Upstate New York" (literal)
-#' @param sp_state ISO 3166-2 code for a U.S. state or territory
-#' @param language One of a name of a language, or an ISO-639 code. Codes are
-#' included in this package, see \code{language_codes}.  Find out more at
-#' \url{http://www-01.sil.org/iso639-3/default.asp}.
-#' @param sort_by The default sort order is ascending. Most, but not all fields
-#'    can be sorted on. Attempts to sort on an un-sortable field will return
-#'    the standard error structure with a HTTP 400 status code.
-#' @param fields A vector of the fields to return in the output. The default
-#'    is all fields. See details for options.
-#' @param date A date
-#' @param date_before Date before
-#' @param date_after Date after
-#' @param page_size Number of items to return, defaults to 100. Max of 500.
-#' @param page Page number to return, defaults to NULL.
-#' @param facets Fields to facet on.
-#' @param facet_size Default to 100, maximum 2000.
+#' @param sp_name (character) Location name.
+#' @param sp_region (character) Name of a region, e.g., "Upstate New York"
+#' (literal)
+#' @param sp_state (character) ISO 3166-2 code for a U.S. state or territory
+#' @param language (character) One of a name of a language, or an ISO-639 code.
+#' Codes are included in this package, see \code{\link{language_codes}}.
+#' Find out more at \url{http://www-01.sil.org/iso639-3/default.asp}.
+#' @param sort_by (character) The default sort order is ascending. Most, but
+#' not all fields can be sorted on. Attempts to sort on an un-sortable field
+#' will return the standard error structure with a HTTP 400 status code.
+#' @param fields (character) A vector of the fields to return in the output.
+#' The default is all fields. See \code{\link{dpla_fields}} for options.
+#' @param date (character) A date
+#' @param date_before (character) Date before
+#' @param date_after (character) Date after
+#' @param page_size (integer) Number of items to return, defaults to 100.
+#' Max of 500.
+#' @param page (integer) Page number to return, defaults to NULL.
+#' @param facets (character) Fields to facet on.
+#' @param facet_size (integer) Default to 100, maximum 2000.
 #' @param key (character) Your DPLA API key. See \code{\link{dpla_get_key}}
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
-#' @param what One of list or table (dat.frame). (Default: table)
-#'
-#' @details Options for the fields argument are:
-#' \itemize{
-#'  \item \code{id} The item id
-#'  \item \code{title} The title of the object
-#'  \item \code{decription} The description of the object
-#'  \item \code{subject} The subjects of the object
-#'  \item \code{creator} The creator of the object
-#'  \item \code{type} The type of the object
-#'  \item \code{publisher} The publisher of the object
-#'  \item \code{format} The format of the object
-#'  \item \code{rights} The rights for the object
-#'  \item \code{contributor} The contributor of the object
-#'  \item \code{spatial} The spatial of the object
-#'  \item \code{isPartOf} The isPartOf thing, not sure what this is
-#'  \item \code{provider} The provider of the object
-#' }
+#' @param what (character) One of list or table (data.frame). (Default: table)
 #'
 #' @return A list of length three:
 #' \itemize{
-#'  \item meta - with the metadata for the call (found, offset [aka start],
-#'  and page_size [number results returned])
+#'  \item meta - metadata for the call, with one row and three columns:
+#'   \itemize{
+#'    \item found - number of records found matching criteria
+#'    \item start - offset from record 1
+#'    \item returned - number of records returned
+#'   }
 #'  \item data - tibble (data.frame) of results
 #'  \item facets - list of same length as number of facets requested,
 #'  each with a list of length two with a meta tibble/data.frame, and
 #'  a data tibble/data.frame
 #' }
+#'
+#' @details Note that parsing of results right now can lead to multiple
+#' rows per record because sometimes an array of length > 1 for a result
+#' makes a data.frame of more than one row per record. Thus, you will
+#' get duplicated values in the \code{id} column of the results.
 #'
 #' @examples \dontrun{
 #' # Basic search, "fruit" in any fields

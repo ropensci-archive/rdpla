@@ -3,9 +3,16 @@
 \docType{data}
 \name{dpla_fields}
 \alias{dpla_fields}
-\title{Metadata providers data.frame.}
+\title{Metadata providers data.frame}
 \description{
-Metadata providers data.frame.
+A data.frame (46 rows, 2 columns) containing all the DPLA fields.
+The columns are as follows:
+}
+\details{
+\itemize{
+  \item field. Name of the field.
+  \item field_description. Description of the field.
+}
 }
 \keyword{datasets}
 

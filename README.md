@@ -72,18 +72,17 @@ dpla_items(q="fruit", page_size=5, fields=c("provider","creator"))
 #> # A tibble: 1 × 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 27162     0        5
+#> 1 27399     0        5
 #> 
 #> $data
 #> # A tibble: 5 × 2
-#>                        provider
-#>                           <chr>
-#> 1 Mountain West Digital Library
-#> 2 Mountain West Digital Library
-#> 3 Mountain West Digital Library
-#> 4 Mountain West Digital Library
-#> 5   The New York Public Library
-#> # ... with 1 more variables: creator <chr>
+#>                        provider                         creator
+#>                           <chr>                           <chr>
+#> 1 Mountain West Digital Library                      no content
+#> 2 Mountain West Digital Library                      no content
+#> 3 Mountain West Digital Library                      no content
+#> 4  Empire State Digital Network                  Preyer, Emilie
+#> 5   The New York Public Library Anderson, Alexander (1775-1870)
 #> 
 #> $facets
 #> list()
@@ -98,22 +97,22 @@ dpla_items(q="fruit", page_size = 10, fields=c("publisher","format"))
 #> # A tibble: 1 × 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 27162     0       10
+#> 1 27399     0       10
 #> 
 #> $data
 #> # A tibble: 10 × 2
-#>                     format  publisher
-#>                      <chr>      <chr>
-#> 1               no content no content
-#> 2               no content no content
-#> 3               no content no content
-#> 4               no content no content
-#> 5               no content no content
-#> 6               no content no content
-#> 7               no content no content
-#> 8  Chromogenic color print no content
-#> 9               no content no content
-#> 10              no content no content
+#>        format  publisher
+#>         <chr>      <chr>
+#> 1  no content no content
+#> 2  no content no content
+#> 3  no content no content
+#> 4  no content no content
+#> 5  no content no content
+#> 6  no content no content
+#> 7  no content no content
+#> 8  no content no content
+#> 9  no content no content
+#> 10 no content no content
 #> 
 #> $facets
 #> list()
@@ -180,7 +179,7 @@ dpla_items(description="obituaries", page_size=2, fields="description")
 #> # A tibble: 1 × 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 50660     0        2
+#> 1 50667     0        2
 #> 
 #> $data
 #> # A tibble: 2 × 1
@@ -364,17 +363,15 @@ dpla_collections(description="east")
 #> # A tibble: 1 × 2
 #>   found returned
 #>   <int>    <int>
-#> 1     5       10
+#> 1     3       10
 #> 
 #> $data
-#> # A tibble: 5 × 14
+#> # A tibble: 3 × 14
 #>                                `_rev`                  ingestDate
 #>                                 <chr>                       <chr>
-#> 1  5-cd3f6c8bdfd6d52df90e0b4947f6e184 2016-07-04T10:13:47.925456Z
-#> 2  1-6c9ffe63d5739ac9080ea6f600b936b8 2015-06-15T14:32:25.193810Z
-#> 3  1-e4c48d52be7a39ae78761b396474d050 2015-06-15T14:32:25.102718Z
-#> 4 10-14e0edd98d84aab42f6732f8061f757b 2016-07-12T22:43:55.947277Z
-#> 5  1-b1047ac66e6f434048347fdacbf2f4af 2015-06-15T14:32:25.384537Z
+#> 1  6-7283e1d42b01b1944637bec58a42b070 2016-09-22T05:27:22.447683Z
+#> 2 11-db94de89ceb4e5ffe12cd9f041709795 2016-09-13T16:14:45.744176Z
+#> 3  1-edfcbe6eb4befaeab389b4534046f3d6 2016-09-13T16:14:41.053522Z
 #> # ... with 12 more variables: `@context` <chr>, id <chr>, title <chr>,
 #> #   `_id` <chr>, description <chr>, `@type` <chr>, ingestType <chr>,
 #> #   `@id` <chr>, ingestionSequence <int>, score <dbl>,

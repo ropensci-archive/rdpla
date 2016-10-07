@@ -5,7 +5,14 @@
 \alias{language_codes}
 \title{Language codes.}
 \description{
-Language codes.
+A data.frame (7879 rows, 2 columns) containing all language codes.
+The columns are as follows:
+}
+\details{
+\itemize{
+  \item id. id (or code) of the language
+  \item name. longer name of the language
+}
 }
 \keyword{datasets}
 

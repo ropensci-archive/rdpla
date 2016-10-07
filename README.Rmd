@@ -52,7 +52,13 @@ Note that you can only run examples/vignette/tests if you have an API key. See
 
 ## Installation
 
-Install `rdpla` from GitHub:
+Stable version from CRAN
+
+```{r eval=FALSE}
+install.packages("rdpla")
+```
+
+Dev version from GitHub:
 
 ```{r eval=FALSE}
 install.packages("devtools")

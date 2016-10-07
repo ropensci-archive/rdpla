@@ -34,9 +34,15 @@ means this parameter is not passed to DPLA, so they default to \strong{1})}
 \value{
 A list with two slots:
 \itemize{
- \item meta - a tibble/data.frame of metadata for the response
+ \item meta - a tibble/data.frame of metadata for the response, with one
+ row and two columns:
+  \itemize{
+   \item found - number of records found matching criteria
+   \item returned - number of records returned
+  }
  \item data - a tibble/data.frame of the data; empty data.frame
- if no data matches your request
+ if no data matches your request; structure varies depending on
+ search criteria
 }
 }
 \description{

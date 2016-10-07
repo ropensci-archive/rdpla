@@ -15,88 +15,94 @@ dpla_items(q = NULL, description = NULL, title = NULL, subject = NULL,
   key = NULL, what = "table", ...)
 }
 \arguments{
-\item{q}{Query terms.}
+\item{q}{(character) Query terms.}
 
-\item{description}{Object description.}
+\item{description}{(character) Object description.}
 
-\item{title}{Object title.}
+\item{title}{(character) Object title.}
 
-\item{subject}{Subject.}
+\item{subject}{(character) Subject area}
 
-\item{creator}{Creator}
+\item{creator}{(character) Creator name}
 
-\item{type}{Type of object}
+\item{type}{(character) Type of object}
 
-\item{publisher}{PUblisher}
+\item{publisher}{(character) Publisher}
 
-\item{format}{Format}
+\item{format}{(character) Format}
 
-\item{rights}{Rights}
+\item{rights}{(character) Rights}
 
-\item{contributor}{Contributor}
+\item{contributor}{(character) Contributor}
 
-\item{provider}{Provider}
+\item{provider}{(character) Provider}
 
-\item{sp}{Query all spatial fields.}
+\item{sp}{(character) Query all spatial fields.}
 
-\item{sp_coordinates}{Query only coordinates. Of the form
+\item{sp_coordinates}{(character) Query only coordinates. Of the form
 <latitude,longitude>}
 
-\item{sp_city}{Query by city name.}
+\item{sp_city}{(character) Query by city name.}
 
-\item{sp_county}{Query by county name.}
+\item{sp_county}{(character) Query by county name.}
 
-\item{sp_distance}{Distance from point defined in the \code{sp_coordinates}
-field}
+\item{sp_distance}{(character) Distance from point defined in the
+\code{sp_coordinates} field}
 
-\item{sp_country}{Query by location country}
+\item{sp_country}{(character) Query by location country}
 
-\item{sp_code}{Query by ISO 3166-2 country code. Codes are included in
-this package, see \code{country_codes}. Find out more at
+\item{sp_code}{(character) Query by ISO 3166-2 country code. Codes are
+included in this package, see \code{\link{country_codes}}. Find out more at
 \url{https://www.iso.org/obp/ui/#search}.}
 
-\item{sp_name}{Location name.}
+\item{sp_name}{(character) Location name.}
 
-\item{sp_region}{Name of a region, e.g., "Upstate New York" (literal)}
+\item{sp_region}{(character) Name of a region, e.g., "Upstate New York"
+(literal)}
 
-\item{sp_state}{ISO 3166-2 code for a U.S. state or territory}
+\item{sp_state}{(character) ISO 3166-2 code for a U.S. state or territory}
 
-\item{fields}{A vector of the fields to return in the output. The default
-is all fields. See details for options.}
+\item{fields}{(character) A vector of the fields to return in the output.
+The default is all fields. See \code{\link{dpla_fields}} for options.}
 
-\item{sort_by}{The default sort order is ascending. Most, but not all fields
-can be sorted on. Attempts to sort on an un-sortable field will return
-the standard error structure with a HTTP 400 status code.}
+\item{sort_by}{(character) The default sort order is ascending. Most, but
+not all fields can be sorted on. Attempts to sort on an un-sortable field
+will return the standard error structure with a HTTP 400 status code.}
 
-\item{date}{A date}
+\item{date}{(character) A date}
 
-\item{date_before}{Date before}
+\item{date_before}{(character) Date before}
 
-\item{date_after}{Date after}
+\item{date_after}{(character) Date after}
 
-\item{language}{One of a name of a language, or an ISO-639 code. Codes are
-included in this package, see \code{language_codes}.  Find out more at
-\url{http://www-01.sil.org/iso639-3/default.asp}.}
+\item{language}{(character) One of a name of a language, or an ISO-639 code.
+Codes are included in this package, see \code{\link{language_codes}}.
+Find out more at \url{http://www-01.sil.org/iso639-3/default.asp}.}
 
-\item{page_size}{Number of items to return, defaults to 100. Max of 500.}
+\item{page_size}{(integer) Number of items to return, defaults to 100.
+Max of 500.}
 
-\item{page}{Page number to return, defaults to NULL.}
+\item{page}{(integer) Page number to return, defaults to NULL.}
 
-\item{facets}{Fields to facet on.}
+\item{facets}{(character) Fields to facet on.}
 
-\item{facet_size}{Default to 100, maximum 2000.}
+\item{facet_size}{(integer) Default to 100, maximum 2000.}
 
 \item{key}{(character) Your DPLA API key. See \code{\link{dpla_get_key}}}
 
-\item{what}{One of list or table (dat.frame). (Default: table)}
+\item{what}{(character) One of list or table (data.frame). (Default: table)}
 
 \item{...}{Curl options passed on to \code{\link[httr]{GET}}}
 }
 \value{
 A list of length three:
 \itemize{
- \item meta - with the metadata for the call (found, offset [aka start],
- and page_size [number results returned])
+ \item meta - metadata for the call, with one row and three columns:
+  \itemize{
+   \item found - number of records found matching criteria
+   \item start - offset from record 1
+   \item returned - number of records returned
+  }
  \item data - tibble (data.frame) of results
  \item facets - list of same length as number of facets requested,
  each with a list of length two with a meta tibble/data.frame, and
@@ -107,22 +113,10 @@ A list of length three:
 Search items from the Digital Public Library of America (DPLA).
 }
 \details{
-Options for the fields argument are:
-\itemize{
- \item \code{id} The item id
- \item \code{title} The title of the object
- \item \code{decription} The description of the object
- \item \code{subject} The subjects of the object
- \item \code{creator} The creator of the object
- \item \code{type} The type of the object
- \item \code{publisher} The publisher of the object
- \item \code{format} The format of the object
- \item \code{rights} The rights for the object
- \item \code{contributor} The contributor of the object
- \item \code{spatial} The spatial of the object
- \item \code{isPartOf} The isPartOf thing, not sure what this is
- \item \code{provider} The provider of the object
-}
+Note that parsing of results right now can lead to multiple
+rows per record because sometimes an array of length > 1 for a result
+makes a data.frame of more than one row per record. Thus, you will
+get duplicated values in the \code{id} column of the results.
 }
 \examples{
 \dontrun{

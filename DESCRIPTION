@@ -2,8 +2,10 @@ Package: rdpla
 Type: Package
 Title: Client for the Digital Public Library of America ('DPLA')
 Description: Interact with the Digital Public Library of America
-    ('DPLA') 'REST' 'API' from R, including search and more.
-Version: 0.0.9.9000
+    <https://dp.la> ('DPLA') 'REST' 'API'
+    <https://dp.la/info/developers/codex/> from R, including search
+    and more.
+Version: 0.0.9.9300
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut", "cre"),
     email = "myrmecocystus@gmail.com"))
 License: MIT + file LICENSE
