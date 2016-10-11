@@ -235,7 +235,7 @@ dpla_items_ <- function(key=NULL, q=NULL, page_size=100, page=NULL,
 proc_fac <- function(fac){
   lapply(fac, function(x){
     hitmp <- x[c('_type','total','missing','other')]
-    hitmp[sapply(hitmp, is.null)] <- NA
+    hitmp[vapply(hitmp, is.null, logical(1))] <- NA
     hitmp <- tibble::as_data_frame(hitmp)
     fac_hi <- stats::setNames(hitmp, c('type','total','missing','other'))
     getterm <- names(x)[names(x) %in% c('terms','ranges','entries')]
@@ -341,7 +341,7 @@ filter_fields <- function(fields){
         x
       }
     }
-    paste(sapply(fields, fieldsfunc, USE.NAMES = FALSE), collapse = ",")
+    paste(vapply(fields, fieldsfunc, "", USE.NAMES = FALSE), collapse = ",")
   } else {
     NULL
   }

@@ -66,9 +66,9 @@ dpla_collections_ <- function(q=NULL, title=NULL, description=NULL, fields=NULL,
 }
 
 parse_coll <- function(x){
-  admin <- sapply(x$admin, ifn)
+  admin <- lapply(x$admin, ifn)
   x <- pop(x, "admin")
   df <- tibble::as_data_frame(lapply(x, ifn))
   names(df) <- as.character(names(x))
-  cbind(df, t(admin))
+  cbind(df, tibble::as_data_frame(admin))
 }
