@@ -70,5 +70,9 @@ parse_coll <- function(x){
   x <- pop(x, "admin")
   df <- tibble::as_data_frame(lapply(x, ifn))
   names(df) <- as.character(names(x))
-  cbind(df, tibble::as_data_frame(admin))
+  if (length(admin) == 0) {
+    df
+  } else {
+    cbind(df, tibble::as_data_frame(admin))
+  }
 }
