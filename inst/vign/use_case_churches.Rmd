@@ -1,0 +1,102 @@
+---
+title: "rdpla use case: vizualize churches across DPLA holdings"
+author: "Scott Chamberlain"
+date: "`r Sys.Date()`"
+output:
+  md_document:
+    toc: true
+    includes: 
+      in_header: rdpla_vignette_header.md
+---
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(
+	comment = "#>",
+	collapse = TRUE,
+	warning = FALSE,
+	message = FALSE,
+	fig.path = "figure/"
+)
+```
+
+To aid users in what can be done with `rdpla`, the following is one example. 
+
+Use case: 
+
+> Search for all photos of churches and make a visualization through time
+and facet by other factors
+
+## Get item data
+
+```{r}
+library("rdpla")
+library("data.table")
+library("lubridate")
+```
+
+To get all data for `subject:churches` and of `type=image` we'd need to do about 100 
+requests of size 500 records, but we'll just do one that so the example runs quickly. 
+
+```{r}
+res <- dpla_items(subject = "churches", type = "image", page_size = 500)
+df <- res$data
+```
+
+## Parse data
+
+```{r}
+dates <- unlist(df$date, use.names = FALSE)
+# remove 2nd part of a duration separted by " - ", just use first date
+dates <- gsub("\\s-\\s.+", "", dates)
+# remove 2nd part of a duration separted by "/", just use first date
+dates <- gsub("/.+", "", dates)
+# remove 2nd part of a duration separted by "-", just use first date
+dates <- gsub("-[0-9]{4}", "", dates)
+# remove any text, can't parse it
+dates <- gsub("[[:alpha:]]+", "", dates)
+# trim leading and trailing white space
+dates <- gsub("^\\s+|\\s+$", "", dates)
+# parse dates
+df$date_corr <- parse_date_time(dates, c("Y", "ymd", "ym", "%Y-%m-%d%H:%M:%S%z"))
+```
+
+Make year column
+
+```{r}
+df$year <- year(df$date_corr)
+```
+
+Summarize by year
+
+```{r}
+df_dt <- as.data.table(df)
+df_dt <- df_dt[order(year)]
+df_sum <- df_dt[, list(count = length(id)), by = year]
+df_sum <- as.data.frame(na.omit(df_sum))
+```
+
+## Vizualize
+
+```{r tidy=FALSE, fig.width=8, fig.height=6}
+library("ggplot2")
+
+ggplot(df_sum, aes(x = year, y = count)) + 
+  geom_bar(stat = "identity") + 
+  theme_gray(base_size = 18)
+```
+
+Zooming in on the majority of the data
+
+```{r tidy=FALSE, fig.width=8, fig.height=6}
+ggplot(subset(df_sum, year > 1800), aes(x = year, y = count)) + 
+  geom_bar(stat = "identity") + 
+  theme_gray(base_size = 18)
+```
+
+Looks like there's a big spike in `r df_sum[which.max(df_sum$count), "year"]`
+
+Let's have a look at a few of the titles
+
+```{r}
+sort(unique(subset(df, year == 1930)$title))[1:10]
+```
