@@ -10,16 +10,20 @@ output:
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{rdpla use case: vizualize churches across DPLA holdings}
+  %\VignetteEncoding{UTF-8}
   \usepackage[utf8]{inputenc}
 ---
 
 ```{r echo=FALSE}
+NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+
 knitr::opts_chunk$set(
 	comment = "#>",
 	collapse = TRUE,
 	warning = FALSE,
 	message = FALSE,
-	cache.path = "../inst/cache"
+	eval = NOT_CRAN,
+	purl = NOT_CRAN
 )
 ```
 
