@@ -1,13 +1,8 @@
----
-title: "Introduction to rdpla"
-author: "Scott Chamberlain"
-date: "`r Sys.Date()`"
-output:
-  md_document:
-    toc: true
-    includes: 
-      in_header: rdpla_vignette_header.md
----
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Introduction to rdpla}
+%\VignetteEncoding{UTF-8}
+-->
 
 ```{r echo=FALSE}
 knitr::opts_chunk$set(
@@ -18,6 +13,9 @@ knitr::opts_chunk$set(
 	fig.path = "figure/"
 )
 ```
+
+# Introduction to rdpla
+
 
 `rdpla`: R client for Digital Public Library of America
 

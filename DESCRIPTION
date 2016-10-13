@@ -21,7 +21,6 @@ Imports:
 Suggests:
     roxygen2 (>= 5.0.1),
     knitr,
-    rmarkdown,
     testthat,
     ggplot2,
     lubridate,
