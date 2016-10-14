@@ -5,7 +5,7 @@ Description: Interact with the Digital Public Library of America
     <https://dp.la> ('DPLA') 'REST' 'API'
     <https://dp.la/info/developers/codex/> from R, including search
     and more.
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut", "cre"),
     email = "myrmecocystus@gmail.com"))
 License: MIT + file LICENSE
