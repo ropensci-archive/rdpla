@@ -61,7 +61,7 @@ test_that("dpla_items - spatial searches work", {
 
   # query by state
   bb <- dpla_items(sp_state = 'Hawaii', page_size = 2)
-  expect_match(bb$data$description[2], "Hawaii")
+  expect_match(paste(bb$data$description, collapse = " "), "Hawaii")
 })
 
 test_that("dpla_items fails well", {
