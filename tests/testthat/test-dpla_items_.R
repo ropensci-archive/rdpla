@@ -70,7 +70,7 @@ test_that("dpla_items_ - spatial searches work", {
   # query by state
   bb <- dpla_items_(sp_state = 'Hawaii', page_size = 2)
   expect_is(bb, "list")
-  expect_is(bb$docs[[1]]$sourceResource$description, "character")
+  expect_is(bb$docs[[1]]$sourceResource$title, "character")
   #expect_true(any(grepl("Hawaii", bb$docs[[1]]$sourceResource$description)))
 })
 
