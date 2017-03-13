@@ -14,7 +14,7 @@
 #' @param page (integer) Page number to return. Default: `NULL` (which
 #' means this parameter is not passed to DPLA, so they default to **1**)
 #' @param key (character) Your DPLA API key. See [dpla_get_key()]
-#' @param ... Curl options passed on to [httr::GET()]
+#' @param ... Curl options passed on to [crul::HttpClient()]
 #'
 #' @return A list with two slots:
 #' \itemize{
@@ -37,8 +37,7 @@
 #' dpla_collections(description="east")
 #'
 #' # use curl options
-#' library("httr")
-#' dpla_collections(q="university", config = httr::verbose())
+#' dpla_collections(q="university", verbose = TRUE)
 #' }
 
 dpla_collections <- function(q=NULL, title=NULL, description=NULL, fields=NULL,
@@ -63,7 +62,7 @@ dpla_collections_ <- function(q=NULL, title=NULL, description=NULL, fields=NULL,
     page = page, fields = paste0(fields, collapse = ",") %||% NULL,
     sort_by = sort_by
   ))
-  dpla_GET(paste0(dpbase(), "collections"), args, ...)
+  dpla_GET(path = "collections", args, ...)
 }
 
 parse_coll <- function(x){

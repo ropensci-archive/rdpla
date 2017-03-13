@@ -45,7 +45,7 @@
 #' @param facets (character) Fields to facet on.
 #' @param facet_size (integer) Default to 100, maximum 2000.
 #' @param key (character) Your DPLA API key. See [dpla_get_key()]
-#' @param ... Curl options passed on to [httr::GET()]
+#' @param ... Curl options passed on to [crul::HttpClient()]
 #' @param what (character) One of list or table (data.frame). (Default: table)
 #'
 #' @return A list of length three:
@@ -231,7 +231,8 @@ dpla_items_ <- function(key=NULL, q=NULL, page_size=100, page=NULL,
     facets = coll(facets), facet_size = facet_size,
     sort_by = sort_by
   ))
-  dpla_GET(url = paste0(dpbase(), "items"), args, ...)
+  dpla_GET(path = "items", args, ...)
+  #dpla_GET(url = paste0(dpbase(), "items"), args, ...)
 }
 
 proc_fac <- function(fac){

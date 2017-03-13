@@ -2,8 +2,7 @@
 #'
 #' @export
 #' @param email (character) An email address.
-#' @param ... Curl options passed on to [httr::POST()], eg.,
-#' [httr::verbose()]
+#' @param ... Curl options passed on to [crul::HttpClient()]
 #'
 #' @return On success, a message that your API key will be emailed
 #' to you.
@@ -24,7 +23,8 @@
 #' # dpla_get_key(email="stuff@@thing.com")
 #' }
 dpla_get_key <- function(email, ...) {
-  res <- httr::POST(paste0('http://api.dp.la/v2/api_key/', email), ...)
-  httr::stop_for_status(res)
-  message(jsonlite::fromJSON(contt(res))$message)
+  cli <- crul::HttpClient$new(url = dpbase())
+  tt <- cli$post(path = file.path("v2/api_key", email), ...)
+  tt$raise_for_status()
+  message(jsonlite::fromJSON(tt$parse("UTF-8"))$message)
 }

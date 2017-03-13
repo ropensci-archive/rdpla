@@ -29,7 +29,7 @@ means this parameter is not passed to DPLA, so they default to \strong{1})}
 
 \item{key}{(character) Your DPLA API key. See \code{\link[=dpla_get_key]{dpla_get_key()}}}
 
-\item{...}{Curl options passed on to \code{\link[httr:GET]{httr::GET()}}}
+\item{...}{Curl options passed on to \code{\link[crul:HttpClient]{crul::HttpClient()}}}
 }
 \value{
 A list with two slots:
@@ -57,7 +57,6 @@ dpla_collections(title="paso")
 dpla_collections(description="east")
 
 # use curl options
-library("httr")
-dpla_collections(q="university", config = httr::verbose())
+dpla_collections(q="university", verbose = TRUE)
 }
 }

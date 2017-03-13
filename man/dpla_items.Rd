@@ -92,7 +92,7 @@ Max of 500.}
 
 \item{what}{(character) One of list or table (data.frame). (Default: table)}
 
-\item{...}{Curl options passed on to \code{\link[httr:GET]{httr::GET()}}}
+\item{...}{Curl options passed on to \code{\link[crul:HttpClient]{crul::HttpClient()}}}
 }
 \value{
 A list of length three:

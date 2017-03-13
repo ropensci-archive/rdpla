@@ -9,8 +9,7 @@ dpla_get_key(email, ...)
 \arguments{
 \item{email}{(character) An email address.}
 
-\item{...}{Curl options passed on to \code{\link[httr:POST]{httr::POST()}}, eg.,
-\code{\link[httr:verbose]{httr::verbose()}}}
+\item{...}{Curl options passed on to \code{\link[crul:HttpClient]{crul::HttpClient()}}}
 }
 \value{
 On success, a message that your API key will be emailed
