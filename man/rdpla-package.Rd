@@ -14,7 +14,7 @@ For an introduction to \pkg{rdpla}, see the vignette
 }
 \section{Authentication}{
 
-See \code{\link{dpla_get_key}} for authentication help.
+See \code{\link[=dpla_get_key]{dpla_get_key()}} for authentication help.
 }
 
 \author{

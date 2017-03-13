@@ -6,15 +6,15 @@
 #' @param title (character) Query in the title field
 #' @param description (character) Query in the description field
 #' @param fields (character) A vector of the fields to return in the output.
-#' The default is all fields. See \code{\link{dpla_fields}} for options.
+#' The default is all fields. See [dpla_fields] for options.
 #' @param sort_by (character) The default sort order is ascending. Most, but
 #' not all fields can be sorted on. Attempts to sort on an un-sortable field
 #' will return the standard error structure with a HTTP 400 status code.
 #' @param page_size (integer) Number of items to return. Default: 10. Max: 500.
-#' @param page (integer) Page number to return. Default: \code{NULL} (which
-#' means this parameter is not passed to DPLA, so they default to \strong{1})
-#' @param key (character) Your DPLA API key. See \code{\link{dpla_get_key}}
-#' @param ... Curl options passed on to \code{\link[httr]{GET}}
+#' @param page (integer) Page number to return. Default: `NULL` (which
+#' means this parameter is not passed to DPLA, so they default to **1**)
+#' @param key (character) Your DPLA API key. See [dpla_get_key()]
+#' @param ... Curl options passed on to [httr::GET()]
 #'
 #' @return A list with two slots:
 #' \itemize{

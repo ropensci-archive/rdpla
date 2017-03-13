@@ -4,10 +4,10 @@
 #' REST API from R, including search.
 #'
 #' For an introduction to \pkg{rdpla}, see the vignette
-#' \strong{Introduction to rdpla}
+#' **Introduction to rdpla**
 #'
 #' @section Authentication:
-#' See \code{\link{dpla_get_key}} for authentication help.
+#' See [dpla_get_key()] for authentication help.
 #'
 #' @name rdpla-package
 #' @aliases rdpla

@@ -16,7 +16,7 @@ dpla_collections(q = NULL, title = NULL, description = NULL,
 \item{description}{(character) Query in the description field}
 
 \item{fields}{(character) A vector of the fields to return in the output.
-The default is all fields. See \code{\link{dpla_fields}} for options.}
+The default is all fields. See \link{dpla_fields} for options.}
 
 \item{sort_by}{(character) The default sort order is ascending. Most, but
 not all fields can be sorted on. Attempts to sort on an un-sortable field
@@ -27,22 +27,22 @@ will return the standard error structure with a HTTP 400 status code.}
 \item{page}{(integer) Page number to return. Default: \code{NULL} (which
 means this parameter is not passed to DPLA, so they default to \strong{1})}
 
-\item{key}{(character) Your DPLA API key. See \code{\link{dpla_get_key}}}
+\item{key}{(character) Your DPLA API key. See \code{\link[=dpla_get_key]{dpla_get_key()}}}
 
-\item{...}{Curl options passed on to \code{\link[httr]{GET}}}
+\item{...}{Curl options passed on to \code{\link[httr:GET]{httr::GET()}}}
 }
 \value{
 A list with two slots:
 \itemize{
- \item meta - a tibble/data.frame of metadata for the response, with one
- row and two columns:
-  \itemize{
-   \item found - number of records found matching criteria
-   \item returned - number of records returned
-  }
- \item data - a tibble/data.frame of the data; empty data.frame
- if no data matches your request; structure varies depending on
- search criteria
+\item meta - a tibble/data.frame of metadata for the response, with one
+row and two columns:
+\itemize{
+\item found - number of records found matching criteria
+\item returned - number of records returned
+}
+\item data - a tibble/data.frame of the data; empty data.frame
+if no data matches your request; structure varies depending on
+search criteria
 }
 }
 \description{

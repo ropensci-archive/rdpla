@@ -10,8 +10,8 @@ The columns are as follows:
 }
 \details{
 \itemize{
-  \item code. country code
-  \item name. country name
+\item code. country code
+\item name. country name
 }
 }
 \keyword{datasets}

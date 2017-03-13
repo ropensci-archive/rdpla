@@ -22,20 +22,20 @@
 #' \code{sp_coordinates} field
 #' @param sp_country (character) Query by location country
 #' @param sp_code (character) Query by ISO 3166-2 country code. Codes are
-#' included in this package, see \code{\link{country_codes}}. Find out more at
-#' \url{https://www.iso.org/obp/ui/#search}.
+#' included in this package, see [country_codes]. Find out more at
+#' <https://www.iso.org/obp/ui/#search>
 #' @param sp_name (character) Location name.
 #' @param sp_region (character) Name of a region, e.g., "Upstate New York"
 #' (literal)
 #' @param sp_state (character) ISO 3166-2 code for a U.S. state or territory
 #' @param language (character) One of a name of a language, or an ISO-639 code.
-#' Codes are included in this package, see \code{\link{language_codes}}.
-#' Find out more at \url{http://www-01.sil.org/iso639-3/default.asp}.
+#' Codes are included in this package, see [language_codes].
+#' Find out more at <http://www-01.sil.org/iso639-3/default.asp>
 #' @param sort_by (character) The default sort order is ascending. Most, but
 #' not all fields can be sorted on. Attempts to sort on an un-sortable field
 #' will return the standard error structure with a HTTP 400 status code.
 #' @param fields (character) A vector of the fields to return in the output.
-#' The default is all fields. See \code{\link{dpla_fields}} for options.
+#' The default is all fields. See [dpla_fields] for options.
 #' @param date (character) A date
 #' @param date_before (character) Date before
 #' @param date_after (character) Date after
@@ -44,8 +44,8 @@
 #' @param page (integer) Page number to return, defaults to NULL.
 #' @param facets (character) Fields to facet on.
 #' @param facet_size (integer) Default to 100, maximum 2000.
-#' @param key (character) Your DPLA API key. See \code{\link{dpla_get_key}}
-#' @param ... Curl options passed on to \code{\link[httr]{GET}}
+#' @param key (character) Your DPLA API key. See [dpla_get_key()]
+#' @param ... Curl options passed on to [httr::GET()]
 #' @param what (character) One of list or table (data.frame). (Default: table)
 #'
 #' @return A list of length three:
@@ -65,7 +65,7 @@
 #' @details Note that parsing of results right now can lead to multiple
 #' rows per record because sometimes an array of length > 1 for a result
 #' makes a data.frame of more than one row per record. Thus, you will
-#' get duplicated values in the \code{id} column of the results.
+#' get duplicated values in the `id` column of the results.
 #'
 #' @examples \dontrun{
 #' # Basic search, "fruit" in any fields
@@ -122,7 +122,8 @@
 #'
 #' # Sorting
 #' dpla_items(fields=c("id","title"), page_size=10)
-#' dpla_items(fields=c("id","title"), page_size=10, sort_by="sourceResource.title")
+#' dpla_items(fields=c("id","title"), page_size=10,
+#'   sort_by="sourceResource.title")
 #'
 #' # Faceting
 #' dpla_items(facets="sourceResource.format", page_size=0)
@@ -130,7 +131,8 @@
 #' ids <- c("sourceResource.spatial.state","sourceResource.spatial.country")
 #' dpla_items(facets=ids, page_size=0)
 #' dpla_items(facets="sourceResource.type", page_size=0)
-#' #dpla_items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
+#' #dpla_items(facets="sourceResource.spatial.coordinates:42.3:-71",
+#' #   page_size=0)
 #' #dpla_items(facets="sourceResource.temporal.begin", page_size=0)
 #' dpla_items(facets="provider.name", page_size=0)
 #' dpla_items(facets="isPartOf", page_size=0)

@@ -41,7 +41,8 @@ key_check <- function(x) {
 }
 
 err_catch <- function(x) {
-  if (!inherits(x, "response")) stop("object not of class 'response'", call. = FALSE)
+  if (!inherits(x, "response")) stop("object not of class 'response'",
+                                     call. = FALSE)
   if (x$status_code > 201) {
     xx <- contt(x)
     res <- tryCatch(jsonlite::fromJSON(xx), error = function(e) e)

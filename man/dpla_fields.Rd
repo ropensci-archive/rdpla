@@ -10,8 +10,8 @@ The columns are as follows:
 }
 \details{
 \itemize{
-  \item field. Name of the field.
-  \item field_description. Description of the field.
+\item field. Name of the field.
+\item field_description. Description of the field.
 }
 }
 \keyword{datasets}

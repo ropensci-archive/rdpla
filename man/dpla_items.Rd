@@ -52,8 +52,8 @@ dpla_items(q = NULL, description = NULL, title = NULL, subject = NULL,
 \item{sp_country}{(character) Query by location country}
 
 \item{sp_code}{(character) Query by ISO 3166-2 country code. Codes are
-included in this package, see \code{\link{country_codes}}. Find out more at
-\url{https://www.iso.org/obp/ui/#search}.}
+included in this package, see \link{country_codes}. Find out more at
+\url{https://www.iso.org/obp/ui/#search}}
 
 \item{sp_name}{(character) Location name.}
 
@@ -63,7 +63,7 @@ included in this package, see \code{\link{country_codes}}. Find out more at
 \item{sp_state}{(character) ISO 3166-2 code for a U.S. state or territory}
 
 \item{fields}{(character) A vector of the fields to return in the output.
-The default is all fields. See \code{\link{dpla_fields}} for options.}
+The default is all fields. See \link{dpla_fields} for options.}
 
 \item{sort_by}{(character) The default sort order is ascending. Most, but
 not all fields can be sorted on. Attempts to sort on an un-sortable field
@@ -76,8 +76,8 @@ will return the standard error structure with a HTTP 400 status code.}
 \item{date_after}{(character) Date after}
 
 \item{language}{(character) One of a name of a language, or an ISO-639 code.
-Codes are included in this package, see \code{\link{language_codes}}.
-Find out more at \url{http://www-01.sil.org/iso639-3/default.asp}.}
+Codes are included in this package, see \link{language_codes}.
+Find out more at \url{http://www-01.sil.org/iso639-3/default.asp}}
 
 \item{page_size}{(integer) Number of items to return, defaults to 100.
 Max of 500.}
@@ -88,25 +88,25 @@ Max of 500.}
 
 \item{facet_size}{(integer) Default to 100, maximum 2000.}
 
-\item{key}{(character) Your DPLA API key. See \code{\link{dpla_get_key}}}
+\item{key}{(character) Your DPLA API key. See \code{\link[=dpla_get_key]{dpla_get_key()}}}
 
 \item{what}{(character) One of list or table (data.frame). (Default: table)}
 
-\item{...}{Curl options passed on to \code{\link[httr]{GET}}}
+\item{...}{Curl options passed on to \code{\link[httr:GET]{httr::GET()}}}
 }
 \value{
 A list of length three:
 \itemize{
- \item meta - metadata for the call, with one row and three columns:
-  \itemize{
-   \item found - number of records found matching criteria
-   \item start - offset from record 1
-   \item returned - number of records returned
-  }
- \item data - tibble (data.frame) of results
- \item facets - list of same length as number of facets requested,
- each with a list of length two with a meta tibble/data.frame, and
- a data tibble/data.frame
+\item meta - metadata for the call, with one row and three columns:
+\itemize{
+\item found - number of records found matching criteria
+\item start - offset from record 1
+\item returned - number of records returned
+}
+\item data - tibble (data.frame) of results
+\item facets - list of same length as number of facets requested,
+each with a list of length two with a meta tibble/data.frame, and
+a data tibble/data.frame
 }
 }
 \description{
@@ -174,7 +174,8 @@ dpla_items(language='English')$meta
 
 # Sorting
 dpla_items(fields=c("id","title"), page_size=10)
-dpla_items(fields=c("id","title"), page_size=10, sort_by="sourceResource.title")
+dpla_items(fields=c("id","title"), page_size=10,
+  sort_by="sourceResource.title")
 
 # Faceting
 dpla_items(facets="sourceResource.format", page_size=0)
@@ -182,7 +183,8 @@ dpla_items(facets="sourceResource.format", page_size=0, facet_size=5)
 ids <- c("sourceResource.spatial.state","sourceResource.spatial.country")
 dpla_items(facets=ids, page_size=0)
 dpla_items(facets="sourceResource.type", page_size=0)
-#dpla_items(facets="sourceResource.spatial.coordinates:42.3:-71", page_size=0)
+#dpla_items(facets="sourceResource.spatial.coordinates:42.3:-71",
+#   page_size=0)
 #dpla_items(facets="sourceResource.temporal.begin", page_size=0)
 dpla_items(facets="provider.name", page_size=0)
 dpla_items(facets="isPartOf", page_size=0)
