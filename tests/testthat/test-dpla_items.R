@@ -56,8 +56,8 @@ test_that("dpla_items - spatial searches work", {
   skip_on_cran()
 
   # query all spatial fields
-  aa <- dpla_items(sp = 'Boston', page_size = 2)
-  expect_match(aa$data$title[1], "Boston")
+  aa <- dpla_items(sp = 'Boston', page_size = 5)
+  expect_match(paste0(as.character(aa$data), collapse = ""), "Boston")
 
   # query by state
   bb <- dpla_items(sp_state = 'Hawaii', page_size = 2)

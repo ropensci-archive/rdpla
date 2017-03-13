@@ -189,4 +189,3 @@ dpla_items(facets="isPartOf", page_size=0)
 dpla_items(facets="hasView", page_size=0)
 }
 }
-

@@ -61,4 +61,3 @@ library("httr")
 dpla_collections(q="university", config = httr::verbose())
 }
 }
-

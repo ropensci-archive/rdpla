@@ -2,8 +2,8 @@
 % Please edit documentation in R/rdpla-package.R
 \docType{package}
 \name{rdpla-package}
-\alias{rdpla}
 \alias{rdpla-package}
+\alias{rdpla}
 \title{R Client for the Digital Public Library of America (DPLA).}
 \description{
 Interact with the Digital Public Library of America (DPLA)
@@ -16,7 +16,7 @@ For an introduction to \pkg{rdpla}, see the vignette
 
 See \code{\link{dpla_get_key}} for authentication help.
 }
+
 \author{
 Scott Chamberlain
 }
-

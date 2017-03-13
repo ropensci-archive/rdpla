@@ -37,4 +37,3 @@ after storing your key as either env var or R option.
 # dpla_get_key(email="stuff@thing.com")
 }
 }
-
