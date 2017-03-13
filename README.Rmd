@@ -57,8 +57,8 @@ Note that you can only run examples/vignette/tests if you have an API key. See
 There are two vignettes. After installation check them out. If installing from 
 GitHub, do `devtools::install_github("ropensci/rdpla", build_vignettes = TRUE)`
 
-* Introduction to rdpla
-* rdpla use case: vizualize churches across DPLA holdings
+* Introduction to `rdpla`
+* `rdpla` use case: vizualize churches across DPLA holdings
 
 ## Installation
 
@@ -81,7 +81,10 @@ library('rdpla')
 
 ## Authentication
 
-You need an API key to use the DPLA API. Use `dpla_get_key()` to request a key, which will then be emailed to you. Pass in the key in the `key` parameter in functions in this package or you can store the key in your `.Renviron` as `DPLA_API_KEY` or in your `.Rprofile` file under the name `dpla_api_key`.
+You need an API key to use the DPLA API. Use `dpla_get_key()` to request a key, 
+which will then be emailed to you. Pass in the key in the `key` parameter in 
+functions in this package or you can store the key in your `.Renviron` as 
+`DPLA_API_KEY` or in your `.Rprofile` file under the name `dpla_api_key`.
 
 ## Search - items
 
@@ -181,7 +184,7 @@ ggplot(out$facets$sourceResource.spatial.state$data, aes(reorder(term, count), c
 * Get citation information for `rdpla` in R doing `citation(package = 'rdpla')`
 * Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
-[![ropensci](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
+[![ropensci](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
 
 [dpla]: https://dp.la
 
