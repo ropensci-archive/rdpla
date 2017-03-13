@@ -3,9 +3,9 @@
 #' @export
 #'
 #' @param queries A list of query terms paired with the fields you want to
-#'    search them in. You can search on specific fields, see details below.
-#' @param key Your DPLA API key. Either pass in here, or store in your \code{.Rprofile} file
-#'    and it will be read in on function execution.
+#' search them in. You can search on specific fields, see details below.
+#' @param key Your DPLA API key. Either pass in here, or store in your
+#' \code{.Rprofile} file and it will be read in on function execution.
 #' @param ... Curl options passed on to \code{\link[httr]{GET}}
 #'
 #' @details You can search on a vector of the fields to return in the output.

@@ -48,7 +48,8 @@ dpla_collections <- function(q=NULL, title=NULL, description=NULL, fields=NULL,
                            page_size, page, key, ...)
   meta <- tibble::data_frame(found = res$count, returned = res$limit)
   dat <- tibble::as_data_frame(
-    data.table::rbindlist(lapply(res$docs, parse_coll), use.names = TRUE, fill = TRUE)
+    data.table::rbindlist(lapply(res$docs, parse_coll), use.names = TRUE,
+                          fill = TRUE)
   )
   list(meta = meta, data = dat)
 }
