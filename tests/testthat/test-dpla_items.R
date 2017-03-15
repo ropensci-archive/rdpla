@@ -47,7 +47,7 @@ test_that("dpla_items - date searches work", {
   dates <- na.omit(suppressWarnings(as.numeric(unlist(aa$data$date))))
   expect_lte(max(dates), 1900)
 
-  bb <- dpla_items(q = "science", date_after = 1900)
+  bb <- dpla_items(date_after = 1980)
   dates <- na.omit(suppressWarnings(as.numeric(unlist(bb$data$date))))
   expect_gte(min(dates), 1900)
 })

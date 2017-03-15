@@ -55,7 +55,7 @@ test_that("dpla_items_ - date searches work", {
   dates <- na.omit(suppressWarnings(as.numeric(unlist(sapply(aa$docs, function(z) z$sourceResource$date$displayDate)))))
   expect_lte(max(dates), 1900)
 
-  bb <- dpla_items_(q = "science", date_after = 1900)
+  bb <- dpla_items_(date_after = 1900)
   dates <- na.omit(suppressWarnings(as.numeric(unlist(sapply(bb$docs, function(z) z$sourceResource$date$displayDate)))))
   expect_gte(min(dates), 1900)
 })
