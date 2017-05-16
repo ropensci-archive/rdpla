@@ -286,7 +286,7 @@ process_res <- function(x){
   subject <- if (length(x$subject) > 1) {
     paste(as.character(unlist(x$subject)), collapse = ";")
   } else {
-    x$subject[[1]][["name"]]
+    if (length(x$subject) == 0) NULL else x$subject[[1]][["name"]]
   }
   language <- x$language[[1]][["name"]]
   format <- reduce1(x$format)
