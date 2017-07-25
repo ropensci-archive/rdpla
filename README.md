@@ -7,6 +7,7 @@ rdpla
 [![codecov](https://codecov.io/gh/ropensci/rdpla/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/rdpla)
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/rdpla?color=ff69b4)](https://github.com/metacran/cranlogs.app)
 [![cran version](http://www.r-pkg.org/badges/version/rdpla)](https://cran.r-project.org/package=rdpla)
+[![](https://badges.ropensci.org/71_status.svg)](https://github.com/ropensci/onboarding/issues/71)
 
 
 `rdpla`: R client for Digital Public Library of America
