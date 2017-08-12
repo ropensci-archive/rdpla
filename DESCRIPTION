@@ -5,7 +5,7 @@ Description: Interact with the Digital Public Library of America
     <https://dp.la> ('DPLA') 'REST' 'API'
     <https://dp.la/info/developers/codex/> from R, including search
     and more.
-Version: 0.1.4.9240
+Version: 0.2.0
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut", "cre"),
     email = "myrmecocystus@gmail.com"))
 License: MIT + file LICENSE
@@ -15,7 +15,7 @@ LazyData: yes
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Imports:
-    crul (>= 0.3.0),
+    crul (>= 0.3.8),
     jsonlite (>= 1.0),
     tibble,
     data.table
@@ -25,6 +25,5 @@ Suggests:
     testthat,
     ggplot2,
     lubridate,
-    scales,
-    covr
+    scales
 RoxygenNote: 6.0.1
