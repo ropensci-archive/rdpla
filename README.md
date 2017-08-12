@@ -90,20 +90,20 @@ Basic search
 ```r
 dpla_items(q="fruit", page_size=5, fields=c("provider","creator"))
 #> $meta
-#> # A tibble: 1 × 3
+#> # A tibble: 1 x 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 28179     0        5
+#> 1 40007     0        5
 #> 
 #> $data
-#> # A tibble: 5 × 2
+#> # A tibble: 5 x 2
 #>                        provider                         creator
 #>                           <chr>                           <chr>
-#> 1   The New York Public Library Anderson, Alexander (1775-1870)
-#> 2   The New York Public Library Anderson, Alexander (1775-1870)
-#> 3   The New York Public Library Anderson, Alexander (1775-1870)
+#> 1 Mountain West Digital Library                      no content
+#> 2 Mountain West Digital Library                      no content
+#> 3 Mountain West Digital Library                      no content
 #> 4 Mountain West Digital Library                      no content
-#> 5 Mountain West Digital Library                      no content
+#> 5   The New York Public Library Anderson, Alexander (1775-1870)
 #> 
 #> $facets
 #> list()
@@ -115,25 +115,26 @@ Limit fields returned
 ```r
 dpla_items(q="fruit", page_size = 10, fields=c("publisher","format"))
 #> $meta
-#> # A tibble: 1 × 3
+#> # A tibble: 1 x 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 28179     0       10
+#> 1 40007     0       10
 #> 
 #> $data
-#> # A tibble: 10 × 2
-#>        format  publisher
-#>         <chr>      <chr>
-#> 1  no content no content
-#> 2  no content no content
-#> 3  no content no content
-#> 4  no content no content
-#> 5  no content no content
-#> 6  no content no content
-#> 7  no content no content
-#> 8  no content no content
-#> 9  no content no content
-#> 10 no content no content
+#> # A tibble: 10 x 2
+#>                                    format
+#>                                     <chr>
+#>  1                             no content
+#>  2                             no content
+#>  3                             no content
+#>  4                             no content
+#>  5                             no content
+#>  6                             no content
+#>  7                Gum bichromate on vinyl
+#>  8                      1 b 10 x 12.5 cm.
+#>  9 Woodblock print;Ink and color on paper
+#> 10                             no content
+#> # ... with 1 more variables: publisher <chr>
 #> 
 #> $facets
 #> list()
@@ -145,17 +146,17 @@ Limit records returned
 ```r
 dpla_items(q="fruit", page_size=2, fields=c("provider","title"))
 #> $meta
-#> # A tibble: 1 × 3
+#> # A tibble: 1 x 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 28179     0        2
+#> 1 40007     0        2
 #> 
 #> $data
-#> # A tibble: 2 × 2
-#>      title                    provider
-#>      <chr>                       <chr>
-#> 1 [Fruit.] The New York Public Library
-#> 2 [Fruit.] The New York Public Library
+#> # A tibble: 2 x 2
+#>   title                      provider
+#>   <chr>                         <chr>
+#> 1 Fruit Mountain West Digital Library
+#> 2 Fruit Mountain West Digital Library
 #> 
 #> $facets
 #> list()
@@ -167,25 +168,25 @@ Search by date
 ```r
 dpla_items(q="science", date_before=1900, page_size=10, fields=c("id","date"))
 #> $meta
-#> # A tibble: 1 × 3
+#> # A tibble: 1 x 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 51435     0       10
+#> 1 57622     0       10
 #> 
 #> $data
-#> # A tibble: 10 × 2
+#> # A tibble: 10 x 2
 #>                                  id      date
 #>                               <chr>     <chr>
-#> 1  855407956475c37b086fa7603aa29038      1880
-#> 2  8b2dba3d4947cc97de111425cd43d3e6     1883-
-#> 3  7a8afa97e5805d66ab044e6a71d70b5f      1851
-#> 4  e7c3b499f627d21910b4ebb4282f0bdc      1880
-#> 5  afbea811bc274aac4a049828941c86e9      1880
-#> 6  4786d787da0ac9f126e5daf9a32f16b7      1886
-#> 7  9f79e6f53dfd2f31a17d756a90f22e0b      1883
-#> 8  bf656dc0ab243d29eba122387fbc0950 1881-1882
-#> 9  3bc189a6c3061bd9c2005e67150d4b5a      1880
-#> 10 2289f4cbee338d3ee22472084399d0c1     1880-
+#>  1 9cfe90e850b13bc1854f3e40223529c8 1881-1882
+#>  2 9d008b592ad35eaa1e4dbff8aa976318      1884
+#>  3 268fb8978bbab523ec1ad48ee72e7464      1892
+#>  4 7f25fff59b55bd99df3a864e514c3d1d      1893
+#>  5 0457c88ca237cec73ce2876f91d56572      1893
+#>  6 19bdb84f833b28cb36207d02c38cfc69      1883
+#>  7 e93faad718b9d63c2c8dd8725edadb93      1891
+#>  8 9f79e6f53dfd2f31a17d756a90f22e0b      1883
+#>  9 e3f11047a57f18f8a21baf5d6ff3c4dd      1886
+#> 10 e8f0ed10dbdcd0ffd6f504e1892515da      1885
 #> 
 #> $facets
 #> list()
@@ -197,13 +198,13 @@ Search on specific fields
 ```r
 dpla_items(description="obituaries", page_size=2, fields="description")
 #> $meta
-#> # A tibble: 1 × 3
+#> # A tibble: 1 x 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 50675     0        2
+#> 1 50771     0        2
 #> 
 #> $data
-#> # A tibble: 2 × 1
+#> # A tibble: 2 x 1
 #>                          description
 #>                                <chr>
 #> 1              Obituaries of members
@@ -217,13 +218,13 @@ dpla_items(description="obituaries", page_size=2, fields="description")
 ```r
 dpla_items(subject="yodeling", page_size=2, fields="subject")
 #> $meta
-#> # A tibble: 1 × 3
+#> # A tibble: 1 x 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1    53     0        2
+#> 1    54     0        2
 #> 
 #> $data
-#> # A tibble: 2 × 1
+#> # A tibble: 2 x 1
 #>                                                subject
 #>                                                  <chr>
 #> 1 Yodel & yodeling;Humorous songs;Musicals;Sheet music
@@ -237,13 +238,13 @@ dpla_items(subject="yodeling", page_size=2, fields="subject")
 ```r
 dpla_items(provider="HathiTrust", page_size=2, fields="provider")
 #> $meta
-#> # A tibble: 1 × 3
+#> # A tibble: 1 x 3
 #>     found start returned
 #>     <int> <int>    <int>
-#> 1 2611716     0        2
+#> 1 2647621     0        2
 #> 
 #> $data
-#> # A tibble: 2 × 1
+#> # A tibble: 2 x 1
 #>     provider
 #>        <chr>
 #> 1 HathiTrust
@@ -259,17 +260,17 @@ Spatial search, across all spatial fields
 ```r
 dpla_items(sp='Boston', page_size=2, fields=c("id","provider"))
 #> $meta
-#> # A tibble: 1 × 3
+#> # A tibble: 1 x 3
 #>   found start returned
 #>   <int> <int>    <int>
-#> 1 81448     0        2
+#> 1 97974     0        2
 #> 
 #> $data
-#> # A tibble: 2 × 2
+#> # A tibble: 2 x 2
 #>                                 id                provider
 #>                              <chr>                   <chr>
-#> 1 c6791046ceb3a0425f78a083a5370a13 Smithsonian Institution
-#> 2 90bef8ecb080f0abd457a94daea6c8f2 Smithsonian Institution
+#> 1 337556aaa3096bd77e462d898b70c9d7 Smithsonian Institution
+#> 2 41aa36a38d69f5247529505a55528b5d Smithsonian Institution
 #> 
 #> $facets
 #> list()
@@ -281,17 +282,17 @@ Spatial search, by states
 ```r
 dpla_items(sp_state='Massachusetts OR Hawaii', page_size=2, fields=c("id","provider"))
 #> $meta
-#> # A tibble: 1 × 3
+#> # A tibble: 1 x 3
 #>    found start returned
 #>    <int> <int>    <int>
-#> 1 211226     0        2
+#> 1 235411     0        2
 #> 
 #> $data
-#> # A tibble: 2 × 2
+#> # A tibble: 2 x 2
 #>                                 id
 #>                              <chr>
 #> 1 3d3fba16636ab5211a10ff0b0bf44ae6
-#> 2 97feb7d7f98eb76c6713a6435ab9a0cd
+#> 2 0c0b0cc05188d33b63fc6adc14774250
 #> # ... with 1 more variables: provider <chr>
 #> 
 #> $facets
@@ -305,49 +306,49 @@ Faceted search
 dpla_items(facets=c("sourceResource.spatial.state","sourceResource.spatial.country"),
       page_size=0, facet_size=5)
 #> $meta
-#> # A tibble: 1 × 3
+#> # A tibble: 1 x 3
 #>      found start returned
 #>      <int> <int>    <int>
-#> 1 15482760     0        0
+#> 1 17104849     0        0
 #> 
 #> $data
-#> # A tibble: 0 × 0
+#> # A tibble: 0 x 0
 #> 
 #> $facets
 #> $facets$sourceResource.spatial.state
 #> $facets$sourceResource.spatial.state$meta
-#> # A tibble: 1 × 4
+#> # A tibble: 1 x 4
 #>    type   total  missing   other
 #>   <chr>   <int>    <int>   <int>
-#> 1 terms 4765201 11283320 2636181
+#> 1 terms 6249159 11599925 3632477
 #> 
 #> $facets$sourceResource.spatial.state$data
-#> # A tibble: 5 × 2
+#> # A tibble: 5 x 2
 #>            term  count
 #>           <chr>  <int>
-#> 1         Texas 834772
-#> 2       Georgia 449124
-#> 3      New York 353060
-#> 4    California 286216
-#> 5 Massachusetts 205848
+#> 1         Texas 882954
+#> 2    California 636851
+#> 3       Georgia 472738
+#> 4      New York 397295
+#> 5 Massachusetts 226844
 #> 
 #> 
 #> $facets$sourceResource.spatial.country
 #> $facets$sourceResource.spatial.country$meta
-#> # A tibble: 1 × 4
-#>    type   total  missing  other
-#>   <chr>   <int>    <int>  <int>
-#> 1 terms 5644931 10154647 939834
+#> # A tibble: 1 x 4
+#>    type   total  missing   other
+#>   <chr>   <int>    <int>   <int>
+#> 1 terms 7786409 10212531 1818325
 #> 
 #> $facets$sourceResource.spatial.country$data
-#> # A tibble: 5 × 2
+#> # A tibble: 5 x 2
 #>             term   count
 #>            <chr>   <int>
-#> 1  United States 4352777
-#> 2 United Kingdom   99586
-#> 3         France   97612
-#> 4          China   78146
-#> 5         Israel   76976
+#> 1  United States 5327273
+#> 2         Russia  172146
+#> 3 United Kingdom  169379
+#> 4         Mexico  167957
+#> 5         France  131329
 ```
 
 ## Search - collections
@@ -358,17 +359,17 @@ Search for collections with the words _university of texas_
 ```r
 dpla_collections(q="university of texas", page_size=2)
 #> $meta
-#> # A tibble: 1 × 2
+#> # A tibble: 1 x 2
 #>   found returned
 #>   <int>    <int>
-#> 1    18        2
+#> 1    20        2
 #> 
 #> $data
-#> # A tibble: 2 × 14
+#> # A tibble: 2 x 14
 #>                                `_rev`                  ingestDate
 #>                                 <chr>                       <chr>
-#> 1 10-81b4fd4a25fa48aa5a64b4ab7cb5bb58 2017-02-02T01:24:38.616543Z
-#> 2 11-1bc6a8639fad19641c7b9e5df90608da 2017-02-02T01:24:36.686171Z
+#> 1 14-bccf34a900456b064086f20da68b0f89 2017-08-08T02:55:37.637978Z
+#> 2 13-e91ba552cf695a88c3f285266a272ca8 2017-08-08T02:55:47.403457Z
 #> # ... with 12 more variables: `@context` <chr>, id <chr>, title <chr>,
 #> #   `_id` <chr>, description <chr>, `@type` <chr>, ingestType <chr>,
 #> #   `@id` <chr>, ingestionSequence <int>, score <dbl>,
@@ -381,18 +382,18 @@ You can also search in the `title` and `description` fields
 ```r
 dpla_collections(description="east")
 #> $meta
-#> # A tibble: 1 × 2
+#> # A tibble: 1 x 2
 #>   found returned
 #>   <int>    <int>
 #> 1     3       10
 #> 
 #> $data
-#> # A tibble: 3 × 14
-#>                                `_rev`                  ingestDate
-#>                                 <chr>                       <chr>
-#> 1  7-dea73f0c6ab156f8451df771b8d807ba 2016-12-14T18:35:02.688434Z
-#> 2 13-337242dcdbeb689009e0469ae87a94d0 2017-02-02T22:09:32.912791Z
-#> 3  3-33d9d46983d4f05afab55fb81941e54a 2017-02-02T22:09:31.965405Z
+#> # A tibble: 3 x 14
+#>                               `_rev`                  ingestDate
+#>                                <chr>                       <chr>
+#> 1 8-6b723068e71b40c6d9b64b0c14f80e20 2017-05-23T02:22:47.507183Z
+#> 2 3-388428340432e8ff676cd8d10f9d02b0 2017-07-31T17:06:05.782685Z
+#> 3 3-0318d8a1af2907653ac3a11fb9a5bd5b 2017-07-31T17:05:59.746631Z
 #> # ... with 12 more variables: `@context` <chr>, id <chr>, title <chr>,
 #> #   `_id` <chr>, description <chr>, `@type` <chr>, ingestType <chr>,
 #> #   `@id` <chr>, ingestionSequence <int>, score <dbl>,
