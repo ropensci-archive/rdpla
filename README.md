@@ -40,6 +40,8 @@ content is digitized from its original, physical source and uploaded to an onlin
 reference to the digital representation of a physical object, a collection is a
 representation of the grouping of a set of items.
 
+`rdpla` also has an interface (`dpla_bulk`) to download bulk and compressed JSON data.
+
 Note that you can only run examples/vignette/tests if you have an API key. See
 `?dpla_get_key` to get an API key.
 

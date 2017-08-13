@@ -6,6 +6,16 @@
 #' For an introduction to \pkg{rdpla}, see the vignette
 #' **Introduction to rdpla**
 #'
+#' @section Package API:
+#'
+#' The following are the main functions in \pkg{rdpla}
+#'
+#' \itemize{
+#'  \item dpla_items - Work with the DPLA items endpoint
+#'  \item dpla_collections - Work with the DPLA collections endpoint
+#'  \item dpla_bulk - Download bulk and compressed JSON data
+#' }
+#'
 #' @section Authentication:
 #' See [dpla_get_key()] for authentication help.
 #'

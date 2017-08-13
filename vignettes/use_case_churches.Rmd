@@ -100,14 +100,14 @@ Let's have a look at a few of the titles
 
 ```r
 sort(unique(subset(df, year == 1930)$title))[1:10]
-#>  [1] "Associated Reformed Presbyterian Church, Chester, S. C"                                
-#>  [2] "Bethlehem Lutheran Church, U. A. C., 3705 South Anthony Boulevard, Fort Wayne, Indiana"
-#>  [3] "Blandford Church, Petersburg, Va., interior of Blandford Church"                       
-#>  [4] "Blessed Sacrament Church, Bolton Landing, N. Y"                                        
-#>  [5] "Blessed Sacrament Church, Holyoke, Mass"                                               
-#>  [6] "Broad Street Methodist Episcopal Church, south, Richmond, VA"                          
-#>  [7] "Bryan Memorial Church, Miami, Florida"                                                 
-#>  [8] "Cathedral of San Francisco de Assisi, Santa Fe, New Mexico"                            
-#>  [9] "Cathedral of St. John--The Baptist, Charleston, S. C"                                  
-#> [10] "Cathedral of the Holy Spirit, Bismarck, N. Dak"
+#>  [1] "Aerial view of East Liberty Presbyterian Church, Pittsburgh, Pa"                                                   
+#>  [2] "All Souls Church, Bangor, Maine"                                                                                   
+#>  [3] "Ancient Spanish shrine of Nuestra Señora de la Leche, St. Augustine, Florida, the oldest city in the United States"
+#>  [4] "Assumption Church, Ansonia, Conn"                                                                                  
+#>  [5] "Auditorium of St. Boniface R. C. Church, Elmont Road, Elmont, L. I., N. Y"                                         
+#>  [6] "Baptist Church, Oxford, N. C"                                                                                      
+#>  [7] "Baptist Church, Smithfield, N. C"                                                                                  
+#>  [8] "Beaver St. Baptist Church, 2591 W. Beaver St., Jacksonville, Florida"                                              
+#>  [9] "Bethel Methodist Church, Charleston, S. C"                                                                         
+#> [10] "Bruton Parish Church, Williamsburg, Va"
 ```
