@@ -18,7 +18,8 @@ Imports:
     crul (>= 0.3.8),
     jsonlite (>= 1.0),
     tibble,
-    data.table
+    data.table,
+    hoardr
 Suggests:
     roxygen2 (>= 6.0.1),
     knitr,
