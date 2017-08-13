@@ -79,7 +79,7 @@ dpla_bulk <- function(year, month, key, ...) {
   if (jsonfile %in% dpla_cache$list()) {
     message("file in cache already, at: ", jsonfile)
   } else {
-    cli <- HttpClient$new(url = bulk_base_url, opts = list(...))
+    cli <- crul::HttpClient$new(url = bulk_base_url, opts = list(...))
     tfile <- tempfile()
     on.exit(rm(tfile))
     res <- cli$get(path, disk = tfile)
@@ -93,7 +93,7 @@ dpla_bulk <- function(year, month, key, ...) {
 #' @export
 #' @rdname dpla_bulk
 dpla_bulk_list <- function(...) {
-  cli <- HttpClient$new(url = bulk_base_url, opts = list(...))
+  cli <- crul::HttpClient$new(url = bulk_base_url, opts = list(...))
   res <- cli$get()
   res$raise_for_status()
   txt <- res$parse("UTF-8")
