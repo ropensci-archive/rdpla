@@ -15,27 +15,27 @@ knitr::opts_chunk$set(
 
 [![Build Status](https://travis-ci.org/ropensci/rdpla.svg?branch=master)](https://travis-ci.org/ropensci/rdpla)
 [![codecov](https://codecov.io/gh/ropensci/rdpla/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/rdpla)
-[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/rdpla?color=ff69b4)](https://github.com/metacran/cranlogs.app)
-[![cran version](http://www.r-pkg.org/badges/version/rdpla)](https://cran.r-project.org/package=rdpla)
+[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/rdpla?color=ff69b4)](https://github.com/metacran/cranlogs.app)
+[![cran version](https://www.r-pkg.org/badges/version/rdpla)](https://cran.r-project.org/package=rdpla)
 [![](https://badges.ropensci.org/71_status.svg)](https://github.com/ropensci/onboarding/issues/71)
 
 
 `rdpla`: R client for Digital Public Library of America
 
 [Digital Public Library of America][dpla] brings together metadata from libraries, archives,
-and museums in the US, and makes it freely available via their web portal as well as 
-an API. DPLA's portal and API don't provide the items themselves from contributing 
-institutions, but they provide links to make it easy to find things. The kinds of 
+and museums in the US, and makes it freely available via their web portal as well as
+an API. DPLA's portal and API don't provide the items themselves from contributing
+institutions, but they provide links to make it easy to find things. The kinds of
 things DPLA holds metadata for include images of works held in museums, photographs
-from various photographic collections, texts, sounds, and moving images. 
+from various photographic collections, texts, sounds, and moving images.
 
-DPLA has [a great API](https://github.com/dpla/platform) with good documentation - 
+DPLA has [a great API](https://github.com/dpla/platform) with good documentation -
 a rare thing in this world. Further documentation on their API can be found on their [search fields](https://dp.la/info/developers/codex/responses/field-reference/) and [examples of queries](https://dp.la/info/developers/codex/requests/).  Metadata schema information [here](https://dp.la/info/wp-content/uploads/2013/04/DPLA-MAP-V3.1-2.pdf).
 
-DPLA data data can be used for a variety of use cases in various academic and 
-non-academic fields. Here are some examples (vignettes to come soon showing examples): 
+DPLA data data can be used for a variety of use cases in various academic and
+non-academic fields. Here are some examples (vignettes to come soon showing examples):
 
-* Search for all photos of churches and make vizualization of 
+* Search for all photos of churches and make vizualization of
 their metadata through time
 * Visualize data from individual collections - a maintainer of a collection
 could gain insight from via DPLA data
@@ -43,19 +43,19 @@ could gain insight from via DPLA data
 
 DPLA API has two main services (quoting from [their API docs](https://dp.la/info/developers/codex/requests/)):
 
-* items: A reference to the digital representation of a single piece of content indexed by 
-the DPLA. The piece of content can be, for example, a book, a photograph, a video, etc. The 
-content is digitized from its original, physical source and uploaded to an online repository. 
-* collections: A collection is a little more abstract than an item. Where an item is a 
-reference to the digital representation of a physical object, a collection is a 
+* items: A reference to the digital representation of a single piece of content indexed by
+the DPLA. The piece of content can be, for example, a book, a photograph, a video, etc. The
+content is digitized from its original, physical source and uploaded to an online repository.
+* collections: A collection is a little more abstract than an item. Where an item is a
+reference to the digital representation of a physical object, a collection is a
 representation of the grouping of a set of items.
 
-Note that you can only run examples/vignette/tests if you have an API key. See 
+Note that you can only run examples/vignette/tests if you have an API key. See
 `?dpla_get_key` to get an API key.
 
 ## Tutorials
 
-There are two vignettes. After installation check them out. If installing from 
+There are two vignettes. After installation check them out. If installing from
 GitHub, do `devtools::install_github("ropensci/rdpla", build_vignettes = TRUE)`
 
 * Introduction to `rdpla`
@@ -82,9 +82,9 @@ library('rdpla')
 
 ## Authentication
 
-You need an API key to use the DPLA API. Use `dpla_get_key()` to request a key, 
-which will then be emailed to you. Pass in the key in the `key` parameter in 
-functions in this package or you can store the key in your `.Renviron` as 
+You need an API key to use the DPLA API. Use `dpla_get_key()` to request a key,
+which will then be emailed to you. Pass in the key in the `key` parameter in
+functions in this package or you can store the key in your `.Renviron` as
 `DPLA_API_KEY` or in your `.Rprofile` file under the name `dpla_api_key`.
 
 ## Search - items
