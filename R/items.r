@@ -319,9 +319,9 @@ process_other <- function(x){
   get <- c('dataProvider','@type','object','ingestionSequence',
            'ingestDate','_rev', 'aggregatedCHO','_id','ingestType','@id')
   have <- x[ names(x) %in% get ]
+  have[vapply(have, class, "") == "NULL"] <- NA_character_
   df <- tibble::as_data_frame(have)
-  names(df) <- names(have)
-  df
+  stats::setNames(df, names(have))
 }
 
 reduce1 <- function(x){
